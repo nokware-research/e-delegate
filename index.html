@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>e-Delegate — Electronic Delegation Log Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest" defer></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Inter', 'sans-serif'] },
+      colors: {
+        navy: '#0A1628',
+        teal: { DEFAULT: '#0D9488', 50: '#F0FDF9', 100: '#CCFBF1', 200: '#99F6E4', 300: '#5EEAD4', 400: '#2DD4BF', 500: '#14B8A6', 600: '#0D9488', 700: '#0F766E', 800: '#115E59', 900: '#134E4A' },
+        gold: '#D97706',
+        sla: { DEFAULT: '#1E293B', 50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8', 500: '#64748B', 600: '#475569', 700: '#334155', 800: '#1E293B', 900: '#0F172A' },
+        ok: '#059669',
+        err: '#DC2626',
+      }
+    }
+  }
+};
+</script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #F0FDF9; color: #1E293B; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: #94A3B8; border-radius: 3px; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes slideOut { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+@keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+.fade-in { animation: fadeIn 0.3s ease-out; }
+.pulse-dot { animation: pulse-dot 1.5s infinite; }
+.shimmer { background: linear-gradient(90deg, #E2E8F0 25%, #F1F5F9 50%, #E2E8F0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+.sidebar-item { transition: all 0.15s ease; }
+.sidebar-item:hover { background: rgba(255,255,255,0.1); }
+.sidebar-item.active { background: #0D9488; }
+.table-row { transition: background 0.1s ease; }
+.table-row:hover { background: #F8FAFC; }
+.modal-backdrop { background: rgba(10,22,40,0.6); backdrop-filter: blur(4px); }
+.toast-enter { animation: fadeIn 0.3s ease-out; }
+.badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.02em; }
+.badge-green { background: #D1FAE5; color: #059669; }
+.badge-amber { background: #FEF3C7; color: #D97706; }
+.badge-red { background: #FEE2E2; color: #DC2626; }
+.badge-gray { background: #F1F5F9; color: #64748B; }
+.badge-teal { background: #CCFBF1; color: #0D9488; }
+.badge-blue { background: #DBEAFE; color: #2563EB; }
+input, select, textarea { font-family: 'Inter', sans-serif; }
+input:focus, select:focus, textarea:focus { outline: none; ring: 2px; border-color: #0D9488; box-shadow: 0 0 0 3px rgba(13,148,136,0.15); }
+.progress-bar { transition: width 0.6s ease; }
+@media print {
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  body { background: white; }
+}
+</style>
+</head>
+<body data-id="0" class="min-h-screen">
+<app-icon data-id="1" hidden data-icon="clipboard-list" data-palette="Blue"></app-icon>
+
+<!-- LOGIN SCREEN -->
+<div data-id="2" id="login-screen" class="fixed inset-0 z-[100] flex items-center justify-center" style="background: linear-gradient(135deg, #0A1628 0%, #0F2B3C 50%, #0A1628 100%);">
+<div data-id="3" class="w-full max-w-md mx-4 fade-in">
+<div data-id="4" class="bg-white rounded-2xl shadow-2xl p-8">
+<div data-id="5" class="text-center mb-8">
+<div data-id="6" class="w-16 h-16 rounded-2xl bg-teal-600 flex items-center justify-center mx-auto mb-4">
+<svg data-id="7" width="32" height="32" viewBox="0 0 32 32" fill="none"><polygon data-id="8" points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="#fff" stroke-width="2" fill="none"/><polygon data-id="9" points="16,8 22,12 22,20 16,24 10,20 10,12" fill="#fff" fill-opacity="0.3"/></svg>
+</div>
+<h1 data-id="10" class="text-2xl font-bold text-sla-800">e-Delegate</h1>
+<p data-id="11" class="text-sm text-sla-500 mt-1">ICH GCP · 21 CFR Part 11 · Electronic Delegation Log</p>
+</div>
+<div data-id="12" class="space-y-4">
+<div data-id="13">
+<label data-id="14" class="block text-sm font-medium text-sla-700 mb-1">Email Address</label>
+<input data-id="15" id="login-email" type="email" class="w-full px-4 py-3 rounded-xl border border-sla-200 text-sm focus:border-teal-600" placeholder="you@organization.org" />
+</div>
+<div data-id="16">
+<label data-id="17" class="block text-sm font-medium text-sla-700 mb-1">Password</label>
+<input data-id="18" id="login-password" type="password" class="w-full px-4 py-3 rounded-xl border border-sla-200 text-sm focus:border-teal-600" placeholder="Enter your password" />
+</div>
+<button data-id="19" id="login-btn" class="w-full py-3 bg-teal-600 text-white font-semibold rounded-xl hover:bg-teal-700 transition text-sm">Sign In</button>
+<button data-id="20" id="demo-login-btn" class="w-full py-3 border-2 border-teal-600 text-teal-600 font-semibold rounded-xl hover:bg-teal-50 transition text-sm">Demo Login</button>
+</div>
+</div>
+<p data-id="21" class="text-center text-xs text-sla-400 mt-6">Nokware Research Solutions · Open Source · MIT License</p>
+</div>
+</div>
+
+<!-- MAIN APP -->
+<div data-id="22" id="app-container" class="hidden min-h-screen">
+<!-- MOBILE OVERLAY -->
+<div data-id="23" id="sidebar-overlay" class="hidden fixed inset-0 bg-black/40 z-40 md:hidden"></div>
+
+<!-- SIDEBAR -->
+<aside data-id="24" id="sidebar" class="fixed top-0 left-0 h-full z-50 bg-navy text-white flex flex-col transition-all duration-300" style="width:260px;">
+<div data-id="25" class="p-5 flex items-center gap-3 border-b border-white/10">
+<div data-id="26" class="w-9 h-9 rounded-xl bg-teal-600 flex items-center justify-center flex-shrink-0">
+<svg data-id="27" width="20" height="20" viewBox="0 0 32 32" fill="none"><polygon data-id="28" points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="#fff" stroke-width="2" fill="none"/><polygon data-id="29" points="16,8 22,12 22,20 16,24 10,20 10,12" fill="#fff" fill-opacity="0.3"/></svg>
+</div>
+<span data-id="30" id="sidebar-title" class="font-bold text-base tracking-tight">e-Delegate</span>
+</div>
+<nav data-id="31" class="flex-1 py-4 px-3 space-y-1 overflow-y-auto" id="sidebar-nav">
+<a data-id="32" data-view="dashboard" class="sidebar-item active flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="33" data-lucide="layout-dashboard" class="w-5 h-5 flex-shrink-0"></i><span data-id="34" class="nav-label">Dashboard</span>
+</a>
+<a data-id="35" data-view="delegations" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="36" data-lucide="clipboard-list" class="w-5 h-5 flex-shrink-0"></i><span data-id="37" class="nav-label">Delegation Log</span>
+</a>
+<a data-id="38" data-view="protocols" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="39" data-lucide="flask-conical" class="w-5 h-5 flex-shrink-0"></i><span data-id="40" class="nav-label">Protocols</span>
+</a>
+<a data-id="41" data-view="personnel" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="42" data-lucide="users" class="w-5 h-5 flex-shrink-0"></i><span data-id="43" class="nav-label">Personnel</span>
+</a>
+<a data-id="44" data-view="training" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="45" data-lucide="graduation-cap" class="w-5 h-5 flex-shrink-0"></i><span data-id="46" class="nav-label">Training Records</span>
+</a>
+<a data-id="47" data-view="audit" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="48" data-lucide="scroll-text" class="w-5 h-5 flex-shrink-0"></i><span data-id="49" class="nav-label">Audit Trail</span>
+</a>
+<a data-id="50" data-view="settings" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="51" data-lucide="settings" class="w-5 h-5 flex-shrink-0"></i><span data-id="52" class="nav-label">Settings</span>
+</a>
+</nav>
+<div data-id="53" class="p-4 border-t border-white/10">
+<div data-id="54" class="flex items-center gap-3">
+<div data-id="55" class="w-9 h-9 rounded-full bg-teal-600 flex items-center justify-center text-sm font-bold flex-shrink-0">KQ</div>
+<div data-id="56" id="sidebar-user-info" class="min-w-0">
+<p data-id="57" class="text-sm font-medium truncate">Kojo A. Quansah Jr.</p>
+<a data-id="58" id="sign-out-btn" class="text-xs text-sla-400 hover:text-white cursor-pointer">Sign Out</a>
+</div>
+</div>
+</div>
+</aside>
+
+<!-- MAIN -->
+<div data-id="59" id="main-wrapper" class="transition-all duration-300" style="margin-left:260px;">
+<!-- TOP HEADER -->
+<header data-id="60" class="sticky top-0 z-30 bg-white border-b border-sla-200 h-16 flex items-center px-4 md:px-6 no-print">
+<button data-id="61" id="sidebar-toggle" class="md:hidden mr-3 p-2 rounded-lg hover:bg-sla-100">
+<i data-id="62" data-lucide="menu" class="w-5 h-5 text-sla-600"></i>
+</button>
+<div data-id="63" id="breadcrumb" class="text-sm text-sla-500 flex items-center gap-2">
+<span data-id="64" class="text-sla-400">e-Delegate</span>
+<i data-id="65" data-lucide="chevron-right" class="w-3.5 h-3.5 text-sla-300"></i>
+<span data-id="66" class="font-medium text-sla-800" id="breadcrumb-current">Dashboard</span>
+</div>
+<div data-id="67" class="ml-auto flex items-center gap-3">
+<button data-id="68" id="notif-bell" class="relative p-2 rounded-lg hover:bg-sla-100">
+<i data-id="69" data-lucide="bell" class="w-5 h-5 text-sla-600"></i>
+<span data-id="70" class="absolute top-1.5 right-1.5 w-2 h-2 bg-err rounded-full pulse-dot"></span>
+</button>
+<div data-id="71" class="flex items-center gap-2">
+<div data-id="72" class="w-8 h-8 rounded-full bg-teal-600 flex items-center justify-center text-white text-xs font-bold">KQ</div>
+<span data-id="73" class="text-sm font-medium text-sla-700 hidden md:inline">Kojo A. Quansah Jr., PharmD</span>
+</div>
+</div>
+</header>
+
+<!-- CONTENT -->
+<main data-id="74" id="main-content" class="p-4 md:p-6 min-h-[calc(100vh-4rem)]">
+</main>
+
+<!-- FOOTER -->
+<footer data-id="75" class="py-6 text-center border-t border-sla-100 no-print">
+<p data-id="76" class="text-xs text-sla-400">Made by Copilot</p>
+</footer>
+</div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div data-id="77" id="toast-container" class="fixed top-4 right-4 z-[200] space-y-2 max-w-sm w-full pointer-events-none"></div>
+
+<!-- MODAL CONTAINER -->
+<div data-id="78" id="modal-container"></div>
+
+<script>
+// ==================== STATE & DATA ====================
+const LS_KEY = 'edelegate_state';
+const TASK_LIST = ['Informed Consent Process','Physical Examination','Assessment of Adverse Events','Protocol Deviations','IP Dispensing & Accountability','Data Entry & Query Resolution','Patient Scheduling & Coordination','Regulatory & IRB Submissions','Lab Sample Processing','Source Document Review','Safety Reporting','Screening & Eligibility'];
+
+function generateId() { return 'id_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36); }
+
+function fmtDate(d) {
+  if (!d) return '—';
+  const dt = new Date(d);
+  if (isNaN(dt)) return d;
+  return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+function fmtDateTime(d) {
+  if (!d) return '—';
+  const dt = new Date(d);
+  if (isNaN(dt)) return d;
+  return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' at ' + dt.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZoneName: 'short' });
+}
+function fmtTimestamp(d) {
+  if (!d) return '—';
+  const dt = new Date(d);
+  if (isNaN(dt)) return d;
+  const pad = n => String(n).padStart(2, '0');
+  return `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())} ${pad(dt.getHours())}:${pad(dt.getMinutes())}:${pad(dt.getSeconds())}`;
+}
+function daysUntil(dateStr) {
+  if (!dateStr) return Infinity;
+  const now = new Date(); now.setHours(0,0,0,0);
+  const d = new Date(dateStr); d.setHours(0,0,0,0);
+  return Math.ceil((d - now) / 86400000);
+}
+function nowISO() { return new Date().toISOString(); }
+
+function seedData() {
+  const protocols = [
+    { id: generateId(), number: 'NKW-2024-001', title: 'APEX Phase III Oncology Study', sponsor: 'BioNexus Pharma', status: 'Active', pi: 'Dr. Sarah Chen', amendment: 'v2.1' },
+    { id: generateId(), number: 'NKW-2024-002', title: 'VISTA Ophthalmology Trial', sponsor: 'OcularGen Inc', status: 'Active', pi: 'Dr. James Okafor', amendment: 'v1.0' },
+    { id: generateId(), number: 'NKW-2023-003', title: 'IMMUNE-X Immunology Study', sponsor: 'ImmunoPath Corp', status: 'Closed', pi: 'Dr. Maria Santos', amendment: 'v3.2' }
+  ];
+  const personnel = [
+    { id: generateId(), name: 'Dr. Sarah Chen', role: 'Principal Investigator', email: 's.chen@site.org', gcpExpiry: '2025-12-15', status: 'Active' },
+    { id: generateId(), name: 'Dr. James Okafor', role: 'Sub-Investigator', email: 'j.okafor@site.org', gcpExpiry: '2026-03-20', status: 'Active' },
+    { id: generateId(), name: 'Maria Santos, PharmD', role: 'Sub-Investigator', email: 'm.santos@site.org', gcpExpiry: '2024-11-01', status: 'Active' },
+    { id: generateId(), name: 'Priya Nair, RN', role: 'Clinical Research Coordinator', email: 'p.nair@site.org', gcpExpiry: '2026-08-10', status: 'Active' },
+    { id: generateId(), name: 'David Kim', role: 'Data Manager', email: 'd.kim@site.org', gcpExpiry: '2026-01-05', status: 'Active' },
+    { id: generateId(), name: 'Rachel Torres, MS', role: 'Regulatory Coordinator', email: 'r.torres@site.org', gcpExpiry: '2025-09-30', status: 'Active' }
+  ];
+  const pIds = personnel.map(p => p.id);
+  const prIds = protocols.map(p => p.id);
+
+  const delegations = [
+    { id: generateId(), protocolId: prIds[0], personnelId: pIds[1], tasks: ['Informed Consent Process','Physical Examination','Assessment of Adverse Events'], startDate: '2024-01-15', endDate: '', piSigned: true, piSignedBy: 'Dr. Sarah Chen', piSignedDate: '2024-01-15T09:30:00', delegateSigned: true, delegateSignedDate: '2024-01-15T10:15:00', trainingVerified: true, status: 'Active' },
+    { id: generateId(), protocolId: prIds[0], personnelId: pIds[3], tasks: ['Source Document Review','Data Entry & Query Resolution','Patient Scheduling & Coordination'], startDate: '2024-02-01', endDate: '', piSigned: true, piSignedBy: 'Dr. Sarah Chen', piSignedDate: '2024-02-01T11:00:00', delegateSigned: true, delegateSignedDate: '2024-02-01T14:20:00', trainingVerified: true, status: 'Active' },
+    { id: generateId(), protocolId: prIds[0], personnelId: pIds[4], tasks: ['Data Entry & Query Resolution','Source Document Review'], startDate: '2024-02-10', endDate: '', piSigned: true, piSignedBy: 'Dr. Sarah Chen', piSignedDate: '2024-02-10T08:45:00', delegateSigned: true, delegateSignedDate: '2024-02-10T09:30:00', trainingVerified: true, status: 'Active' },
+    { id: generateId(), protocolId: prIds[1], personnelId: pIds[1], tasks: ['Informed Consent Process','Physical Examination','Protocol Deviations'], startDate: '2024-03-01', endDate: '', piSigned: true, piSignedBy: 'Dr. James Okafor', piSignedDate: '2024-03-01T10:00:00', delegateSigned: true, delegateSignedDate: '2024-03-01T11:30:00', trainingVerified: true, status: 'Active' },
+    { id: generateId(), protocolId: prIds[1], personnelId: pIds[3], tasks: ['Screening & Eligibility','Patient Scheduling & Coordination'], startDate: '2024-03-15', endDate: '', piSigned: true, piSignedBy: 'Dr. James Okafor', piSignedDate: '2024-03-15T14:00:00', delegateSigned: false, delegateSignedDate: '', trainingVerified: true, status: 'Pending' },
+    { id: generateId(), protocolId: prIds[0], personnelId: pIds[2], tasks: ['IP Dispensing & Accountability'], startDate: '2024-01-20', endDate: '', piSigned: true, piSignedBy: 'Dr. Sarah Chen', piSignedDate: '2024-01-20T09:00:00', delegateSigned: true, delegateSignedDate: '2024-01-20T10:00:00', trainingVerified: false, status: 'Active' },
+    { id: generateId(), protocolId: prIds[2], personnelId: pIds[5], tasks: ['Regulatory & IRB Submissions'], startDate: '2023-06-01', endDate: '2024-12-31', piSigned: true, piSignedBy: 'Dr. Maria Santos', piSignedDate: '2023-06-01T09:00:00', delegateSigned: true, delegateSignedDate: '2023-06-01T10:00:00', trainingVerified: true, status: 'Expired' },
+    { id: generateId(), protocolId: prIds[1], personnelId: pIds[5], tasks: ['Regulatory & IRB Submissions'], startDate: '2024-04-01', endDate: '', piSigned: false, piSignedBy: '', piSignedDate: '', delegateSigned: false, delegateSignedDate: '', trainingVerified: true, status: 'Pending' }
+  ];
+
+  const auditTrail = [
+    { id: generateId(), user: 'Kojo A. Quansah Jr., PharmD', action: 'Created delegation', target: 'Dr. James Okafor → NKW-2024-001', timestamp: '2024-01-15T09:25:00', ip: '192.168.1.42' },
+    { id: generateId(), user: 'Dr. Sarah Chen', action: 'Signed delegation', target: 'Dr. James Okafor → NKW-2024-001', timestamp: '2024-01-15T09:30:00', ip: '192.168.1.15' },
+    { id: generateId(), user: 'Dr. James Okafor', action: 'Counter-signed delegation', target: 'NKW-2024-001', timestamp: '2024-01-15T10:15:00', ip: '192.168.1.23' },
+    { id: generateId(), user: 'Kojo A. Quansah Jr., PharmD', action: 'Created delegation', target: 'Priya Nair → NKW-2024-001', timestamp: '2024-02-01T10:50:00', ip: '192.168.1.42' },
+    { id: generateId(), user: 'Kojo A. Quansah Jr., PharmD', action: 'Added personnel', target: 'David Kim', timestamp: '2024-02-08T14:30:00', ip: '192.168.1.42' },
+    { id: generateId(), user: 'Kojo A. Quansah Jr., PharmD', action: 'Created delegation', target: 'David Kim → NKW-2024-001', timestamp: '2024-02-10T08:40:00', ip: '192.168.1.42' },
+    { id: generateId(), user: 'Kojo A. Quansah Jr., PharmD', action: 'Amended protocol', target: 'NKW-2024-001 → v2.1', timestamp: '2024-06-15T11:20:00', ip: '192.168.1.42' },
+    { id: generateId(), user: 'Kojo A. Quansah Jr., PharmD', action: 'Updated training record', target: 'Priya Nair — GCP renewed', timestamp: '2024-07-20T09:15:00', ip: '192.168.1.42' },
+    { id: generateId(), user: 'Kojo A. Quansah Jr., PharmD', action: 'Created delegation', target: 'Rachel Torres → NKW-2024-002', timestamp: '2024-04-01T08:30:00', ip: '192.168.1.42' },
+    { id: generateId(), user: 'Kojo A. Quansah Jr., PharmD', action: 'Closed protocol', target: 'NKW-2023-003 — IMMUNE-X', timestamp: '2024-12-31T17:00:00', ip: '192.168.1.42' },
+    { id: generateId(), user: 'Kojo A. Quansah Jr., PharmD', action: 'Training expiry alert', target: 'Maria Santos, PharmD — GCP EXPIRED', timestamp: '2026-06-25T08:00:00', ip: '192.168.1.42' },
+    { id: generateId(), user: 'System', action: 'Compliance check completed', target: 'All protocols — 83% compliant', timestamp: '2026-06-26T00:01:00', ip: '192.168.1.1' }
+  ];
+
+  return { protocols, personnel, delegations, auditTrail, currentUser: { name: 'Kojo A. Quansah Jr., PharmD', role: 'Site Director / CRA', initials: 'KQ', email: 'k.quansah@nokware-research.org' }, settings: { siteName: 'Nokware Research Site 001', siteNumber: 'SITE-001', irbNumber: 'IRB-2024-0042', notifPendingSig: true, notifExpiringTraining: true, notifDailyDigest: false } };
+}
+
+function loadState() {
+  try {
+    const s = localStorage.getItem(LS_KEY);
+    if (s) return JSON.parse(s);
+  } catch(e) {}
+  const data = seedData();
+  saveState(data);
+  return data;
+}
+function saveState(st) { try { localStorage.setItem(LS_KEY, JSON.stringify(st)); } catch(e) {} }
+
+let STATE = loadState();
+let currentView = 'dashboard';
+let sidebarCollapsed = false;
+let delegationFilter = { protocol: 'all', status: 'all', search: '' };
+
+// ==================== TOAST ====================
+let toastCount = 0;
+function showToast(msg, type='success') {
+  const container = document.getElementById('toast-container');
+  if (container.children.length >= 3) container.removeChild(container.firstChild);
+  const colors = { success: 'bg-ok text-white', error: 'bg-err text-white', warning: 'bg-gold text-white', info: 'bg-teal-600 text-white' };
+  const icons = { success: 'check-circle', error: 'x-circle', warning: 'alert-triangle', info: 'info' };
+  const id = 'toast-' + (++toastCount);
+  const el = document.createElement('div');
+  el.id = id;
+  el.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg ${colors[type] || colors.info} toast-enter`;
+  el.innerHTML = `<i data-lucide="${icons[type] || 'info'}" class="w-5 h-5 flex-shrink-0"></i><p class="text-sm font-medium flex-1">${msg}</p><button data-close-toast="${id}" class="p-1 hover:opacity-70"><i data-lucide="x" class="w-4 h-4"></i></button>`;
+  container.appendChild(el);
+  refreshIcons();
+  setTimeout(() => { const t = document.getElementById(id); if (t) t.remove(); }, 4000);
+}
+
+// ==================== MODAL ====================
+function openModal(html, opts = {}) {
+  const mc = document.getElementById('modal-container');
+  mc.innerHTML = `<div class="fixed inset-0 z-[150] flex items-center justify-center modal-backdrop p-4" id="modal-backdrop"><div class="bg-white rounded-2xl shadow-2xl w-full ${opts.wide ? 'max-w-4xl' : 'max-w-lg'} max-h-[90vh] overflow-y-auto fade-in" id="modal-content">${html}</div></div>`;
+  refreshIcons();
+}
+function closeModal() { document.getElementById('modal-container').innerHTML = ''; }
+
+// ==================== HELPERS ====================
+function getProtocol(id) { return STATE.protocols.find(p => p.id === id); }
+function getPersonnel(id) { return STATE.personnel.find(p => p.id === id); }
+function getProtocolDelegations(protoId) { return STATE.delegations.filter(d => d.protocolId === protoId); }
+function getPersonnelDelegations(persId) { return STATE.delegations.filter(d => d.personnelId === persId); }
+function addAuditEntry(action, target) {
+  STATE.auditTrail.unshift({ id: generateId(), user: STATE.currentUser.name, action, target, timestamp: nowISO(), ip: '192.168.1.42' });
+  saveState(STATE);
+}
+
+function protocolBadgeColor(num) {
+  if (num.includes('001')) return 'badge-teal';
+  if (num.includes('002')) return 'badge-blue';
+  return 'badge-gray';
+}
+
+function gcpStatusInfo(expiryDate) {
+  const d = daysUntil(expiryDate);
+  if (d < 0) return { label: 'EXPIRED', cls: 'badge-red', days: d };
+  if (d <= 30) return { label: 'Expiring Soon', cls: 'badge-red', days: d };
+  if (d <= 90) return { label: 'Expiring Soon', cls: 'badge-amber', days: d };
+  return { label: 'Current', cls: 'badge-green', days: d };
+}
+
+function refreshIcons() {
+  if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') { lucide.createIcons(); }
+}
+
+// ==================== VIEWS ====================
+function renderView(view) {
+  currentView = view;
+  const mc = document.getElementById('main-content');
+  mc.innerHTML = '<div class="space-y-4"><div class="h-8 w-48 rounded-lg shimmer"></div><div class="h-64 rounded-2xl shimmer"></div></div>';
+
+  document.querySelectorAll('#sidebar-nav .sidebar-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.view === view);
+  });
+  const names = { dashboard: 'Dashboard', delegations: 'Delegation Log', protocols: 'Protocols', personnel: 'Personnel', training: 'Training Records', audit: 'Audit Trail', settings: 'Settings' };
+  document.getElementById('breadcrumb-current').textContent = names[view] || view;
+
+  setTimeout(() => {
+    switch(view) {
+      case 'dashboard': mc.innerHTML = renderDashboard(); break;
+      case 'delegations': mc.innerHTML = renderDelegations(); break;
+      case 'protocols': mc.innerHTML = renderProtocols(); break;
+      case 'personnel': mc.innerHTML = renderPersonnelView(); break;
+      case 'training': mc.innerHTML = renderTraining(); break;
+      case 'audit': mc.innerHTML = renderAudit(); break;
+      case 'settings': mc.innerHTML = renderSettings(); break;
+    }
+    refreshIcons();
+    bindViewEvents(view);
+  }, 80);
+}
+
+// ---------- DASHBOARD ----------
+function renderDashboard() {
+  const activeProtos = STATE.protocols.filter(p => p.status === 'Active').length;
+  const delegatedStaff = [...new Set(STATE.delegations.filter(d => d.status === 'Active' || d.status === 'Pending').map(d => d.personnelId))].length;
+  const totalStaff = STATE.personnel.length;
+  const expiredTraining = STATE.personnel.filter(p => daysUntil(p.gcpExpiry) < 0).length;
+  const compliance = Math.round(((totalStaff - expiredTraining) / totalStaff) * 100);
+  const pendingSigs = STATE.delegations.filter(d => !d.piSigned || !d.delegateSigned).length;
+
+  const compColor = compliance >= 90 ? 'bg-ok' : compliance >= 70 ? 'bg-gold' : 'bg-err';
+
+  const recentDelegations = [...STATE.delegations].sort((a, b) => new Date(b.startDate) - new Date(a.startDate)).slice(0, 5);
+  const expiringPersonnel = STATE.personnel.filter(p => { const d = daysUntil(p.gcpExpiry); return d < 90; }).sort((a, b) => daysUntil(a.gcpExpiry) - daysUntil(b.gcpExpiry));
+
+  return `<div class="fade-in space-y-6">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div><h1 class="text-2xl font-bold text-sla-800">Dashboard</h1><p class="text-sm text-sla-500 mt-1">Welcome back, Kojo. Here's your site overview.</p></div>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-white rounded-2xl p-5 border border-sla-100">
+      <div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center"><i data-lucide="flask-conical" class="w-5 h-5 text-teal-600"></i></div></div>
+      <p class="text-2xl font-bold text-sla-800 tabular-nums">${activeProtos}</p>
+      <p class="text-xs text-sla-500 mt-1">Active Protocols</p>
+    </div>
+    <div class="bg-white rounded-2xl p-5 border border-sla-100">
+      <div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center"><i data-lucide="users" class="w-5 h-5 text-blue-600"></i></div></div>
+      <p class="text-2xl font-bold text-sla-800 tabular-nums">${delegatedStaff}</p>
+      <p class="text-xs text-sla-500 mt-1">Delegated Staff</p>
+    </div>
+    <div class="bg-white rounded-2xl p-5 border border-sla-100">
+      <div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center"><i data-lucide="graduation-cap" class="w-5 h-5 text-gold"></i></div></div>
+      <p class="text-2xl font-bold text-sla-800 tabular-nums">${compliance}%</p>
+      <p class="text-xs text-sla-500 mt-1">Training Compliance</p>
+    </div>
+    <div class="bg-white rounded-2xl p-5 border border-sla-100">
+      <div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center relative"><i data-lucide="file-signature" class="w-5 h-5 text-err"></i><span class="absolute -top-1 -right-1 w-3 h-3 bg-err rounded-full pulse-dot"></span></div></div>
+      <p class="text-2xl font-bold text-sla-800 tabular-nums">${pendingSigs}</p>
+      <p class="text-xs text-sla-500 mt-1">Pending Signatures</p>
+    </div>
+  </div>
+
+  <!-- Compliance Bar -->
+  <div class="bg-white rounded-2xl p-5 border border-sla-100">
+    <div class="flex items-center justify-between mb-3">
+      <h3 class="text-sm font-semibold text-sla-700">Training Compliance</h3>
+      <span class="text-sm font-bold ${compliance >= 90 ? 'text-ok' : compliance >= 70 ? 'text-gold' : 'text-err'}">${compliance}%</span>
+    </div>
+    <div class="w-full h-3 bg-sla-100 rounded-full overflow-hidden">
+      <div class="h-full ${compColor} rounded-full progress-bar" style="width:${compliance}%"></div>
+    </div>
+    <p class="text-xs text-sla-400 mt-2">${totalStaff - expiredTraining} of ${totalStaff} staff members have current GCP certification</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Recent Activity -->
+    <div class="lg:col-span-2 bg-white rounded-2xl border border-sla-100">
+      <div class="p-5 border-b border-sla-100 flex items-center justify-between">
+        <h3 class="text-sm font-semibold text-sla-700">Recent Delegation Activity</h3>
+        <button data-action="go-delegations" class="text-xs text-teal-600 hover:text-teal-700 font-medium">View All →</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead><tr class="text-xs text-sla-400 uppercase tracking-wider border-b border-sla-100">
+            <th class="px-5 py-3">Protocol</th><th class="px-5 py-3">Personnel</th><th class="px-5 py-3">Status</th><th class="px-5 py-3">Date</th>
+          </tr></thead>
+          <tbody>${recentDelegations.map(d => {
+            const pr = getProtocol(d.protocolId);
+            const pe = getPersonnel(d.personnelId);
+            const statusCls = d.status === 'Active' ? 'badge-green' : d.status === 'Pending' ? 'badge-amber' : 'badge-gray';
+            return `<tr class="table-row border-b border-sla-50 cursor-pointer" data-action="filter-protocol" data-proto="${d.protocolId}">
+              <td class="px-5 py-3"><span class="badge ${protocolBadgeColor(pr?.number||'')}">${pr?.number||'—'}</span></td>
+              <td class="px-5 py-3"><p class="text-sm font-medium text-sla-800">${pe?.name||'—'}</p><p class="text-xs text-sla-400">${pe?.role||''}</p></td>
+              <td class="px-5 py-3"><span class="badge ${statusCls}">${d.status}</span></td>
+              <td class="px-5 py-3 text-sm text-sla-500 tabular-nums">${fmtDate(d.startDate)}</td>
+            </tr>`;}).join('')}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Training Alerts -->
+    <div class="bg-white rounded-2xl border border-sla-100">
+      <div class="p-5 border-b border-sla-100"><h3 class="text-sm font-semibold text-sla-700">Training Expiry Alerts</h3></div>
+      <div class="p-5 space-y-4">
+        ${expiringPersonnel.length === 0 ? '<p class="text-sm text-sla-400 text-center py-4">All training current</p>' :
+          expiringPersonnel.map(p => {
+            const info = gcpStatusInfo(p.gcpExpiry);
+            return `<div class="flex items-start gap-3 p-3 rounded-xl ${info.days < 0 ? 'bg-red-50' : 'bg-amber-50'}">
+              <i data-lucide="alert-triangle" class="w-4 h-4 mt-0.5 flex-shrink-0 ${info.days < 0 ? 'text-err' : 'text-gold'}"></i>
+              <div class="min-w-0">
+                <p class="text-sm font-medium text-sla-800">${p.name}</p>
+                <p class="text-xs ${info.days < 0 ? 'text-err' : 'text-gold'} mt-0.5">${info.days < 0 ? 'GCP Certification EXPIRED' : `Expires in ${info.days} days`}</p>
+                <p class="text-xs text-sla-400 mt-0.5">${fmtDate(p.gcpExpiry)}</p>
+              </div>
+            </div>`;
+          }).join('')}
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="flex flex-wrap gap-3">
+    <button data-action="new-delegation" class="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-xl hover:bg-teal-700 transition"><i data-lucide="plus" class="w-4 h-4"></i> Add Delegation</button>
+    <button data-action="new-personnel" class="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-sla-200 text-sla-700 text-sm font-semibold rounded-xl hover:bg-sla-50 transition"><i data-lucide="user-plus" class="w-4 h-4"></i> Add Personnel</button>
+    <button data-action="export-audit" class="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-sla-200 text-sla-700 text-sm font-semibold rounded-xl hover:bg-sla-50 transition"><i data-lucide="download" class="w-4 h-4"></i> Export Audit Trail</button>
+  </div>
+</div>`;
+}
+
+// ---------- DELEGATIONS ----------
+function renderDelegations() {
+  let filtered = [...STATE.delegations];
+  if (delegationFilter.protocol !== 'all') filtered = filtered.filter(d => d.protocolId === delegationFilter.protocol);
+  if (delegationFilter.status !== 'all') filtered = filtered.filter(d => d.status === delegationFilter.status);
+  if (delegationFilter.search) {
+    const q = delegationFilter.search.toLowerCase();
+    filtered = filtered.filter(d => {
+      const pr = getProtocol(d.protocolId);
+      const pe = getPersonnel(d.personnelId);
+      return (pr?.title||'').toLowerCase().includes(q) || (pr?.number||'').toLowerCase().includes(q) || (pe?.name||'').toLowerCase().includes(q) || d.tasks.some(t => t.toLowerCase().includes(q));
+    });
+  }
+
+  return `<div class="fade-in space-y-6">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <h1 class="text-2xl font-bold text-sla-800">Delegation Log</h1>
+    <button data-action="new-delegation" class="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-xl hover:bg-teal-700 transition"><i data-lucide="plus" class="w-4 h-4"></i> New Delegation</button>
+  </div>
+  <div class="flex flex-col md:flex-row gap-3">
+    <select id="filter-protocol" class="px-4 py-2.5 rounded-xl border border-sla-200 text-sm bg-white min-w-[180px]">
+      <option value="all">All Protocols</option>
+      ${STATE.protocols.map(p => `<option value="${p.id}" ${delegationFilter.protocol===p.id?'selected':''}>${p.number}</option>`).join('')}
+    </select>
+    <select id="filter-status" class="px-4 py-2.5 rounded-xl border border-sla-200 text-sm bg-white min-w-[140px]">
+      <option value="all" ${delegationFilter.status==='all'?'selected':''}>All Status</option>
+      <option value="Active" ${delegationFilter.status==='Active'?'selected':''}>Active</option>
+      <option value="Pending" ${delegationFilter.status==='Pending'?'selected':''}>Pending</option>
+      <option value="Expired" ${delegationFilter.status==='Expired'?'selected':''}>Expired</option>
+    </select>
+    <div class="relative flex-1">
+      <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-sla-400"></i>
+      <input id="filter-search" type="text" placeholder="Search delegations..." value="${delegationFilter.search}" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-sla-200 text-sm" />
+    </div>
+  </div>
+
+  ${filtered.length === 0 ? `<div class="bg-white rounded-2xl border border-sla-100 p-12 text-center">
+    <div class="w-16 h-16 rounded-full bg-sla-100 flex items-center justify-center mx-auto mb-4"><i data-lucide="clipboard-list" class="w-8 h-8 text-sla-300"></i></div>
+    <h3 class="text-lg font-semibold text-sla-700">No delegations found</h3>
+    <p class="text-sm text-sla-400 mt-1">Try adjusting your filters or add a new delegation.</p>
+    <button data-action="new-delegation" class="mt-4 inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-xl hover:bg-teal-700 transition"><i data-lucide="plus" class="w-4 h-4"></i> Add Delegation</button>
+  </div>` : `
+  <div class="bg-white rounded-2xl border border-sla-100 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead><tr class="text-xs text-sla-400 uppercase tracking-wider border-b border-sla-100 bg-sla-50">
+          <th class="px-4 py-3">Protocol</th><th class="px-4 py-3">Personnel</th><th class="px-4 py-3 hidden lg:table-cell">Delegated Tasks</th><th class="px-4 py-3">Start</th><th class="px-4 py-3 hidden md:table-cell">PI Sig.</th><th class="px-4 py-3 hidden md:table-cell">Delegate Sig.</th><th class="px-4 py-3">Training</th><th class="px-4 py-3">Status</th><th class="px-4 py-3 text-right">Actions</th>
+        </tr></thead>
+        <tbody>${filtered.map(d => {
+          const pr = getProtocol(d.protocolId);
+          const pe = getPersonnel(d.personnelId);
+          const statusCls = d.status === 'Active' ? 'badge-green' : d.status === 'Pending' ? 'badge-amber' : 'badge-gray';
+          const taskDisplay = d.tasks.length <= 2 ? d.tasks.join(', ') : d.tasks.slice(0,2).join(', ') + ` <span class="badge badge-gray">+${d.tasks.length-2}</span>`;
+          const peGcp = pe ? daysUntil(pe.gcpExpiry) : 999;
+          const trainBadge = !d.trainingVerified || peGcp < 0 ? '<span class="badge badge-red">EXPIRED</span>' : '<span class="badge badge-green">Verified</span>';
+          return `<tr class="table-row border-b border-sla-50">
+            <td class="px-4 py-3"><span class="badge ${protocolBadgeColor(pr?.number||'')}">${pr?.number||'—'}</span></td>
+            <td class="px-4 py-3"><p class="text-sm font-medium text-sla-800">${pe?.name||'—'}</p><p class="text-xs text-sla-400">${pe?.role||''}</p></td>
+            <td class="px-4 py-3 text-xs text-sla-600 hidden lg:table-cell max-w-[240px]">${taskDisplay}</td>
+            <td class="px-4 py-3 text-sm text-sla-500 tabular-nums whitespace-nowrap">${fmtDate(d.startDate)}</td>
+            <td class="px-4 py-3 hidden md:table-cell">${d.piSigned ? '<span class="inline-flex items-center gap-1 text-xs text-ok font-medium"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i>Signed</span>' : '<span class="inline-flex items-center gap-1 text-xs text-err font-medium"><i data-lucide="clock" class="w-3.5 h-3.5"></i>Pending</span>'}</td>
+            <td class="px-4 py-3 hidden md:table-cell">${d.delegateSigned ? '<span class="inline-flex items-center gap-1 text-xs text-ok font-medium"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i>Signed</span>' : '<span class="inline-flex items-center gap-1 text-xs text-err font-medium"><i data-lucide="clock" class="w-3.5 h-3.5"></i>Pending</span>'}</td>
+            <td class="px-4 py-3">${trainBadge}</td>
+            <td class="px-4 py-3"><span class="badge ${statusCls}">${d.status}</span></td>
+            <td class="px-4 py-3 text-right whitespace-nowrap">
+              <button data-action="view-delegation" data-id="${d.id}" class="p-1.5 rounded-lg hover:bg-sla-100 text-sla-500 hover:text-teal-600" title="View"><i data-lucide="eye" class="w-4 h-4"></i></button>
+              <button data-action="sign-delegation" data-id="${d.id}" class="p-1.5 rounded-lg hover:bg-sla-100 text-sla-500 hover:text-teal-600" title="Sign"><i data-lucide="pen-line" class="w-4 h-4"></i></button>
+            </td>
+          </tr>`;}).join('')}</tbody>
+      </table>
+    </div>
+    <div class="px-5 py-3 border-t border-sla-100 text-xs text-sla-400">${filtered.length} delegation${filtered.length!==1?'s':''} found</div>
+  </div>`}
+</div>`;
+}
+
+// ---------- PROTOCOLS ----------
+function renderProtocols() {
+  return `<div class="fade-in space-y-6">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <h1 class="text-2xl font-bold text-sla-800">Protocols</h1>
+    <button data-action="new-protocol" class="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-xl hover:bg-teal-700 transition"><i data-lucide="plus" class="w-4 h-4"></i> Add Protocol</button>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    ${STATE.protocols.map(p => {
+      const dels = getProtocolDelegations(p.id);
+      const pending = dels.filter(d => !d.piSigned || !d.delegateSigned).length;
+      const staff = [...new Set(dels.map(d => d.personnelId))].length;
+      const statusCls = p.status === 'Active' ? 'badge-green' : 'badge-gray';
+      return `<div class="bg-white rounded-2xl border border-sla-100 p-6 hover:shadow-md transition">
+        <div class="flex items-start justify-between mb-4">
+          <span class="badge ${protocolBadgeColor(p.number)}">${p.number}</span>
+          <span class="badge ${statusCls}">${p.status}</span>
+        </div>
+        <h3 class="text-base font-semibold text-sla-800 mb-2">${p.title}</h3>
+        <div class="space-y-1.5 text-sm text-sla-500">
+          <p><span class="font-medium text-sla-600">Sponsor:</span> ${p.sponsor}</p>
+          <p><span class="font-medium text-sla-600">PI:</span> ${p.pi}</p>
+          <p class="flex items-center gap-2"><span class="font-medium text-sla-600">Amendment:</span> <span class="badge badge-gray">${p.amendment}</span></p>
+        </div>
+        <div class="flex items-center gap-4 mt-4 pt-4 border-t border-sla-100 text-xs text-sla-400">
+          <span class="flex items-center gap-1"><i data-lucide="users" class="w-3.5 h-3.5"></i>${staff} staff</span>
+          ${pending > 0 ? `<span class="flex items-center gap-1 text-err"><i data-lucide="clock" class="w-3.5 h-3.5"></i>${pending} pending</span>` : '<span class="flex items-center gap-1 text-ok"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i>All signed</span>'}
+        </div>
+        <button data-action="filter-protocol" data-proto="${p.id}" class="w-full mt-4 py-2 text-sm font-medium text-teal-600 border border-teal-200 rounded-xl hover:bg-teal-50 transition">View Delegations</button>
+      </div>`;
+    }).join('')}
+  </div>
+</div>`;
+}
+
+// ---------- PERSONNEL ----------
+function renderPersonnelView() {
+  return `<div class="fade-in space-y-6">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <h1 class="text-2xl font-bold text-sla-800">Personnel</h1>
+    <button data-action="new-personnel" class="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-xl hover:bg-teal-700 transition"><i data-lucide="plus" class="w-4 h-4"></i> Add Personnel</button>
+  </div>
+  <div class="bg-white rounded-2xl border border-sla-100 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead><tr class="text-xs text-sla-400 uppercase tracking-wider border-b border-sla-100 bg-sla-50">
+          <th class="px-5 py-3">Name</th><th class="px-5 py-3">Role</th><th class="px-5 py-3 hidden md:table-cell">Email</th><th class="px-5 py-3">GCP Expiry</th><th class="px-5 py-3 hidden lg:table-cell">Protocols</th><th class="px-5 py-3">Status</th><th class="px-5 py-3 text-right">Actions</th>
+        </tr></thead>
+        <tbody>${STATE.personnel.map(p => {
+          const info = gcpStatusInfo(p.gcpExpiry);
+          const protos = [...new Set(getPersonnelDelegations(p.id).map(d => { const pr = getProtocol(d.protocolId); return pr?.number; }).filter(Boolean))];
+          return `<tr class="table-row border-b border-sla-50">
+            <td class="px-5 py-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-xs font-bold flex-shrink-0">${p.name.split(' ').map(w=>w[0]).join('').slice(0,2)}</div><p class="text-sm font-medium text-sla-800">${p.name}</p></div></td>
+            <td class="px-5 py-3 text-sm text-sla-600">${p.role}</td>
+            <td class="px-5 py-3 text-sm text-sla-500 hidden md:table-cell">${p.email}</td>
+            <td class="px-5 py-3"><span class="badge ${info.cls}">${info.days < 0 ? 'EXPIRED' : fmtDate(p.gcpExpiry)}</span></td>
+            <td class="px-5 py-3 hidden lg:table-cell"><div class="flex flex-wrap gap-1">${protos.map(n => `<span class="badge ${protocolBadgeColor(n)}">${n}</span>`).join('') || '<span class="text-xs text-sla-400">None</span>'}</div></td>
+            <td class="px-5 py-3"><span class="badge badge-green">${p.status}</span></td>
+            <td class="px-5 py-3 text-right"><button data-action="view-personnel" data-id="${p.id}" class="p-1.5 rounded-lg hover:bg-sla-100 text-sla-500 hover:text-teal-600"><i data-lucide="eye" class="w-4 h-4"></i></button></td>
+          </tr>`;}).join('')}</tbody>
+      </table>
+    </div>
+  </div>
+</div>`;
+}
+
+// ---------- TRAINING ----------
+function renderTraining() {
+  const totalStaff = STATE.personnel.length;
+  const expired = STATE.personnel.filter(p => daysUntil(p.gcpExpiry) < 0).length;
+  const current = totalStaff - expired;
+  const pct = Math.round((current / totalStaff) * 100);
+
+  const sorted = [...STATE.personnel].sort((a, b) => daysUntil(a.gcpExpiry) - daysUntil(b.gcpExpiry));
+
+  return `<div class="fade-in space-y-6">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <h1 class="text-2xl font-bold text-sla-800">Training Records</h1>
+    <button data-action="upload-cert" class="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-xl hover:bg-teal-700 transition"><i data-lucide="upload" class="w-4 h-4"></i> Upload Certificate</button>
+  </div>
+
+  <div class="bg-white rounded-2xl border border-sla-100 p-5">
+    <div class="flex items-center justify-between mb-3">
+      <h3 class="text-sm font-semibold text-sla-700">${current} of ${totalStaff} staff GCP-certified and current (${pct}%)</h3>
+      <span class="text-sm font-bold ${pct >= 90 ? 'text-ok' : pct >= 70 ? 'text-gold' : 'text-err'}">${pct}%</span>
+    </div>
+    <div class="w-full h-3 bg-sla-100 rounded-full overflow-hidden">
+      <div class="h-full ${pct >= 90 ? 'bg-ok' : pct >= 70 ? 'bg-gold' : 'bg-err'} rounded-full progress-bar" style="width:${pct}%"></div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-2xl border border-sla-100 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead><tr class="text-xs text-sla-400 uppercase tracking-wider border-b border-sla-100 bg-sla-50">
+          <th class="px-5 py-3">Personnel</th><th class="px-5 py-3">Role</th><th class="px-5 py-3">Cert Type</th><th class="px-5 py-3 hidden md:table-cell">Issued</th><th class="px-5 py-3">Expiry</th><th class="px-5 py-3">Days Left</th><th class="px-5 py-3">Status</th>
+        </tr></thead>
+        <tbody>${sorted.map(p => {
+          const info = gcpStatusInfo(p.gcpExpiry);
+          const d = daysUntil(p.gcpExpiry);
+          // Estimate issued as 3 years before expiry
+          const expDt = new Date(p.gcpExpiry);
+          const issuedDt = new Date(expDt); issuedDt.setFullYear(issuedDt.getFullYear()-3);
+          return `<tr class="table-row border-b border-sla-50">
+            <td class="px-5 py-3 text-sm font-medium text-sla-800">${p.name}</td>
+            <td class="px-5 py-3 text-sm text-sla-500">${p.role}</td>
+            <td class="px-5 py-3 text-sm text-sla-600">GCP / ICH E6(R2)</td>
+            <td class="px-5 py-3 text-sm text-sla-500 tabular-nums hidden md:table-cell">${fmtDate(issuedDt.toISOString())}</td>
+            <td class="px-5 py-3 text-sm tabular-nums ${d < 0 ? 'text-err font-semibold' : 'text-sla-600'}">${fmtDate(p.gcpExpiry)}</td>
+            <td class="px-5 py-3 text-sm tabular-nums font-medium ${d < 0 ? 'text-err' : d <= 90 ? 'text-gold' : 'text-ok'}">${d < 0 ? 'EXPIRED' : d + ' days'}</td>
+            <td class="px-5 py-3"><span class="badge ${info.cls}">${info.label}</span></td>
+          </tr>`;}).join('')}</tbody>
+      </table>
+    </div>
+  </div>
+</div>`;
+}
+
+// ---------- AUDIT ----------
+function renderAudit() {
+  return `<div class="fade-in space-y-6">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-sla-800">Audit Trail</h1>
+      <p class="text-sm text-sla-500 mt-1 flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-teal-600"></i>All actions are logged automatically and cannot be modified. This log meets 21 CFR Part 11 audit trail requirements.</p>
+    </div>
+    <button data-action="export-audit" class="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-sla-200 text-sla-700 text-sm font-semibold rounded-xl hover:bg-sla-50 transition"><i data-lucide="download" class="w-4 h-4"></i> Export CSV</button>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-3">
+    <select id="audit-user-filter" class="px-4 py-2.5 rounded-xl border border-sla-200 text-sm bg-white min-w-[180px]">
+      <option value="all">All Users</option>
+      ${[...new Set(STATE.auditTrail.map(a => a.user))].map(u => `<option value="${u}">${u}</option>`).join('')}
+    </select>
+    <select id="audit-action-filter" class="px-4 py-2.5 rounded-xl border border-sla-200 text-sm bg-white min-w-[160px]">
+      <option value="all">All Actions</option>
+      <option value="Signature">Signature</option>
+      <option value="Delegation">Delegation</option>
+      <option value="Training">Training</option>
+      <option value="Protocol">Protocol</option>
+      <option value="Personnel">Personnel</option>
+    </select>
+  </div>
+
+  <div class="bg-white rounded-2xl border border-sla-100 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left">
+        <thead><tr class="text-xs text-sla-400 uppercase tracking-wider border-b border-sla-100 bg-sla-50">
+          <th class="px-5 py-3">Timestamp</th><th class="px-5 py-3">User</th><th class="px-5 py-3">Action</th><th class="px-5 py-3 hidden md:table-cell">Record Affected</th><th class="px-5 py-3 hidden lg:table-cell">IP Address</th>
+        </tr></thead>
+        <tbody id="audit-tbody">${STATE.auditTrail.map(a => `<tr class="table-row border-b border-sla-50" data-user="${a.user}" data-action-type="${a.action}">
+          <td class="px-5 py-3 text-xs text-sla-600 tabular-nums font-mono whitespace-nowrap">${fmtTimestamp(a.timestamp)}</td>
+          <td class="px-5 py-3 text-sm font-medium text-sla-800">${a.user}</td>
+          <td class="px-5 py-3"><span class="text-sm text-sla-600">${a.action}</span></td>
+          <td class="px-5 py-3 text-sm text-sla-500 hidden md:table-cell">${a.target}</td>
+          <td class="px-5 py-3 text-xs text-sla-400 font-mono hidden lg:table-cell">${a.ip}</td>
+        </tr>`).join('')}</tbody>
+      </table>
+    </div>
+    <div class="px-5 py-3 border-t border-sla-100 text-xs text-sla-400">${STATE.auditTrail.length} entries</div>
+  </div>
+</div>`;
+}
+
+// ---------- SETTINGS ----------
+function renderSettings() {
+  const s = STATE.settings;
+  return `<div class="fade-in space-y-6 max-w-3xl">
+  <h1 class="text-2xl font-bold text-sla-800">Settings</h1>
+
+  <div class="bg-white rounded-2xl border border-sla-100 p-6">
+    <h2 class="text-base font-semibold text-sla-800 mb-4">Profile</h2>
+    <div class="flex items-center gap-4 mb-6">
+      <div class="w-16 h-16 rounded-full bg-teal-600 flex items-center justify-center text-white text-xl font-bold">KQ</div>
+      <div>
+        <p class="text-base font-semibold text-sla-800">${STATE.currentUser.name}</p>
+        <p class="text-sm text-sla-500">${STATE.currentUser.role}</p>
+        <p class="text-xs text-sla-400">${STATE.currentUser.email}</p>
+      </div>
+    </div>
+    <button data-action="save-profile" class="px-5 py-2 bg-teal-600 text-white text-sm font-medium rounded-xl hover:bg-teal-700 transition">Edit Profile</button>
+  </div>
+
+  <div class="bg-white rounded-2xl border border-sla-100 p-6">
+    <h2 class="text-base font-semibold text-sla-800 mb-4">Site Information</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Site Name</label><input id="set-site-name" type="text" value="${s.siteName}" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Site Number</label><input id="set-site-number" type="text" value="${s.siteNumber}" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">IRB Number</label><input id="set-irb" type="text" value="${s.irbNumber}" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+    </div>
+    <button data-action="save-settings" class="mt-4 px-5 py-2 bg-teal-600 text-white text-sm font-medium rounded-xl hover:bg-teal-700 transition">Save Settings</button>
+  </div>
+
+  <div class="bg-white rounded-2xl border border-sla-100 p-6">
+    <h2 class="text-base font-semibold text-sla-800 mb-4">Notification Preferences</h2>
+    <div class="space-y-4">
+      ${[{k:'notifPendingSig', l:'Email on pending signature'},{k:'notifExpiringTraining', l:'Email on expiring training'},{k:'notifDailyDigest', l:'Daily compliance digest'}].map(n => `
+        <label class="flex items-center justify-between cursor-pointer">
+          <span class="text-sm text-sla-700">${n.l}</span>
+          <div class="relative"><input type="checkbox" data-setting="${n.k}" ${s[n.k]?'checked':''} class="sr-only peer" /><div class="w-10 h-6 bg-sla-200 rounded-full peer-checked:bg-teal-600 transition"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transition peer-checked:translate-x-4"></div></div>
+        </label>`).join('')}
+    </div>
+  </div>
+
+  <div class="bg-white rounded-2xl border border-sla-100 p-6">
+    <h2 class="text-base font-semibold text-sla-800 mb-4">About</h2>
+    <div class="text-sm text-sla-500 space-y-1">
+      <p><span class="font-medium text-sla-700">e-Delegate</span> v1.0.0</p>
+      <p>Nokware Research Solutions — Open Source (MIT)</p>
+      <p>Built with React 18, TypeScript, Vite, TanStack Query, Node.js, PostgreSQL</p>
+    </div>
+  </div>
+</div>`;
+}
+
+// ==================== MODALS ====================
+function openNewDelegationModal() {
+  const html = `<div class="p-6">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-lg font-semibold text-sla-800">New Delegation</h2>
+      <button data-action="close-modal" class="p-1.5 rounded-lg hover:bg-sla-100"><i data-lucide="x" class="w-5 h-5 text-sla-500"></i></button>
+    </div>
+    <div class="space-y-4">
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Protocol *</label>
+        <select id="nd-protocol" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm">
+          <option value="">Select protocol...</option>
+          ${STATE.protocols.filter(p=>p.status==='Active').map(p => `<option value="${p.id}">${p.number} — ${p.title}</option>`).join('')}
+        </select>
+      </div>
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Personnel *</label>
+        <select id="nd-personnel" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm">
+          <option value="">Select personnel...</option>
+          ${STATE.personnel.map(p => `<option value="${p.id}">${p.name} — ${p.role}</option>`).join('')}
+        </select>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="block text-sm font-medium text-sla-600 mb-1">Start Date *</label><input id="nd-start" type="date" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+        <div><label class="block text-sm font-medium text-sla-600 mb-1">End Date</label><input id="nd-end" type="date" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+      </div>
+      <div><label class="block text-sm font-medium text-sla-600 mb-2">Delegated Tasks *</label>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-48 overflow-y-auto p-3 border border-sla-200 rounded-xl">
+          ${TASK_LIST.map(t => `<label class="flex items-center gap-2 text-sm text-sla-700 cursor-pointer"><input type="checkbox" value="${t}" class="nd-task rounded border-sla-300 text-teal-600 focus:ring-teal-500" />${t}</label>`).join('')}
+        </div>
+      </div>
+      <div id="nd-error" class="hidden text-sm text-err bg-red-50 rounded-xl px-4 py-2"></div>
+      <div class="flex justify-end gap-3 pt-2">
+        <button data-action="close-modal" class="px-5 py-2.5 text-sm font-medium text-sla-600 border border-sla-200 rounded-xl hover:bg-sla-50 transition">Cancel</button>
+        <button data-action="save-draft-delegation" class="px-5 py-2.5 text-sm font-medium text-sla-700 border border-sla-200 rounded-xl hover:bg-sla-50 transition">Save Draft</button>
+        <button data-action="save-delegation" class="px-5 py-2.5 text-sm font-semibold text-white bg-teal-600 rounded-xl hover:bg-teal-700 transition">Save & Request Signatures</button>
+      </div>
+    </div>
+  </div>`;
+  openModal(html);
+}
+
+function saveDelegation(requestSigs) {
+  const proto = document.getElementById('nd-protocol')?.value;
+  const pers = document.getElementById('nd-personnel')?.value;
+  const start = document.getElementById('nd-start')?.value;
+  const tasks = [...document.querySelectorAll('.nd-task:checked')].map(c => c.value);
+  const errEl = document.getElementById('nd-error');
+
+  if (!proto || !pers || !start || tasks.length === 0) {
+    if (errEl) { errEl.textContent = 'Please fill in all required fields (Protocol, Personnel, Start Date, and at least one Task).'; errEl.classList.remove('hidden'); }
+    return;
+  }
+
+  const entry = {
+    id: generateId(), protocolId: proto, personnelId: pers, tasks, startDate: start,
+    endDate: document.getElementById('nd-end')?.value || '',
+    piSigned: false, piSignedBy: '', piSignedDate: '', delegateSigned: false, delegateSignedDate: '',
+    trainingVerified: false, status: 'Pending'
+  };
+  STATE.delegations.push(entry);
+  const pr = getProtocol(proto);
+  const pe = getPersonnel(pers);
+  addAuditEntry('Created delegation', `${pe?.name} → ${pr?.number}`);
+  saveState(STATE);
+  closeModal();
+  showToast(`Delegation created for ${pe?.name}`, 'success');
+  if (currentView === 'delegations' || currentView === 'dashboard') renderView(currentView);
+}
+
+function openDelegationDetail(id) {
+  const d = STATE.delegations.find(x => x.id === id);
+  if (!d) return;
+  const pr = getProtocol(d.protocolId);
+  const pe = getPersonnel(d.personnelId);
+  const statusCls = d.status === 'Active' ? 'badge-green' : d.status === 'Pending' ? 'badge-amber' : 'badge-gray';
+  const peGcp = pe ? daysUntil(pe.gcpExpiry) : 999;
+
+  const html = `<div class="p-6 print-only">
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <span class="badge ${protocolBadgeColor(pr?.number||'')}">${pr?.number||'—'}</span>
+        <h2 class="text-lg font-semibold text-sla-800">${pe?.name||'—'}</h2>
+        <span class="badge ${statusCls}">${d.status}</span>
+      </div>
+      <button data-action="close-modal" class="p-1.5 rounded-lg hover:bg-sla-100 no-print"><i data-lucide="x" class="w-5 h-5 text-sla-500"></i></button>
+    </div>
+
+    <div class="mb-6">
+      <h3 class="text-sm font-semibold text-sla-700 mb-2">Delegated Tasks</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        ${d.tasks.map(t => `<div class="flex items-center gap-2 text-sm text-sla-600"><i data-lucide="check" class="w-4 h-4 text-teal-600"></i>${t}</div>`).join('')}
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div class="p-4 rounded-xl border ${d.piSigned ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}">
+        <h4 class="text-sm font-semibold ${d.piSigned ? 'text-ok' : 'text-err'} mb-2 flex items-center gap-2"><i data-lucide="${d.piSigned?'check-circle':'clock'}" class="w-4 h-4"></i>PI Signature</h4>
+        ${d.piSigned ? `<p class="text-sm text-sla-700">Signed by <strong>${d.piSignedBy}</strong></p><p class="text-xs text-sla-500 mt-1">${fmtDateTime(d.piSignedDate)}</p><p class="text-xs text-sla-400 mt-2 italic">This signature confirms delegation of authority per ICH GCP E6(R2) Section 4.1.5.</p>` :
+        `<p class="text-sm text-sla-600 mb-3">Signature Required</p><button data-action="open-sig-modal" data-id="${d.id}" data-type="pi" class="px-4 py-2 bg-teal-600 text-white text-sm font-medium rounded-xl hover:bg-teal-700 transition no-print">Sign Now</button>`}
+      </div>
+      <div class="p-4 rounded-xl border ${d.delegateSigned ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}">
+        <h4 class="text-sm font-semibold ${d.delegateSigned ? 'text-ok' : 'text-err'} mb-2 flex items-center gap-2"><i data-lucide="${d.delegateSigned?'check-circle':'clock'}" class="w-4 h-4"></i>Delegate Signature</h4>
+        ${d.delegateSigned ? `<p class="text-sm text-sla-700">Signed by <strong>${pe?.name}</strong></p><p class="text-xs text-sla-500 mt-1">${fmtDateTime(d.delegateSignedDate)}</p><p class="text-xs text-sla-400 mt-2 italic">This signature confirms delegation of authority per ICH GCP E6(R2) Section 4.1.5.</p>` :
+        `<p class="text-sm text-sla-600 mb-3">Signature Required</p><button data-action="open-sig-modal" data-id="${d.id}" data-type="delegate" class="px-4 py-2 bg-teal-600 text-white text-sm font-medium rounded-xl hover:bg-teal-700 transition no-print">Sign Now</button>`}
+      </div>
+    </div>
+
+    <div class="p-4 rounded-xl border border-sla-200 bg-sla-50 mb-6">
+      <h4 class="text-sm font-semibold text-sla-700 mb-2">Training Verification</h4>
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-sla-600">GCP Certification: <span class="font-medium ${peGcp < 0 ? 'text-err' : 'text-ok'}">${peGcp < 0 ? 'EXPIRED' : 'Valid'}</span></p>
+          <p class="text-xs text-sla-400 mt-0.5">Expires: ${fmtDate(pe?.gcpExpiry)}</p>
+        </div>
+        ${!d.trainingVerified ? `<button data-action="verify-training" data-id="${d.id}" class="px-4 py-2 border border-teal-200 text-teal-600 text-sm font-medium rounded-xl hover:bg-teal-50 transition no-print">Mark as Verified</button>` : '<span class="badge badge-green">Verified</span>'}
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between">
+      <p class="text-xs text-sla-400">Protocol Version: <span class="font-medium">${pr?.amendment||'—'}</span></p>
+      <button data-action="print-delegation" class="inline-flex items-center gap-2 px-4 py-2 border border-sla-200 text-sla-600 text-sm font-medium rounded-xl hover:bg-sla-50 transition no-print"><i data-lucide="printer" class="w-4 h-4"></i>Print / Export PDF</button>
+    </div>
+  </div>`;
+  openModal(html, { wide: true });
+}
+
+function openSignatureModal(delegationId, sigType) {
+  const d = STATE.delegations.find(x => x.id === delegationId);
+  if (!d) return;
+  const pe = getPersonnel(d.personnelId);
+  const pr = getProtocol(d.protocolId);
+  const signerName = sigType === 'pi' ? (pr?.pi || 'Principal Investigator') : (pe?.name || 'Delegate');
+  const signerRole = sigType === 'pi' ? 'Principal Investigator' : (pe?.role || 'Delegate');
+  const now = new Date();
+
+  const html = `<div class="p-6">
+    <div class="flex items-center justify-between mb-2">
+      <h2 class="text-lg font-semibold text-sla-800">Electronic Signature</h2>
+      <button data-action="close-modal" class="p-1.5 rounded-lg hover:bg-sla-100"><i data-lucide="x" class="w-5 h-5 text-sla-500"></i></button>
+    </div>
+    <p class="text-xs text-sla-400 mb-6 flex items-center gap-1.5"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-teal-600"></i>21 CFR Part 11 Compliant</p>
+
+    <div class="space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div><label class="block text-xs font-medium text-sla-500 mb-1">Full Name</label><input type="text" value="${signerName}" readonly class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm bg-sla-50 text-sla-600" /></div>
+        <div><label class="block text-xs font-medium text-sla-500 mb-1">Role</label><input type="text" value="${signerRole}" readonly class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm bg-sla-50 text-sla-600" /></div>
+        <div><label class="block text-xs font-medium text-sla-500 mb-1">Date / Time</label><input type="text" value="${fmtDateTime(now.toISOString())}" readonly class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm bg-sla-50 text-sla-600" /></div>
+      </div>
+
+      <div class="p-4 rounded-xl bg-amber-50 border border-amber-200">
+        <h4 class="text-sm font-semibold text-gold mb-1">Meaning of Signature</h4>
+        <p class="text-xs text-sla-600 leading-relaxed">By signing this delegation log, I confirm that I am qualified by training and experience to perform the delegated tasks, and that this electronic signature is the legally binding equivalent of my handwritten signature, in accordance with 21 CFR Part 11 and ICH GCP E6(R2).</p>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-sla-600 mb-1">Password *</label>
+        <input id="sig-password" type="password" placeholder="Enter your account password to authenticate" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" />
+      </div>
+
+      <div id="sig-error" class="hidden text-sm text-err bg-red-50 rounded-xl px-4 py-2"></div>
+
+      <div class="flex justify-end gap-3 pt-2">
+        <button data-action="close-modal" class="px-5 py-2.5 text-sm font-medium text-sla-600 border border-sla-200 rounded-xl hover:bg-sla-50 transition">Cancel</button>
+        <button data-action="submit-signature" data-id="${delegationId}" data-type="${sigType}" data-name="${signerName}" class="px-5 py-2.5 text-sm font-semibold text-white bg-teal-600 rounded-xl hover:bg-teal-700 transition">Sign Document</button>
+      </div>
+    </div>
+  </div>`;
+  openModal(html);
+}
+
+function submitSignature(delegationId, sigType, signerName) {
+  const pw = document.getElementById('sig-password')?.value;
+  const errEl = document.getElementById('sig-error');
+  if (!pw) {
+    if (errEl) { errEl.textContent = 'Password is required to authenticate your signature.'; errEl.classList.remove('hidden'); }
+    return;
+  }
+  const d = STATE.delegations.find(x => x.id === delegationId);
+  if (!d) return;
+  const now = nowISO();
+  if (sigType === 'pi') {
+    d.piSigned = true; d.piSignedBy = signerName; d.piSignedDate = now;
+  } else {
+    d.delegateSigned = true; d.delegateSignedDate = now;
+  }
+  if (d.piSigned && d.delegateSigned && d.status === 'Pending') d.status = 'Active';
+  const pr = getProtocol(d.protocolId);
+  addAuditEntry(`${sigType === 'pi' ? 'PI' : 'Delegate'} signed delegation`, `${signerName} → ${pr?.number}`);
+  saveState(STATE);
+  closeModal();
+  showToast(`Signature recorded — ${signerName} — ${fmtDateTime(now)}`, 'success');
+  if (currentView === 'delegations' || currentView === 'dashboard') renderView(currentView);
+}
+
+function openNewPersonnelModal() {
+  const roles = ['Principal Investigator','Sub-Investigator','Clinical Research Coordinator','Data Manager','Regulatory Coordinator','Pharmacist','Lab Technician'];
+  const html = `<div class="p-6">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-lg font-semibold text-sla-800">Add Personnel</h2>
+      <button data-action="close-modal" class="p-1.5 rounded-lg hover:bg-sla-100"><i data-lucide="x" class="w-5 h-5 text-sla-500"></i></button>
+    </div>
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="block text-sm font-medium text-sla-600 mb-1">First Name *</label><input id="np-first" type="text" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+        <div><label class="block text-sm font-medium text-sla-600 mb-1">Last Name *</label><input id="np-last" type="text" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+      </div>
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Role *</label>
+        <select id="np-role" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm"><option value="">Select role...</option>${roles.map(r => `<option value="${r}">${r}</option>`).join('')}</select>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="block text-sm font-medium text-sla-600 mb-1">Email *</label><input id="np-email" type="email" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+        <div><label class="block text-sm font-medium text-sla-600 mb-1">Phone</label><input id="np-phone" type="tel" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="block text-sm font-medium text-sla-600 mb-1">GCP Cert Date</label><input id="np-gcpdate" type="date" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+        <div><label class="block text-sm font-medium text-sla-600 mb-1">GCP Cert Expiry *</label><input id="np-gcpexpiry" type="date" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+      </div>
+      <div id="np-error" class="hidden text-sm text-err bg-red-50 rounded-xl px-4 py-2"></div>
+      <div class="flex justify-end gap-3 pt-2">
+        <button data-action="close-modal" class="px-5 py-2.5 text-sm font-medium text-sla-600 border border-sla-200 rounded-xl hover:bg-sla-50 transition">Cancel</button>
+        <button data-action="save-personnel" class="px-5 py-2.5 text-sm font-semibold text-white bg-teal-600 rounded-xl hover:bg-teal-700 transition">Add Personnel</button>
+      </div>
+    </div>
+  </div>`;
+  openModal(html);
+}
+
+function savePersonnel() {
+  const first = document.getElementById('np-first')?.value?.trim();
+  const last = document.getElementById('np-last')?.value?.trim();
+  const role = document.getElementById('np-role')?.value;
+  const email = document.getElementById('np-email')?.value?.trim();
+  const gcpExpiry = document.getElementById('np-gcpexpiry')?.value;
+  const errEl = document.getElementById('np-error');
+  if (!first || !last || !role || !email || !gcpExpiry) {
+    if (errEl) { errEl.textContent = 'Please fill in all required fields.'; errEl.classList.remove('hidden'); }
+    return;
+  }
+  const name = `${first} ${last}`;
+  STATE.personnel.push({ id: generateId(), name, role, email, gcpExpiry, status: 'Active' });
+  addAuditEntry('Added personnel', name);
+  saveState(STATE);
+  closeModal();
+  showToast(`${name} added to personnel`, 'success');
+  if (currentView === 'personnel' || currentView === 'dashboard') renderView(currentView);
+}
+
+function openNewProtocolModal() {
+  const html = `<div class="p-6">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-lg font-semibold text-sla-800">Add Protocol</h2>
+      <button data-action="close-modal" class="p-1.5 rounded-lg hover:bg-sla-100"><i data-lucide="x" class="w-5 h-5 text-sla-500"></i></button>
+    </div>
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="block text-sm font-medium text-sla-600 mb-1">Protocol Number *</label><input id="npr-number" type="text" placeholder="NKW-2024-XXX" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+        <div><label class="block text-sm font-medium text-sla-600 mb-1">Amendment Version *</label><input id="npr-amendment" type="text" placeholder="v1.0" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+      </div>
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Study Title *</label><input id="npr-title" type="text" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Sponsor *</label><input id="npr-sponsor" type="text" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Principal Investigator *</label><input id="npr-pi" type="text" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Status</label>
+        <select id="npr-status" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm"><option value="Active">Active</option><option value="Closed">Closed</option></select>
+      </div>
+      <div id="npr-error" class="hidden text-sm text-err bg-red-50 rounded-xl px-4 py-2"></div>
+      <div class="flex justify-end gap-3 pt-2">
+        <button data-action="close-modal" class="px-5 py-2.5 text-sm font-medium text-sla-600 border border-sla-200 rounded-xl hover:bg-sla-50 transition">Cancel</button>
+        <button data-action="save-protocol" class="px-5 py-2.5 text-sm font-semibold text-white bg-teal-600 rounded-xl hover:bg-teal-700 transition">Add Protocol</button>
+      </div>
+    </div>
+  </div>`;
+  openModal(html);
+}
+
+function saveProtocol() {
+  const num = document.getElementById('npr-number')?.value?.trim();
+  const title = document.getElementById('npr-title')?.value?.trim();
+  const sponsor = document.getElementById('npr-sponsor')?.value?.trim();
+  const pi = document.getElementById('npr-pi')?.value?.trim();
+  const amendment = document.getElementById('npr-amendment')?.value?.trim();
+  const status = document.getElementById('npr-status')?.value;
+  const errEl = document.getElementById('npr-error');
+  if (!num || !title || !sponsor || !pi || !amendment) {
+    if (errEl) { errEl.textContent = 'Please fill in all required fields.'; errEl.classList.remove('hidden'); }
+    return;
+  }
+  STATE.protocols.push({ id: generateId(), number: num, title, sponsor, status, pi, amendment });
+  addAuditEntry('Created protocol', `${num} — ${title}`);
+  saveState(STATE);
+  closeModal();
+  showToast(`Protocol ${num} created`, 'success');
+  renderView('protocols');
+}
+
+function openUploadCertModal() {
+  const html = `<div class="p-6">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-lg font-semibold text-sla-800">Upload Certificate</h2>
+      <button data-action="close-modal" class="p-1.5 rounded-lg hover:bg-sla-100"><i data-lucide="x" class="w-5 h-5 text-sla-500"></i></button>
+    </div>
+    <div class="space-y-4">
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Personnel *</label>
+        <select id="uc-personnel" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm"><option value="">Select...</option>${STATE.personnel.map(p => `<option value="${p.id}">${p.name}</option>`).join('')}</select>
+      </div>
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Certification Type</label><input id="uc-type" type="text" value="GCP / ICH E6(R2)" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="block text-sm font-medium text-sla-600 mb-1">Issued Date *</label><input id="uc-issued" type="date" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+        <div><label class="block text-sm font-medium text-sla-600 mb-1">Expiry Date *</label><input id="uc-expiry" type="date" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
+      </div>
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Notes</label><textarea id="uc-notes" rows="2" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm"></textarea></div>
+      <div id="uc-error" class="hidden text-sm text-err bg-red-50 rounded-xl px-4 py-2"></div>
+      <div class="flex justify-end gap-3 pt-2">
+        <button data-action="close-modal" class="px-5 py-2.5 text-sm font-medium text-sla-600 border border-sla-200 rounded-xl hover:bg-sla-50 transition">Cancel</button>
+        <button data-action="save-cert" class="px-5 py-2.5 text-sm font-semibold text-white bg-teal-600 rounded-xl hover:bg-teal-700 transition">Save Certificate</button>
+      </div>
+    </div>
+  </div>`;
+  openModal(html);
+}
+
+function saveCert() {
+  const persId = document.getElementById('uc-personnel')?.value;
+  const expiry = document.getElementById('uc-expiry')?.value;
+  const errEl = document.getElementById('uc-error');
+  if (!persId || !expiry) {
+    if (errEl) { errEl.textContent = 'Please fill in all required fields.'; errEl.classList.remove('hidden'); }
+    return;
+  }
+  const p = getPersonnel(persId);
+  if (p) { p.gcpExpiry = expiry; }
+  addAuditEntry('Updated training record', `${p?.name} — GCP cert updated`);
+  saveState(STATE);
+  closeModal();
+  showToast(`Training record updated for ${p?.name}`, 'success');
+  if (currentView === 'training') renderView('training');
+}
+
+function openPersonnelDetail(id) {
+  const p = getPersonnel(id);
+  if (!p) return;
+  const dels = getPersonnelDelegations(id);
+  const info = gcpStatusInfo(p.gcpExpiry);
+
+  const html = `<div class="p-6">
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-lg font-bold">${p.name.split(' ').map(w=>w[0]).join('').slice(0,2)}</div>
+        <div><h2 class="text-lg font-semibold text-sla-800">${p.name}</h2><p class="text-sm text-sla-500">${p.role}</p></div>
+      </div>
+      <button data-action="close-modal" class="p-1.5 rounded-lg hover:bg-sla-100"><i data-lucide="x" class="w-5 h-5 text-sla-500"></i></button>
+    </div>
+    <div class="grid grid-cols-2 gap-4 mb-6 text-sm">
+      <div><span class="text-sla-400">Email</span><p class="font-medium text-sla-700">${p.email}</p></div>
+      <div><span class="text-sla-400">GCP Certification</span><p class="font-medium"><span class="badge ${info.cls}">${info.label}</span> — ${fmtDate(p.gcpExpiry)}</p></div>
+    </div>
+    <h3 class="text-sm font-semibold text-sla-700 mb-3">Delegations (${dels.length})</h3>
+    ${dels.length === 0 ? '<p class="text-sm text-sla-400">No delegations assigned.</p>' : `
+    <div class="space-y-2">
+      ${dels.map(d => {
+        const pr = getProtocol(d.protocolId);
+        const sCls = d.status === 'Active' ? 'badge-green' : d.status === 'Pending' ? 'badge-amber' : 'badge-gray';
+        return `<div class="p-3 rounded-xl border border-sla-100 flex items-center justify-between">
+          <div><span class="badge ${protocolBadgeColor(pr?.number||'')}">${pr?.number}</span><span class="text-xs text-sla-500 ml-2">${d.tasks.length} task${d.tasks.length!==1?'s':''}</span></div>
+          <span class="badge ${sCls}">${d.status}</span>
+        </div>`;
+      }).join('')}
+    </div>`}
+  </div>`;
+  openModal(html, { wide: true });
+}
+
+function exportAuditCSV() {
+  const rows = [['Timestamp','User','Action','Record Affected','IP Address']];
+  STATE.auditTrail.forEach(a => { rows.push([fmtTimestamp(a.timestamp), a.user, a.action, a.target, a.ip]); });
+  const csv = rows.map(r => r.map(c => `"${(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `edelegate-audit-trail-${new Date().toISOString().slice(0,10)}.csv`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Audit trail exported as CSV', 'success');
+}
+
+// ==================== EVENT BINDING ====================
+function bindViewEvents(view) {
+  if (view === 'delegations') {
+    const fp = document.getElementById('filter-protocol');
+    const fs = document.getElementById('filter-status');
+    const fsr = document.getElementById('filter-search');
+    if (fp) fp.addEventListener('change', e => { delegationFilter.protocol = e.target.value; renderView('delegations'); });
+    if (fs) fs.addEventListener('change', e => { delegationFilter.status = e.target.value; renderView('delegations'); });
+    if (fsr) fsr.addEventListener('input', e => { delegationFilter.search = e.target.value; renderView('delegations'); });
+  }
+  if (view === 'audit') {
+    const uf = document.getElementById('audit-user-filter');
+    const af = document.getElementById('audit-action-filter');
+    if (uf) uf.addEventListener('change', () => filterAudit());
+    if (af) af.addEventListener('change', () => filterAudit());
+  }
+  if (view === 'settings') {
+    document.querySelectorAll('[data-setting]').forEach(el => {
+      el.addEventListener('change', e => {
+        STATE.settings[e.target.dataset.setting] = e.target.checked;
+        saveState(STATE);
+      });
+    });
+  }
+}
+
+function filterAudit() {
+  const user = document.getElementById('audit-user-filter')?.value || 'all';
+  const action = document.getElementById('audit-action-filter')?.value || 'all';
+  document.querySelectorAll('#audit-tbody tr').forEach(tr => {
+    const u = tr.dataset.user;
+    const a = tr.dataset.actionType;
+    let show = true;
+    if (user !== 'all' && u !== user) show = false;
+    if (action !== 'all') {
+      const actionLower = a.toLowerCase();
+      if (!actionLower.includes(action.toLowerCase())) show = false;
+    }
+    tr.style.display = show ? '' : 'none';
+  });
+}
+
+// ==================== GLOBAL EVENT DELEGATION ====================
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('[data-action]');
+  if (!btn) return;
+  const action = btn.dataset.action;
+
+  switch(action) {
+    case 'close-modal': closeModal(); break;
+    case 'new-delegation': openNewDelegationModal(); break;
+    case 'save-delegation': saveDelegation(true); break;
+    case 'save-draft-delegation': saveDelegation(false); break;
+    case 'view-delegation':
+    case 'sign-delegation':
+      openDelegationDetail(btn.dataset.id); break;
+    case 'open-sig-modal':
+      openSignatureModal(btn.dataset.id, btn.dataset.type); break;
+    case 'submit-signature':
+      submitSignature(btn.dataset.id, btn.dataset.type, btn.dataset.name); break;
+    case 'verify-training': {
+      const d = STATE.delegations.find(x => x.id === btn.dataset.id);
+      if (d) { d.trainingVerified = true; saveState(STATE); addAuditEntry('Verified training', getPersonnel(d.personnelId)?.name || ''); }
+      closeModal();
+      showToast('Training verified', 'success');
+      if (currentView === 'delegations' || currentView === 'dashboard') renderView(currentView);
+      break;
+    }
+    case 'new-personnel': openNewPersonnelModal(); break;
+    case 'save-personnel': savePersonnel(); break;
+    case 'view-personnel': openPersonnelDetail(btn.dataset.id); break;
+    case 'new-protocol': openNewProtocolModal(); break;
+    case 'save-protocol': saveProtocol(); break;
+    case 'upload-cert': openUploadCertModal(); break;
+    case 'save-cert': saveCert(); break;
+    case 'export-audit': exportAuditCSV(); break;
+    case 'print-delegation': window.print(); break;
+    case 'save-profile': showToast('Profile saved', 'success'); break;
+    case 'save-settings': {
+      STATE.settings.siteName = document.getElementById('set-site-name')?.value || STATE.settings.siteName;
+      STATE.settings.siteNumber = document.getElementById('set-site-number')?.value || STATE.settings.siteNumber;
+      STATE.settings.irbNumber = document.getElementById('set-irb')?.value || STATE.settings.irbNumber;
+      saveState(STATE);
+      showToast('Settings saved', 'success');
+      break;
+    }
+    case 'filter-protocol': {
+      delegationFilter.protocol = btn.dataset.proto;
+      delegationFilter.status = 'all';
+      delegationFilter.search = '';
+      renderView('delegations');
+      break;
+    }
+    case 'go-delegations': renderView('delegations'); break;
+  }
+});
+
+// Close toast
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('[data-close-toast]');
+  if (btn) { const t = document.getElementById(btn.dataset.closeToast); if (t) t.remove(); }
+});
+
+// Modal backdrop click
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'modal-backdrop') closeModal();
+});
+
+// Sidebar nav
+document.querySelectorAll('#sidebar-nav .sidebar-item').forEach(item => {
+  item.addEventListener('click', function() {
+    renderView(this.dataset.view);
+    // close mobile sidebar
+    document.getElementById('sidebar-overlay').classList.add('hidden');
+    document.getElementById('sidebar').style.transform = '';
+  });
+});
+
+// Sidebar toggle (mobile)
+document.getElementById('sidebar-toggle').addEventListener('click', function() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  overlay.classList.remove('hidden');
+  sidebar.style.transform = 'translateX(0)';
+});
+document.getElementById('sidebar-overlay').addEventListener('click', function() {
+  this.classList.add('hidden');
+});
+
+// Login
+document.getElementById('login-btn').addEventListener('click', function() {
+  const email = document.getElementById('login-email').value;
+  const pw = document.getElementById('login-password').value;
+  if (!email || !pw) { showToast('Please enter email and password', 'error'); return; }
+  document.getElementById('login-screen').classList.add('hidden');
+  document.getElementById('app-container').classList.remove('hidden');
+  renderView('dashboard');
+  addAuditEntry('User login', STATE.currentUser.name);
+  saveState(STATE);
+});
+document.getElementById('demo-login-btn').addEventListener('click', function() {
+  document.getElementById('login-email').value = 'demo@nokware-research.org';
+  document.getElementById('login-password').value = 'Demo1234!';
+  setTimeout(() => {
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('app-container').classList.remove('hidden');
+    renderView('dashboard');
+    addAuditEntry('Demo login', STATE.currentUser.name);
+    saveState(STATE);
+  }, 300);
+});
+
+// Sign out
+document.getElementById('sign-out-btn').addEventListener('click', function() {
+  addAuditEntry('User logout', STATE.currentUser.name);
+  saveState(STATE);
+  document.getElementById('app-container').classList.add('hidden');
+  document.getElementById('login-screen').classList.remove('hidden');
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-password').value = '';
+});
+
+// Notification bell
+document.getElementById('notif-bell').addEventListener('click', function() {
+  const pending = STATE.delegations.filter(d => !d.piSigned || !d.delegateSigned).length;
+  const expired = STATE.personnel.filter(p => daysUntil(p.gcpExpiry) < 0).length;
+  showToast(`${pending} pending signature${pending!==1?'s':''}, ${expired} expired training record${expired!==1?'s':''}`, 'info');
+});
+
+// Save settings
+document.addEventListener('click', function(e) {
+  if (e.target.closest('[data-action="save-settings"]')) {
+    STATE.settings.siteName = document.getElementById('set-site-name')?.value || STATE.settings.siteName;
+    STATE.settings.siteNumber = document.getElementById('set-site-number')?.value || STATE.settings.siteNumber;
+    STATE.settings.irbNumber = document.getElementById('set-irb')?.value || STATE.settings.irbNumber;
+    saveState(STATE);
+    showToast('Settings saved', 'success');
+  }
+});
+
+// Responsive sidebar
+function handleResize() {
+  const sidebar = document.getElementById('sidebar');
+  const main = document.getElementById('main-wrapper');
+  if (window.innerWidth < 768) {
+    sidebar.style.transform = 'translateX(-100%)';
+    main.style.marginLeft = '0';
+  } else {
+    sidebar.style.transform = 'translateX(0)';
+    main.style.marginLeft = '260px';
+    document.getElementById('sidebar-overlay').classList.add('hidden');
+  }
+}
+window.addEventListener('resize', handleResize);
+handleResize();
+
+// Initialize icons
+if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+  lucide.createIcons();
+}
+</script>
+</body>
+</html>
