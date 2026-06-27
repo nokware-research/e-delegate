@@ -33,18 +33,15 @@ tailwind.config = {
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Inter', sans-serif; background: #F8FAFC; color: #1E293B; }
 
-/* Scrollbar */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: #f1f5f9; }
 ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #0D9488, #06B6D4); border-radius: 3px; }
 
-/* Animations */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 @keyframes barShimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
 
-/* Login mesh gradient */
 @keyframes meshMove {
   0%, 100% { background-position: 0% 0%, 100% 100%, 50% 50%, 0% 0%; }
   33% { background-position: 100% 0%, 0% 100%, 30% 70%, 0% 0%; }
@@ -60,7 +57,6 @@ body { font-family: 'Inter', sans-serif; background: #F8FAFC; color: #1E293B; }
   animation: meshMove 15s ease infinite;
 }
 
-/* Floating shapes on login */
 @keyframes floatA { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-20px, 15px) rotate(8deg); } }
 @keyframes floatB { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(15px, -20px) rotate(-6deg); } }
 
@@ -68,7 +64,6 @@ body { font-family: 'Inter', sans-serif; background: #F8FAFC; color: #1E293B; }
 .pulse-dot { animation: pulse-dot 1.5s infinite; }
 .shimmer { background: linear-gradient(90deg, #E2E8F0 25%, #F1F5F9 50%, #E2E8F0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
 
-/* Sidebar */
 .sidebar-gradient {
   background: linear-gradient(180deg, #0A1628 0%, #0d1f3a 60%, #0A1628 100%);
   border-right: 1px solid rgba(13,148,136,0.15);
@@ -82,16 +77,13 @@ body { font-family: 'Inter', sans-serif; background: #F8FAFC; color: #1E293B; }
   box-shadow: inset 0 0 20px rgba(13,148,136,0.1);
 }
 
-/* Table rows */
 .table-row { transition: background 0.1s ease; }
 .table-row:hover { background: linear-gradient(90deg, #f0fdf9 0%, #f8fffe 100%); }
 
-/* Modal backdrop */
 .modal-backdrop { background: rgba(10,22,40,0.6); backdrop-filter: blur(4px); }
 
 .toast-enter { animation: fadeIn 0.3s ease-out; }
 
-/* Badge system */
 .badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.02em; }
 .badge-green { background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #047857; border: 1px solid rgba(5,150,105,0.2); }
 .badge-amber { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #b45309; border: 1px solid rgba(217,119,6,0.2); }
@@ -103,7 +95,6 @@ body { font-family: 'Inter', sans-serif; background: #F8FAFC; color: #1E293B; }
 input, select, textarea { font-family: 'Inter', sans-serif; }
 input:focus, select:focus, textarea:focus { outline: none; border-color: #0D9488; box-shadow: 0 0 0 3px rgba(13,148,136,0.15); }
 
-/* Progress bar with shimmer */
 .compliance-bar {
   background: linear-gradient(90deg, #0D9488, #06B6D4);
   border-radius: 999px;
@@ -120,7 +111,6 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: #0D9488
 }
 .progress-bar { transition: width 0.6s ease; }
 
-/* Primary button */
 .btn-primary {
   background: linear-gradient(135deg, #0D9488, #06B6D4);
   box-shadow: 0 4px 15px rgba(13,148,136,0.35);
@@ -133,20 +123,17 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: #0D9488
   transform: translateY(-1px);
 }
 
-/* Logo badge */
 .logo-badge {
   background: linear-gradient(135deg, #0D9488, #06B6D4);
   box-shadow: 0 0 20px rgba(13,148,136,0.4);
 }
 
-/* App header */
 .app-header {
   background: white;
   border-bottom: 1px solid #E2E8F0;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-/* Section title gradient text */
 .section-title {
   background: linear-gradient(135deg, #0A1628, #0D9488);
   -webkit-background-clip: text;
@@ -154,38 +141,15 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: #0D9488
   background-clip: text;
 }
 
-/* Stat cards */
-.stat-card-teal {
-  background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 100%);
-  border: 1px solid rgba(13,148,136,0.2);
-  border-top: 3px solid #0D9488;
-  box-shadow: 0 4px 16px rgba(13,148,136,0.08);
-}
-.stat-card-blue {
-  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-  border: 1px solid rgba(59,130,246,0.2);
-  border-top: 3px solid #3B82F6;
-  box-shadow: 0 4px 16px rgba(59,130,246,0.08);
-}
-.stat-card-amber {
-  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-  border: 1px solid rgba(245,158,11,0.2);
-  border-top: 3px solid #F59E0B;
-  box-shadow: 0 4px 16px rgba(245,158,11,0.08);
-}
-.stat-card-red {
-  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
-  border: 1px solid rgba(239,68,68,0.2);
-  border-top: 3px solid #EF4444;
-  box-shadow: 0 4px 16px rgba(239,68,68,0.08);
-}
+.stat-card-teal { background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 100%); border: 1px solid rgba(13,148,136,0.2); border-top: 3px solid #0D9488; box-shadow: 0 4px 16px rgba(13,148,136,0.08); }
+.stat-card-blue { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 1px solid rgba(59,130,246,0.2); border-top: 3px solid #3B82F6; box-shadow: 0 4px 16px rgba(59,130,246,0.08); }
+.stat-card-amber { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border: 1px solid rgba(245,158,11,0.2); border-top: 3px solid #F59E0B; box-shadow: 0 4px 16px rgba(245,158,11,0.08); }
+.stat-card-red { background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%); border: 1px solid rgba(239,68,68,0.2); border-top: 3px solid #EF4444; box-shadow: 0 4px 16px rgba(239,68,68,0.08); }
 
-/* Card accents */
 .card-accent-teal { border-left: 4px solid #0D9488; }
 .card-accent-amber { border-left: 4px solid #F59E0B; }
 .card-accent-red { border-left: 4px solid #EF4444; }
 
-/* Login card */
 .login-card {
   background: rgba(255,255,255,0.97);
   border: 1px solid rgba(13,148,136,0.2);
@@ -193,19 +157,16 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: #0D9488
   box-shadow: 0 25px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(13,148,136,0.1);
 }
 
-/* Modal header gradient */
 .modal-header-gradient {
   background: linear-gradient(135deg, #0A1628 0%, #0d1f3a 100%);
   border-bottom: 2px solid rgba(13,148,136,0.25);
 }
 
-/* Notification dot */
 .notif-dot {
   background: linear-gradient(135deg, #EF4444, #DC2626);
   box-shadow: 0 0 8px rgba(239,68,68,0.5);
 }
 
-/* Login heading gradient */
 .login-heading {
   background: linear-gradient(135deg, #0D9488, #06B6D4);
   -webkit-background-clip: text;
@@ -213,14 +174,25 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: #0D9488
   background-clip: text;
 }
 
-/* Protocol card hover */
-.protocol-card {
-  transition: all 0.25s ease;
-}
-.protocol-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(13,148,136,0.12);
-}
+.protocol-card { transition: all 0.25s ease; }
+.protocol-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(13,148,136,0.12); }
+
+.role-card { border: 2px solid #E2E8F0; border-radius: 16px; padding: 20px; cursor: pointer; transition: all 0.2s ease; }
+.role-card:hover { border-color: #99F6E4; background: rgba(240,253,249,0.5); }
+.role-card.selected { border-color: #0D9488; background: rgba(13,148,136,0.05); box-shadow: 0 0 0 3px rgba(13,148,136,0.15); }
+
+.strength-bar { height: 4px; border-radius: 999px; transition: all 0.3s ease; }
+
+.step-circle { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; transition: all 0.2s ease; }
+.step-circle.active { background: linear-gradient(135deg, #0D9488, #06B6D4); color: white; }
+.step-circle.completed { background: linear-gradient(135deg, #0D9488, #06B6D4); color: white; }
+.step-circle.future { background: #E2E8F0; color: #94A3B8; }
+.step-line { height: 2px; flex: 1; transition: background 0.2s ease; }
+.step-line.done { background: linear-gradient(90deg, #0D9488, #06B6D4); }
+.step-line.pending { background: #E2E8F0; }
+
+.pw-toggle-btn { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #94A3B8; }
+.pw-toggle-btn:hover { color: #64748B; }
 
 @media print {
   .no-print { display: none !important; }
@@ -232,137 +204,158 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: #0D9488
 <body data-id="0" class="min-h-screen">
 <app-icon data-id="1" hidden data-icon="clipboard-list" data-palette="Blue"></app-icon>
 
-<!-- LOGIN SCREEN -->
-<div data-id="2" id="login-screen" class="fixed inset-0 z-[100] flex items-center justify-center login-bg">
-<!-- Floating geometric shapes -->
+<!-- AUTH SCREEN -->
+<div data-id="2" id="auth-screen" class="fixed inset-0 z-[100] flex items-center justify-center login-bg overflow-y-auto py-8">
 <svg data-id="3" class="absolute top-10 right-10 pointer-events-none" width="280" height="280" viewBox="0 0 280 280" fill="none" style="opacity:0.12; animation: floatA 8s ease-in-out infinite;">
   <polygon data-id="4" points="140,10 260,75 260,205 140,270 20,205 20,75" stroke="#0D9488" stroke-width="2" fill="none"/>
 </svg>
 <svg data-id="5" class="absolute bottom-16 left-16 pointer-events-none" width="140" height="140" viewBox="0 0 140 140" fill="none" style="opacity:0.08; animation: floatB 6s ease-in-out infinite;">
   <circle data-id="6" cx="70" cy="70" r="65" stroke="#06B6D4" stroke-width="2" fill="none"/>
 </svg>
-
-<div data-id="7" class="w-full max-w-md mx-4 fade-in">
-<div data-id="8" class="p-12 login-card">
-<div data-id="9" class="text-center mb-8">
-<div data-id="10" class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 logo-badge">
-<svg data-id="11" width="28" height="28" viewBox="0 0 32 32" fill="none"><polygon data-id="12" points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="#fff" stroke-width="2" fill="none"/><polygon data-id="13" points="16,8 22,12 22,20 16,24 10,20 10,12" fill="#fff" fill-opacity="0.3"/></svg>
-</div>
-<h1 data-id="14" class="text-[28px] font-extrabold login-heading">e-Delegate</h1>
-<p data-id="15" class="text-sm text-sla-500 mt-1.5">ICH GCP · 21 CFR Part 11 · Electronic Delegation Log</p>
-</div>
-<div data-id="16" class="space-y-4">
-<div data-id="17">
-<label data-id="18" class="block text-sm font-medium text-sla-700 mb-1">Email Address</label>
-<input data-id="19" id="login-email" type="email" class="w-full px-4 py-3.5 rounded-xl border border-sla-200 text-sm focus:border-teal-600" placeholder="you@organization.org" />
-</div>
-<div data-id="20">
-<label data-id="21" class="block text-sm font-medium text-sla-700 mb-1">Password</label>
-<input data-id="22" id="login-password" type="password" class="w-full px-4 py-3.5 rounded-xl border border-sla-200 text-sm focus:border-teal-600" placeholder="Enter your password" />
-</div>
-<button data-id="23" id="login-btn" class="w-full py-3.5 font-bold rounded-xl transition text-sm" style="background: linear-gradient(135deg, #0D9488, #06B6D4); box-shadow: 0 4px 20px rgba(13,148,136,0.4); color: white;">Sign In</button>
-<button data-id="24" id="demo-login-btn" class="w-full py-3 border-2 font-semibold rounded-xl transition text-sm" style="border-color: rgba(13,148,136,0.3); color: #0D9488; background: transparent;">Demo Login</button>
-</div>
-</div>
-<p data-id="25" class="text-center text-xs mt-6" style="color: rgba(13,148,136,0.5);">Nokware Research Solutions · Open Source · MIT License</p>
+<div data-id="7" id="auth-card-wrapper" class="w-full max-w-md mx-4 fade-in">
+  <!-- Auth card content injected by JS -->
 </div>
 </div>
 
 <!-- MAIN APP -->
-<div data-id="26" id="app-container" class="hidden min-h-screen">
-<!-- MOBILE OVERLAY -->
-<div data-id="27" id="sidebar-overlay" class="hidden fixed inset-0 bg-black/40 z-40 md:hidden"></div>
+<div data-id="8" id="app-container" class="hidden min-h-screen">
+<div data-id="9" id="sidebar-overlay" class="hidden fixed inset-0 bg-black/40 z-40 md:hidden"></div>
 
-<!-- SIDEBAR -->
-<aside data-id="28" id="sidebar" class="fixed top-0 left-0 h-full z-50 sidebar-gradient text-white flex flex-col transition-all duration-300" style="width:260px;">
-<div data-id="29" class="p-5 flex items-center gap-3 border-b border-white/10">
-<div data-id="30" class="w-9 h-9 rounded-xl logo-badge flex items-center justify-center flex-shrink-0">
-<svg data-id="31" width="20" height="20" viewBox="0 0 32 32" fill="none">
-<defs data-id="32"><linearGradient data-id="33" id="tealGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop data-id="34" offset="0%" stop-color="#0D9488"/><stop data-id="35" offset="100%" stop-color="#06B6D4"/></linearGradient></defs>
-<polygon data-id="36" points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="url(#tealGrad)" stroke-width="2" fill="none"/><polygon data-id="37" points="16,8 22,12 22,20 16,24 10,20 10,12" fill="#fff" fill-opacity="0.3"/>
+<aside data-id="10" id="sidebar" class="fixed top-0 left-0 h-full z-50 sidebar-gradient text-white flex flex-col transition-all duration-300" style="width:260px;">
+<div data-id="11" class="p-5 flex items-center gap-3 border-b border-white/10">
+<div data-id="12" class="w-9 h-9 rounded-xl logo-badge flex items-center justify-center flex-shrink-0">
+<svg data-id="13" width="20" height="20" viewBox="0 0 32 32" fill="none">
+<defs data-id="14"><linearGradient data-id="15" id="tealGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop data-id="16" offset="0%" stop-color="#0D9488"/><stop data-id="17" offset="100%" stop-color="#06B6D4"/></linearGradient></defs>
+<polygon data-id="18" points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="url(#tealGrad)" stroke-width="2" fill="none"/><polygon data-id="19" points="16,8 22,12 22,20 16,24 10,20 10,12" fill="#fff" fill-opacity="0.3"/>
 </svg>
 </div>
-<div data-id="38" class="flex flex-col">
-  <span data-id="39" id="sidebar-title" class="font-bold text-base tracking-tight">e-Delegate</span>
-  <span data-id="40" class="text-[11px]" style="color: rgba(13,148,136,0.6);">by Nokware</span>
+<div data-id="20" class="flex flex-col">
+  <span data-id="21" id="sidebar-title" class="font-bold text-base tracking-tight">e-Delegate</span>
+  <span data-id="22" class="text-[11px]" style="color: rgba(13,148,136,0.6);">by Nokware</span>
 </div>
 </div>
-<nav data-id="41" class="flex-1 py-4 px-3 space-y-1 overflow-y-auto" id="sidebar-nav">
-<a data-id="42" data-view="dashboard" class="sidebar-item active flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
-<i data-id="43" data-lucide="layout-dashboard" class="w-5 h-5 flex-shrink-0"></i><span data-id="44" class="nav-label">Dashboard</span>
+<nav data-id="23" class="flex-1 py-4 px-3 space-y-1 overflow-y-auto" id="sidebar-nav">
+<a data-id="24" data-view="dashboard" class="sidebar-item active flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="25" data-lucide="layout-dashboard" class="w-5 h-5 flex-shrink-0"></i><span data-id="26" class="nav-label">Dashboard</span>
 </a>
-<a data-id="45" data-view="delegations" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
-<i data-id="46" data-lucide="clipboard-list" class="w-5 h-5 flex-shrink-0"></i><span data-id="47" class="nav-label">Delegation Log</span>
+<a data-id="27" data-view="delegations" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="28" data-lucide="clipboard-list" class="w-5 h-5 flex-shrink-0"></i><span data-id="29" class="nav-label">Delegation Log</span>
 </a>
-<a data-id="48" data-view="protocols" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
-<i data-id="49" data-lucide="flask-conical" class="w-5 h-5 flex-shrink-0"></i><span data-id="50" class="nav-label">Protocols</span>
+<a data-id="30" data-view="protocols" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="31" data-lucide="flask-conical" class="w-5 h-5 flex-shrink-0"></i><span data-id="32" class="nav-label">Protocols</span>
 </a>
-<a data-id="51" data-view="personnel" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
-<i data-id="52" data-lucide="users" class="w-5 h-5 flex-shrink-0"></i><span data-id="53" class="nav-label">Personnel</span>
+<a data-id="33" data-view="personnel" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="34" data-lucide="users" class="w-5 h-5 flex-shrink-0"></i><span data-id="35" class="nav-label">Personnel</span>
 </a>
-<a data-id="54" data-view="training" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
-<i data-id="55" data-lucide="graduation-cap" class="w-5 h-5 flex-shrink-0"></i><span data-id="56" class="nav-label">Training Records</span>
+<a data-id="36" data-view="training" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="37" data-lucide="graduation-cap" class="w-5 h-5 flex-shrink-0"></i><span data-id="38" class="nav-label">Training Records</span>
 </a>
-<a data-id="57" data-view="audit" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
-<i data-id="58" data-lucide="scroll-text" class="w-5 h-5 flex-shrink-0"></i><span data-id="59" class="nav-label">Audit Trail</span>
+<a data-id="39" data-view="audit" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="40" data-lucide="scroll-text" class="w-5 h-5 flex-shrink-0"></i><span data-id="41" class="nav-label">Audit Trail</span>
 </a>
-<a data-id="60" data-view="settings" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
-<i data-id="61" data-lucide="settings" class="w-5 h-5 flex-shrink-0"></i><span data-id="62" class="nav-label">Settings</span>
+<a data-id="42" data-view="settings" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="43" data-lucide="settings" class="w-5 h-5 flex-shrink-0"></i><span data-id="44" class="nav-label">Settings</span>
 </a>
 </nav>
-<div data-id="63" class="p-4" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;">
-<div data-id="64" class="flex items-center gap-3">
-<div data-id="65" class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 text-white" style="background: linear-gradient(135deg, #0D9488, #7C3AED);">KQ</div>
-<div data-id="66" id="sidebar-user-info" class="min-w-0">
-<p data-id="67" class="text-sm font-medium truncate">Kojo A. Quansah Jr.</p>
-<a data-id="68" id="sign-out-btn" class="text-xs text-sla-400 hover:text-white cursor-pointer">Sign Out</a>
-</div>
+<div data-id="45" class="p-4" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;">
+<div data-id="46" id="sidebar-user-section" class="flex items-center gap-3">
+<!-- populated by JS -->
 </div>
 </div>
 </aside>
 
-<!-- MAIN -->
-<div data-id="69" id="main-wrapper" class="transition-all duration-300" style="margin-left:260px;">
-<!-- TOP HEADER -->
-<header data-id="70" class="sticky top-0 z-30 app-header h-16 flex items-center px-4 md:px-6 no-print">
-<button data-id="71" id="sidebar-toggle" class="md:hidden mr-3 p-2 rounded-lg hover:bg-sla-100">
-<i data-id="72" data-lucide="menu" class="w-5 h-5 text-sla-600"></i>
+<div data-id="47" id="main-wrapper" class="transition-all duration-300" style="margin-left:260px;">
+<header data-id="48" class="sticky top-0 z-30 app-header h-16 flex items-center px-4 md:px-6 no-print">
+<button data-id="49" id="sidebar-toggle" class="md:hidden mr-3 p-2 rounded-lg hover:bg-sla-100">
+<i data-id="50" data-lucide="menu" class="w-5 h-5 text-sla-600"></i>
 </button>
-<div data-id="73" id="breadcrumb" class="text-sm text-sla-500 flex items-center gap-2">
-<span data-id="74" class="text-sla-400">e-Delegate</span>
-<i data-id="75" data-lucide="chevron-right" class="w-3.5 h-3.5 text-sla-300"></i>
-<span data-id="76" class="font-bold text-navy" id="breadcrumb-current">Dashboard</span>
+<div data-id="51" id="breadcrumb" class="text-sm text-sla-500 flex items-center gap-2">
+<span data-id="52" class="text-sla-400">e-Delegate</span>
+<i data-id="53" data-lucide="chevron-right" class="w-3.5 h-3.5 text-sla-300"></i>
+<span data-id="54" class="font-bold text-navy" id="breadcrumb-current">Dashboard</span>
 </div>
-<div data-id="77" class="ml-auto flex items-center gap-3">
-<button data-id="78" id="notif-bell" class="relative p-2 rounded-lg hover:bg-sla-100">
-<i data-id="79" data-lucide="bell" class="w-5 h-5 text-sla-600"></i>
-<span data-id="80" class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full pulse-dot notif-dot"></span>
+<div data-id="55" class="ml-auto flex items-center gap-3">
+<button data-id="56" id="notif-bell" class="relative p-2 rounded-lg hover:bg-sla-100">
+<i data-id="57" data-lucide="bell" class="w-5 h-5 text-sla-600"></i>
+<span data-id="58" class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full pulse-dot notif-dot"></span>
 </button>
-<div data-id="81" class="flex items-center gap-2">
-<div data-id="82" class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background: linear-gradient(135deg, #0D9488, #7C3AED);">KQ</div>
-<span data-id="83" class="text-sm font-medium text-sla-700 hidden md:inline">Kojo A. Quansah Jr., PharmD</span>
+<div data-id="59" class="flex items-center gap-2">
+<div data-id="60" id="header-avatar" class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background: linear-gradient(135deg, #0D9488, #7C3AED);">KQ</div>
+<span data-id="61" id="header-username" class="text-sm font-medium text-sla-700 hidden md:inline">Kojo A. Quansah Jr., PharmD</span>
 </div>
 </div>
 </header>
 
-<!-- CONTENT -->
-<main data-id="84" id="main-content" class="p-4 md:p-6 min-h-[calc(100vh-4rem)]">
+<main data-id="62" id="main-content" class="p-4 md:p-6 min-h-[calc(100vh-4rem)]">
 </main>
 
-<!-- FOOTER -->
-<footer data-id="85" class="py-6 text-center border-t border-sla-100 no-print">
-<p data-id="86" class="text-xs text-sla-400">Made by Copilot</p>
+<footer data-id="63" class="py-6 text-center border-t border-sla-100 no-print">
+<p data-id="64" class="text-xs text-sla-400">Made by Copilot</p>
 </footer>
 </div>
 </div>
 
-<!-- TOAST CONTAINER -->
-<div data-id="87" id="toast-container" class="fixed top-4 right-4 z-[200] space-y-2 max-w-sm w-full pointer-events-none"></div>
-
-<!-- MODAL CONTAINER -->
-<div data-id="88" id="modal-container"></div>
+<div data-id="65" id="toast-container" class="fixed top-4 right-4 z-[200] space-y-2 max-w-sm w-full pointer-events-none"></div>
+<div data-id="66" id="modal-container"></div>
 
 <script>
+// ==================== CRYPTO HELPERS ====================
+async function hashPassword(password, salt) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password + salt);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+function generateSalt() {
+  const arr = new Uint8Array(16);
+  crypto.getRandomValues(arr);
+  return Array.from(arr).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+function generateToken(length = 32) {
+  const arr = new Uint8Array(length);
+  crypto.getRandomValues(arr);
+  return Array.from(arr).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// ==================== AUTH KEYS ====================
+const AUTH_KEYS = {
+  USERS: 'edel_users',
+  SITES: 'edel_sites',
+  SESSION: 'edel_session',
+  INVITES: 'edel_invites',
+};
+
+function getAuthUsers() { try { return JSON.parse(localStorage.getItem(AUTH_KEYS.USERS) || '[]'); } catch { return []; } }
+function saveAuthUsers(u) { localStorage.setItem(AUTH_KEYS.USERS, JSON.stringify(u)); }
+function getAuthSites() { try { return JSON.parse(localStorage.getItem(AUTH_KEYS.SITES) || '[]'); } catch { return []; } }
+function saveAuthSites(s) { localStorage.setItem(AUTH_KEYS.SITES, JSON.stringify(s)); }
+function getAuthInvites() { try { return JSON.parse(localStorage.getItem(AUTH_KEYS.INVITES) || '[]'); } catch { return []; } }
+function saveAuthInvites(i) { localStorage.setItem(AUTH_KEYS.INVITES, JSON.stringify(i)); }
+
+function getSession() {
+  try {
+    const s = JSON.parse(localStorage.getItem(AUTH_KEYS.SESSION) || 'null');
+    if (!s) return null;
+    if (new Date(s.expiresAt) < new Date()) { localStorage.removeItem(AUTH_KEYS.SESSION); return null; }
+    return s;
+  } catch { return null; }
+}
+function saveSession(user, siteId) {
+  const session = {
+    userId: user.id,
+    token: generateToken(),
+    siteId: siteId,
+    role: user.role,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+  };
+  localStorage.setItem(AUTH_KEYS.SESSION, JSON.stringify(session));
+  return session;
+}
+function clearSession() { localStorage.removeItem(AUTH_KEYS.SESSION); }
+
 // ==================== STATE & DATA ====================
 const LS_KEY = 'edelegate_state';
 const TASK_LIST = ['Informed Consent Process','Physical Examination','Assessment of Adverse Events','Protocol Deviations','IP Dispensing & Accountability','Data Entry & Query Resolution','Patient Scheduling & Coordination','Regulatory & IRB Submissions','Lab Sample Processing','Source Document Review','Safety Reporting','Screening & Eligibility'];
@@ -439,7 +432,7 @@ function seedData() {
     { id: generateId(), user: 'System', action: 'Compliance check completed', target: 'All protocols — 83% compliant', timestamp: '2026-06-26T00:01:00', ip: '192.168.1.1' }
   ];
 
-  return { protocols, personnel, delegations, auditTrail, currentUser: { name: 'Kojo A. Quansah Jr., PharmD', role: 'Site Director / CRA', initials: 'KQ', email: 'k.quansah@nokware-research.org' }, settings: { siteName: 'Nokware Research Site 001', siteNumber: 'SITE-001', irbNumber: 'IRB-2024-0042', notifPendingSig: true, notifExpiringTraining: true, notifDailyDigest: false } };
+  return { protocols, personnel, delegations, auditTrail, currentUser: { name: 'Kojo A. Quansah Jr., PharmD', role: 'Principal Investigator', initials: 'KQ', email: 'k.quansah@nokware-research.org' }, settings: { siteName: 'Nokware Research Site 001', siteNumber: 'SITE-001', irbNumber: 'IRB-2024-0042', notifPendingSig: true, notifExpiringTraining: true, notifDailyDigest: false } };
 }
 
 function loadState() {
@@ -457,6 +450,24 @@ let STATE = loadState();
 let currentView = 'dashboard';
 let sidebarCollapsed = false;
 let delegationFilter = { protocol: 'all', status: 'all', search: '' };
+
+// ==================== ROLE HELPERS ====================
+const CLINICAL_TASKS = ['Informed Consent Process','Physical Examination','Assessment of Adverse Events','IP Dispensing & Accountability'];
+const REGULATORY_TASKS = ['Regulatory & IRB Submissions'];
+
+function getCurrentRole() {
+  const s = getSession();
+  return s ? s.role : 'Principal Investigator';
+}
+function canSignAsPI() { return getCurrentRole() === 'Principal Investigator'; }
+function canSignAsDelegate(tasks) {
+  const role = getCurrentRole();
+  if (role === 'Principal Investigator' || role === 'Study Coordinator') return true;
+  if (role === 'Regulatory Coordinator') {
+    return tasks.every(t => REGULATORY_TASKS.includes(t) || !CLINICAL_TASKS.includes(t));
+  }
+  return true;
+}
 
 // ==================== TOAST ====================
 let toastCount = 0;
@@ -511,6 +522,515 @@ function refreshIcons() {
   if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') { lucide.createIcons(); }
 }
 
+function roleBadgeHtml(role) {
+  if (role === 'Principal Investigator') return '<span class="badge badge-teal">PI</span>';
+  if (role === 'Study Coordinator') return '<span class="badge badge-blue">Coordinator</span>';
+  if (role === 'Regulatory Coordinator') return '<span class="badge badge-amber">Regulatory</span>';
+  return '<span class="badge badge-gray">Staff</span>';
+}
+
+// ==================== AUTH SCREEN ====================
+let regWizardState = { step: 1, siteName: '', siteNumber: '', irbNumber: '', firstName: '', lastName: '', email: '', phone: '', role: '', password: '', confirmPassword: '', agreed: false, inviteToken: null, inviteSiteId: null, inviteSiteName: '' };
+
+function showAuthScreen(mode) {
+  document.getElementById('auth-screen').classList.remove('hidden');
+  document.getElementById('app-container').classList.add('hidden');
+  const wrapper = document.getElementById('auth-card-wrapper');
+
+  if (mode === 'login') {
+    wrapper.style.maxWidth = '28rem';
+    wrapper.innerHTML = renderLoginCard();
+    bindLoginEvents();
+  } else if (mode === 'register') {
+    regWizardState = { step: 1, siteName: '', siteNumber: '', irbNumber: '', firstName: '', lastName: '', email: '', phone: '', role: '', password: '', confirmPassword: '', agreed: false, inviteToken: null, inviteSiteId: null, inviteSiteName: '' };
+    wrapper.style.maxWidth = '36rem';
+    wrapper.innerHTML = renderRegisterCard();
+    bindRegisterEvents();
+  } else if (mode === 'join') {
+    wrapper.style.maxWidth = '28rem';
+    wrapper.innerHTML = renderJoinCard();
+    bindJoinEvents();
+  }
+  refreshIcons();
+}
+
+function renderLoginCard() {
+  return `<div class="p-10 login-card fade-in">
+  <div class="text-center mb-8">
+    <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 logo-badge">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><polygon points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="#fff" stroke-width="2" fill="none"/><polygon points="16,8 22,12 22,20 16,24 10,20 10,12" fill="#fff" fill-opacity="0.3"/></svg>
+    </div>
+    <h1 class="text-[28px] font-extrabold login-heading">e-Delegate</h1>
+    <p class="text-sm text-sla-500 mt-1.5">ICH GCP · 21 CFR Part 11 · Electronic Delegation Log</p>
+  </div>
+  <form id="loginForm" class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-sla-700 mb-1">Email Address</label>
+      <input id="login-email" type="email" class="w-full px-4 py-3.5 rounded-xl border border-sla-200 text-sm" placeholder="you@organization.org" />
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-sla-700 mb-1">Password</label>
+      <div class="relative">
+        <input id="login-password" type="password" class="w-full px-4 py-3.5 rounded-xl border border-sla-200 text-sm pr-12" placeholder="Enter your password" />
+        <button type="button" id="login-pw-toggle" class="pw-toggle-btn"><i data-lucide="eye" class="w-4 h-4"></i></button>
+      </div>
+    </div>
+    <div id="login-error" class="hidden text-sm text-err bg-red-50 rounded-xl px-4 py-2"></div>
+    <button type="submit" id="login-btn" class="w-full py-3.5 font-bold rounded-xl transition text-sm" style="background: linear-gradient(135deg, #0D9488, #06B6D4); box-shadow: 0 4px 20px rgba(13,148,136,0.4); color: white;">Sign In</button>
+    <button type="button" id="demo-login-btn" class="w-full py-3 border-2 font-semibold rounded-xl transition text-sm" style="border-color: rgba(13,148,136,0.3); color: #0D9488; background: transparent;">Demo Login</button>
+  </form>
+  <div class="text-center text-sm text-sla-500 mt-5">
+    <span>New to e-Delegate?</span>
+    <button id="goto-register" class="text-teal-600 font-semibold ml-1 hover:underline">Create Site Account</button>
+  </div>
+  <div class="text-center text-sm text-sla-500 mt-2">
+    <span>Have an invite code?</span>
+    <button id="goto-join" class="text-teal-600 font-semibold ml-1 hover:underline">Join with Invite</button>
+  </div>
+</div>
+<p class="text-center text-xs mt-6" style="color: rgba(13,148,136,0.5);">Nokware Research Solutions · Open Source · MIT License</p>`;
+}
+
+function renderStepIndicator(currentStep) {
+  const labels = ['Site Info', 'Your Info', 'Role & Password'];
+  let html = '<div class="flex items-center justify-center gap-0 mb-8 px-4">';
+  for (let i = 1; i <= 3; i++) {
+    const cls = i < currentStep ? 'completed' : i === currentStep ? 'active' : 'future';
+    const inner = i < currentStep ? '<i data-lucide="check" class="w-4 h-4"></i>' : i;
+    html += `<div class="flex flex-col items-center"><div class="step-circle ${cls}">${inner}</div><span class="text-[10px] mt-1 font-medium ${i<=currentStep?'text-teal-700':'text-sla-400'}">${labels[i-1]}</span></div>`;
+    if (i < 3) html += `<div class="step-line ${i < currentStep ? 'done' : 'pending'} mx-2" style="min-width:40px;"></div>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderRegisterCard() {
+  const s = regWizardState;
+  let stepContent = '';
+
+  if (s.step === 1) {
+    stepContent = `
+    <h2 class="text-lg font-bold text-navy mb-1">Set Up Your Research Site</h2>
+    <p class="text-sm text-sla-500 mb-5">You'll be the primary account holder for this site on e-Delegate.</p>
+    <div class="space-y-4">
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Site / Organization Name *</label><input id="reg-site-name" type="text" value="${s.siteName}" class="w-full px-4 py-3 rounded-xl border border-sla-200 text-sm" placeholder="e.g. Nokware Research Site 001" /></div>
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Site Number</label><input id="reg-site-number" type="text" value="${s.siteNumber}" class="w-full px-4 py-3 rounded-xl border border-sla-200 text-sm" placeholder="e.g. SITE-001" /></div>
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">IRB Number</label><input id="reg-irb" type="text" value="${s.irbNumber}" class="w-full px-4 py-3 rounded-xl border border-sla-200 text-sm" placeholder="e.g. IRB-2024-001" /></div>
+    </div>
+    <div id="reg-error" class="hidden text-sm text-err bg-red-50 rounded-xl px-4 py-2 mt-3"></div>
+    <div class="flex justify-end mt-6">
+      <button id="reg-next-1" class="px-6 py-2.5 btn-primary text-sm font-semibold rounded-xl">Next →</button>
+    </div>`;
+  } else if (s.step === 2) {
+    stepContent = `
+    <h2 class="text-lg font-bold text-navy mb-1">Tell Us About Yourself</h2>
+    <p class="text-sm text-sla-500 mb-5">This information will be used for your account and electronic signatures.</p>
+    <div class="space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="block text-sm font-medium text-sla-600 mb-1">First Name *</label><input id="reg-first" type="text" value="${s.firstName}" class="w-full px-4 py-3 rounded-xl border border-sla-200 text-sm" /></div>
+        <div><label class="block text-sm font-medium text-sla-600 mb-1">Last Name *</label><input id="reg-last" type="text" value="${s.lastName}" class="w-full px-4 py-3 rounded-xl border border-sla-200 text-sm" /></div>
+      </div>
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Email Address *</label><input id="reg-email" type="email" value="${s.email}" class="w-full px-4 py-3 rounded-xl border border-sla-200 text-sm" placeholder="your.email@organization.org" /></div>
+      <div><label class="block text-sm font-medium text-sla-600 mb-1">Phone Number</label><input id="reg-phone" type="tel" value="${s.phone}" class="w-full px-4 py-3 rounded-xl border border-sla-200 text-sm" /></div>
+    </div>
+    <div id="reg-error" class="hidden text-sm text-err bg-red-50 rounded-xl px-4 py-2 mt-3"></div>
+    <div class="flex justify-between mt-6">
+      <button id="reg-back-2" class="px-5 py-2.5 text-sm font-medium text-sla-600 border border-sla-200 rounded-xl hover:bg-sla-50 transition">← Back</button>
+      <button id="reg-next-2" class="px-6 py-2.5 btn-primary text-sm font-semibold rounded-xl">Next →</button>
+    </div>`;
+  } else if (s.step === 3) {
+    const roles = [
+      { key: 'Principal Investigator', icon: '🩺', title: 'Principal Investigator', desc: 'Full site authority. Can delegate tasks, sign delegation logs, and manage all site staff.', badge: 'Full Access', badgeCls: 'badge-teal' },
+      { key: 'Study Coordinator', icon: '📋', title: 'Study Coordinator', desc: 'Manages day-to-day trial operations, scheduling, data entry, and source document review.', badge: 'Coordinator Access', badgeCls: 'badge-blue' },
+      { key: 'Regulatory Coordinator', icon: '📑', title: 'Regulatory Coordinator', desc: 'Handles IRB submissions, regulatory filings, and compliance documentation.', badge: 'Regulatory Access', badgeCls: 'badge-amber' },
+    ];
+    stepContent = `
+    <h2 class="text-lg font-bold text-navy mb-1">Your Role on the Study</h2>
+    <p class="text-sm text-sla-500 mb-5">Select the role that best describes your position. This determines your access level.</p>
+    <div class="space-y-3 mb-5">
+      ${roles.map(r => `<div class="role-card ${s.role===r.key?'selected':''}" data-role-select="${r.key}">
+        <div class="flex items-start gap-3">
+          <span class="text-2xl flex-shrink-0">${r.icon}</span>
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1"><h4 class="text-sm font-bold text-sla-800">${r.title}</h4><span class="badge ${r.badgeCls}">${r.badge}</span></div>
+            <p class="text-xs text-sla-500 leading-relaxed">${r.desc}</p>
+          </div>
+        </div>
+      </div>`).join('')}
+    </div>
+    <div class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-sla-600 mb-1">Password * <span class="text-xs text-sla-400">(min 8 characters)</span></label>
+        <div class="relative"><input id="reg-password" type="password" class="w-full px-4 py-3 rounded-xl border border-sla-200 text-sm pr-12" /><button type="button" id="reg-pw-toggle" class="pw-toggle-btn"><i data-lucide="eye" class="w-4 h-4"></i></button></div>
+        <div class="mt-2 flex gap-1" id="pw-strength-bar"><div class="strength-bar flex-1 bg-sla-200"></div><div class="strength-bar flex-1 bg-sla-200"></div><div class="strength-bar flex-1 bg-sla-200"></div><div class="strength-bar flex-1 bg-sla-200"></div></div>
+        <p id="pw-strength-label" class="text-xs text-sla-400 mt-1"></p>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-sla-600 mb-1">Confirm Password *</label>
+        <input id="reg-confirm-password" type="password" class="w-full px-4 py-3 rounded-xl border border-sla-200 text-sm" />
+      </div>
+      <label class="flex items-start gap-2 cursor-pointer">
+        <input type="checkbox" id="reg-agree" ${s.agreed?'checked':''} class="mt-1 rounded border-sla-300 text-teal-600" />
+        <span class="text-xs text-sla-600 leading-relaxed">I confirm this account represents a legitimate clinical research site and I am authorized to create it.</span>
+      </label>
+    </div>
+    <div id="reg-error" class="hidden text-sm text-err bg-red-50 rounded-xl px-4 py-2 mt-3"></div>
+    <div class="flex justify-between mt-6">
+      <button id="reg-back-3" class="px-5 py-2.5 text-sm font-medium text-sla-600 border border-sla-200 rounded-xl hover:bg-sla-50 transition">← Back</button>
+      <button id="reg-submit" class="px-6 py-2.5 btn-primary text-sm font-semibold rounded-xl">Create Account</button>
+    </div>`;
+  }
+
+  const skipStep1 = s.inviteToken && s.step === 1;
+  if (skipStep1) { s.step = 2; return renderRegisterCard(); }
+
+  return `<div class="p-8 login-card fade-in">
+  <div class="text-center mb-4">
+    <div class="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-3 logo-badge">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><polygon points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="#fff" stroke-width="2" fill="none"/><polygon points="16,8 22,12 22,20 16,24 10,20 10,12" fill="#fff" fill-opacity="0.3"/></svg>
+    </div>
+    <h1 class="text-xl font-extrabold login-heading">${s.inviteToken ? 'Join ' + (s.inviteSiteName || 'Site') : 'Create Your Site'}</h1>
+  </div>
+  ${renderStepIndicator(s.step)}
+  ${stepContent}
+  <div class="text-center mt-5">
+    <button id="reg-goto-login" class="text-sm text-sla-500 hover:text-teal-600">← Back to Sign In</button>
+  </div>
+</div>`;
+}
+
+function renderJoinCard() {
+  return `<div class="p-10 login-card fade-in">
+  <div class="text-center mb-8">
+    <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 logo-badge">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><polygon points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="#fff" stroke-width="2" fill="none"/><polygon points="16,8 22,12 22,20 16,24 10,20 10,12" fill="#fff" fill-opacity="0.3"/></svg>
+    </div>
+    <h1 class="text-xl font-extrabold login-heading">Join a Site</h1>
+    <p class="text-sm text-sla-500 mt-1.5">Enter the invite code shared by your site administrator.</p>
+  </div>
+  <div class="space-y-4">
+    <div><label class="block text-sm font-medium text-sla-700 mb-1">Invite Code</label>
+    <input id="join-code" type="text" class="w-full px-4 py-3.5 rounded-xl border border-sla-200 text-sm font-mono" placeholder="Paste your invite code or link" /></div>
+    <div id="join-error" class="hidden text-sm text-err bg-red-50 rounded-xl px-4 py-2"></div>
+    <button id="join-verify" class="w-full py-3.5 font-bold rounded-xl transition text-sm btn-primary">Verify Code</button>
+  </div>
+  <div class="text-center mt-5">
+    <button id="join-goto-login" class="text-sm text-sla-500 hover:text-teal-600">← Back to Sign In</button>
+  </div>
+</div>`;
+}
+
+function bindLoginEvents() {
+  const form = document.getElementById('loginForm');
+  if (form) form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
+    const pw = document.getElementById('login-password').value;
+    const errEl = document.getElementById('login-error');
+    if (!email || !pw) { errEl.textContent = 'Please enter email and password.'; errEl.classList.remove('hidden'); return; }
+    const users = getAuthUsers();
+    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    if (!user) { errEl.textContent = 'Invalid email or password.'; errEl.classList.remove('hidden'); return; }
+    const hash = await hashPassword(pw, user.salt);
+    if (hash !== user.passwordHash) { errEl.textContent = 'Invalid email or password.'; errEl.classList.remove('hidden'); return; }
+    saveSession(user, user.siteId);
+    initApp();
+  });
+
+  const demoBtn = document.getElementById('demo-login-btn');
+  if (demoBtn) demoBtn.addEventListener('click', async function() {
+    await ensureDemoUser();
+    const users = getAuthUsers();
+    const demo = users.find(u => u.email === 'demo@nokware-research.org');
+    if (demo) {
+      saveSession(demo, demo.siteId);
+      initApp();
+    }
+  });
+
+  const pwToggle = document.getElementById('login-pw-toggle');
+  if (pwToggle) pwToggle.addEventListener('click', function() {
+    const inp = document.getElementById('login-password');
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+  });
+
+  const gotoReg = document.getElementById('goto-register');
+  if (gotoReg) gotoReg.addEventListener('click', function() { showAuthScreen('register'); });
+  const gotoJoin = document.getElementById('goto-join');
+  if (gotoJoin) gotoJoin.addEventListener('click', function() { showAuthScreen('join'); });
+}
+
+function bindRegisterEvents() {
+  const s = regWizardState;
+
+  const gotoLogin = document.getElementById('reg-goto-login');
+  if (gotoLogin) gotoLogin.addEventListener('click', function() { showAuthScreen('login'); });
+
+  if (s.step === 1) {
+    const nextBtn = document.getElementById('reg-next-1');
+    if (nextBtn) nextBtn.addEventListener('click', function() {
+      const name = document.getElementById('reg-site-name').value.trim();
+      const errEl = document.getElementById('reg-error');
+      if (!name) { errEl.textContent = 'Site name is required.'; errEl.classList.remove('hidden'); return; }
+      s.siteName = name;
+      s.siteNumber = document.getElementById('reg-site-number').value.trim();
+      s.irbNumber = document.getElementById('reg-irb').value.trim();
+      s.step = 2;
+      const wrapper = document.getElementById('auth-card-wrapper');
+      wrapper.innerHTML = renderRegisterCard();
+      bindRegisterEvents();
+      refreshIcons();
+    });
+  } else if (s.step === 2) {
+    const backBtn = document.getElementById('reg-back-2');
+    if (backBtn) backBtn.addEventListener('click', function() {
+      s.firstName = document.getElementById('reg-first').value.trim();
+      s.lastName = document.getElementById('reg-last').value.trim();
+      s.email = document.getElementById('reg-email').value.trim();
+      s.phone = document.getElementById('reg-phone').value.trim();
+      s.step = s.inviteToken ? 2 : 1;
+      if (s.inviteToken) return;
+      const wrapper = document.getElementById('auth-card-wrapper');
+      wrapper.innerHTML = renderRegisterCard();
+      bindRegisterEvents();
+      refreshIcons();
+    });
+    const nextBtn = document.getElementById('reg-next-2');
+    if (nextBtn) nextBtn.addEventListener('click', function() {
+      const first = document.getElementById('reg-first').value.trim();
+      const last = document.getElementById('reg-last').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const errEl = document.getElementById('reg-error');
+      if (!first || !last || !email) { errEl.textContent = 'First name, last name, and email are required.'; errEl.classList.remove('hidden'); return; }
+      const existing = getAuthUsers().find(u => u.email.toLowerCase() === email.toLowerCase());
+      if (existing) { errEl.textContent = 'An account with this email already exists.'; errEl.classList.remove('hidden'); return; }
+      s.firstName = first;
+      s.lastName = last;
+      s.email = email;
+      s.phone = document.getElementById('reg-phone').value.trim();
+      s.step = 3;
+      const wrapper = document.getElementById('auth-card-wrapper');
+      wrapper.innerHTML = renderRegisterCard();
+      bindRegisterEvents();
+      refreshIcons();
+    });
+  } else if (s.step === 3) {
+    document.querySelectorAll('[data-role-select]').forEach(card => {
+      card.addEventListener('click', function() {
+        s.role = this.dataset.roleSelect;
+        document.querySelectorAll('[data-role-select]').forEach(c => c.classList.remove('selected'));
+        this.classList.add('selected');
+      });
+    });
+
+    const pwInput = document.getElementById('reg-password');
+    if (pwInput) pwInput.addEventListener('input', function() { updatePasswordStrength(this.value); });
+    const pwToggle = document.getElementById('reg-pw-toggle');
+    if (pwToggle) pwToggle.addEventListener('click', function() { pwInput.type = pwInput.type === 'password' ? 'text' : 'password'; });
+
+    const backBtn = document.getElementById('reg-back-3');
+    if (backBtn) backBtn.addEventListener('click', function() {
+      s.step = 2;
+      const wrapper = document.getElementById('auth-card-wrapper');
+      wrapper.innerHTML = renderRegisterCard();
+      bindRegisterEvents();
+      refreshIcons();
+    });
+
+    const submitBtn = document.getElementById('reg-submit');
+    if (submitBtn) submitBtn.addEventListener('click', async function() {
+      const pw = document.getElementById('reg-password').value;
+      const cpw = document.getElementById('reg-confirm-password').value;
+      const agreed = document.getElementById('reg-agree').checked;
+      const errEl = document.getElementById('reg-error');
+      if (!s.role) { errEl.textContent = 'Please select a role.'; errEl.classList.remove('hidden'); return; }
+      if (pw.length < 8) { errEl.textContent = 'Password must be at least 8 characters.'; errEl.classList.remove('hidden'); return; }
+      if (pw !== cpw) { errEl.textContent = 'Passwords do not match.'; errEl.classList.remove('hidden'); return; }
+      if (!agreed) { errEl.textContent = 'You must confirm your authorization to create this account.'; errEl.classList.remove('hidden'); return; }
+
+      const salt = generateSalt();
+      const hash = await hashPassword(pw, salt);
+      let siteId;
+
+      if (s.inviteToken) {
+        siteId = s.inviteSiteId;
+        const invites = getAuthInvites();
+        const inv = invites.find(i => i.token === s.inviteToken);
+        if (inv) inv.used = true;
+        saveAuthInvites(invites);
+      } else {
+        siteId = generateId();
+        const sites = getAuthSites();
+        sites.push({ id: siteId, name: s.siteName, number: s.siteNumber, irbNumber: s.irbNumber, createdAt: nowISO() });
+        saveAuthSites(sites);
+      }
+
+      const userId = generateId();
+      const users = getAuthUsers();
+      users.push({ id: userId, firstName: s.firstName, lastName: s.lastName, email: s.email, role: s.role, passwordHash: hash, salt, siteId, invitedBy: s.inviteToken || null, createdAt: nowISO() });
+      saveAuthUsers(users);
+
+      saveSession({ id: userId, firstName: s.firstName, lastName: s.lastName, email: s.email, role: s.role }, siteId);
+
+      // Update edelegate_state with user info
+      STATE.currentUser = { name: s.firstName + ' ' + s.lastName, role: s.role, initials: (s.firstName[0] + s.lastName[0]).toUpperCase(), email: s.email };
+      if (!s.inviteToken) {
+        STATE.settings.siteName = s.siteName;
+        STATE.settings.siteNumber = s.siteNumber || STATE.settings.siteNumber;
+        STATE.settings.irbNumber = s.irbNumber || STATE.settings.irbNumber;
+      }
+      saveState(STATE);
+
+      initApp();
+      showToast(`Welcome to e-Delegate, ${s.firstName}! Your ${s.inviteToken ? 'account' : 'site account'} has been created.`, 'success');
+    });
+  }
+}
+
+function updatePasswordStrength(pw) {
+  const bars = document.querySelectorAll('#pw-strength-bar .strength-bar');
+  const label = document.getElementById('pw-strength-label');
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (/[A-Z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+  const colors = ['#DC2626','#F59E0B','#F59E0B','#059669'];
+  const labels = ['Weak','Fair','Good','Strong'];
+  bars.forEach((b, i) => { b.style.background = i < score ? colors[Math.min(score-1,3)] : '#E2E8F0'; });
+  label.textContent = pw.length > 0 ? labels[Math.min(score-1,3)] || '' : '';
+  label.style.color = pw.length > 0 ? colors[Math.min(score-1,3)] || '#94A3B8' : '#94A3B8';
+}
+
+function bindJoinEvents() {
+  const gotoLogin = document.getElementById('join-goto-login');
+  if (gotoLogin) gotoLogin.addEventListener('click', function() { showAuthScreen('login'); });
+
+  const verifyBtn = document.getElementById('join-verify');
+  if (verifyBtn) verifyBtn.addEventListener('click', function() {
+    let code = document.getElementById('join-code').value.trim();
+    const errEl = document.getElementById('join-error');
+    // Extract token from URL if pasted as link
+    if (code.includes('invite=')) {
+      try { code = new URL(code).searchParams.get('invite') || code; } catch { const m = code.match(/invite=([a-f0-9]+)/); if (m) code = m[1]; }
+    }
+    const invites = getAuthInvites();
+    const inv = invites.find(i => i.token === code && !i.used && new Date(i.expiresAt) > new Date());
+    if (!inv) { errEl.textContent = 'This invite code is invalid or has expired.'; errEl.classList.remove('hidden'); return; }
+
+    // Start registration with invite context
+    const site = getAuthSites().find(s => s.id === inv.siteId);
+    regWizardState = { step: 2, siteName: site?.name || inv.siteName, siteNumber: site?.number || '', irbNumber: site?.irbNumber || '', firstName: '', lastName: '', email: '', phone: '', role: '', password: '', confirmPassword: '', agreed: false, inviteToken: inv.token, inviteSiteId: inv.siteId, inviteSiteName: inv.siteName };
+    const wrapper = document.getElementById('auth-card-wrapper');
+    wrapper.style.maxWidth = '36rem';
+    wrapper.innerHTML = renderRegisterCard();
+    bindRegisterEvents();
+    refreshIcons();
+  });
+}
+
+function showInviteRegistration(token) {
+  const invites = getAuthInvites();
+  const inv = invites.find(i => i.token === token && !i.used && new Date(i.expiresAt) > new Date());
+  if (!inv) {
+    showAuthScreen('login');
+    setTimeout(() => showToast('This invite code is invalid or has expired.', 'error'), 300);
+    return;
+  }
+  const site = getAuthSites().find(s => s.id === inv.siteId);
+  regWizardState = { step: 2, siteName: site?.name || inv.siteName, siteNumber: site?.number || '', irbNumber: site?.irbNumber || '', firstName: '', lastName: '', email: '', phone: '', role: '', password: '', confirmPassword: '', agreed: false, inviteToken: inv.token, inviteSiteId: inv.siteId, inviteSiteName: inv.siteName };
+  document.getElementById('auth-screen').classList.remove('hidden');
+  document.getElementById('app-container').classList.add('hidden');
+  const wrapper = document.getElementById('auth-card-wrapper');
+  wrapper.style.maxWidth = '36rem';
+  wrapper.innerHTML = renderRegisterCard();
+  bindRegisterEvents();
+  refreshIcons();
+}
+
+async function ensureDemoUser() {
+  const users = getAuthUsers();
+  let demo = users.find(u => u.email === 'demo@nokware-research.org');
+  if (!demo) {
+    let sites = getAuthSites();
+    let demoSite = sites.find(s => s.name === 'Nokware Research Site 001');
+    if (!demoSite) {
+      demoSite = { id: generateId(), name: 'Nokware Research Site 001', number: 'SITE-001', irbNumber: 'IRB-2024-0042', createdAt: nowISO() };
+      sites.push(demoSite);
+      saveAuthSites(sites);
+    }
+    const salt = generateSalt();
+    const hash = await hashPassword('Demo1234!', salt);
+    demo = { id: generateId(), firstName: 'Kojo A. Quansah', lastName: 'Jr., PharmD', email: 'demo@nokware-research.org', role: 'Principal Investigator', passwordHash: hash, salt, siteId: demoSite.id, invitedBy: null, createdAt: nowISO() };
+    users.push(demo);
+    saveAuthUsers(users);
+  }
+  return demo;
+}
+
+// ==================== INIT APP ====================
+function initApp() {
+  const session = getSession();
+  const params = new URLSearchParams(window.location.search);
+  const inviteToken = params.get('invite');
+
+  if (inviteToken) {
+    showInviteRegistration(inviteToken);
+    return;
+  }
+
+  if (!session) {
+    showAuthScreen('login');
+    return;
+  }
+
+  // Set current user from session
+  STATE.currentUser = {
+    name: session.firstName + ' ' + session.lastName,
+    role: session.role,
+    email: session.email,
+    initials: (session.firstName[0] + (session.lastName || ' ')[0]).toUpperCase(),
+  };
+  saveState(STATE);
+
+  document.getElementById('auth-screen').classList.add('hidden');
+  document.getElementById('app-container').classList.remove('hidden');
+
+  // Update sidebar user section
+  updateUserDisplay();
+
+  renderView('dashboard');
+  handleResize();
+}
+
+function updateUserDisplay() {
+  const session = getSession();
+  if (!session) return;
+  const initials = (session.firstName[0] + (session.lastName || ' ')[0]).toUpperCase();
+  const fullName = session.firstName + ' ' + session.lastName;
+
+  document.getElementById('sidebar-user-section').innerHTML = `
+    <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 text-white" style="background: linear-gradient(135deg, #0D9488, #7C3AED);">${initials}</div>
+    <div class="min-w-0">
+      <p class="text-sm font-medium truncate text-white">${fullName}</p>
+      <div class="mb-0.5">${roleBadgeHtml(session.role)}</div>
+      <a id="sign-out-btn" class="text-xs text-sla-400 hover:text-white cursor-pointer">Sign Out</a>
+    </div>`;
+
+  document.getElementById('header-avatar').textContent = initials;
+  document.getElementById('header-username').textContent = fullName;
+
+  // Re-bind sign out
+  const soBtn = document.getElementById('sign-out-btn');
+  if (soBtn) soBtn.addEventListener('click', function() {
+    addAuditEntry('User logout', STATE.currentUser.name);
+    saveState(STATE);
+    clearSession();
+    showAuthScreen('login');
+    showToast('You have been signed out.', 'info');
+  });
+}
+
 // ==================== VIEWS ====================
 function renderView(view) {
   currentView = view;
@@ -544,18 +1064,20 @@ function renderDashboard() {
   const delegatedStaff = [...new Set(STATE.delegations.filter(d => d.status === 'Active' || d.status === 'Pending').map(d => d.personnelId))].length;
   const totalStaff = STATE.personnel.length;
   const expiredTraining = STATE.personnel.filter(p => daysUntil(p.gcpExpiry) < 0).length;
-  const compliance = Math.round(((totalStaff - expiredTraining) / totalStaff) * 100);
+  const compliance = totalStaff > 0 ? Math.round(((totalStaff - expiredTraining) / totalStaff) * 100) : 100;
   const pendingSigs = STATE.delegations.filter(d => !d.piSigned || !d.delegateSigned).length;
 
   const recentDelegations = [...STATE.delegations].sort((a, b) => new Date(b.startDate) - new Date(a.startDate)).slice(0, 5);
   const expiringPersonnel = STATE.personnel.filter(p => { const d = daysUntil(p.gcpExpiry); return d < 90; }).sort((a, b) => daysUntil(a.gcpExpiry) - daysUntil(b.gcpExpiry));
 
+  const session = getSession();
+  const firstName = session ? session.firstName : 'User';
+
   return `<div class="fade-in space-y-6">
   <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-    <div><h1 class="text-2xl font-bold section-title">Dashboard</h1><p class="text-sm text-sla-500 mt-1">Welcome back, Kojo. Here's your site overview.</p></div>
+    <div><h1 class="text-2xl font-bold section-title">Dashboard</h1><p class="text-sm text-sla-500 mt-1">Welcome back, ${firstName}. Here's your site overview.</p></div>
   </div>
 
-  <!-- Stat Cards -->
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
     <div class="stat-card-teal rounded-2xl p-5">
       <div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, rgba(13,148,136,0.15), rgba(6,182,212,0.08));"><i data-lucide="flask-conical" class="w-5 h-5 text-teal-600"></i></div></div>
@@ -579,7 +1101,6 @@ function renderDashboard() {
     </div>
   </div>
 
-  <!-- Compliance Bar -->
   <div class="bg-white rounded-2xl p-5 border border-sla-100 card-accent-teal">
     <div class="flex items-center justify-between mb-3">
       <h3 class="text-sm font-semibold text-sla-700">Training Compliance</h3>
@@ -592,7 +1113,6 @@ function renderDashboard() {
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <!-- Recent Activity -->
     <div class="lg:col-span-2 bg-white rounded-2xl border border-sla-100">
       <div class="p-5 border-b border-sla-100 flex items-center justify-between">
         <h3 class="text-sm font-semibold text-sla-700">Recent Delegation Activity</h3>
@@ -617,7 +1137,6 @@ function renderDashboard() {
       </div>
     </div>
 
-    <!-- Training Alerts -->
     <div class="bg-white rounded-xl border border-sla-100" style="background: linear-gradient(135deg, #f0fdf9, #ffffff); border-left: 4px solid #0D9488;">
       <div class="p-5 border-b border-sla-100"><h3 class="text-sm font-semibold text-sla-700">Training Expiry Alerts</h3></div>
       <div class="p-5 space-y-4">
@@ -637,7 +1156,6 @@ function renderDashboard() {
     </div>
   </div>
 
-  <!-- Quick Actions -->
   <div class="flex flex-wrap gap-3">
     <button data-action="new-delegation" class="inline-flex items-center gap-2 px-5 py-2.5 btn-primary text-sm font-semibold rounded-xl"><i data-lucide="plus" class="w-4 h-4"></i> Add Delegation</button>
     <button data-action="new-personnel" class="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-sla-200 text-sla-700 text-sm font-semibold rounded-xl hover:bg-sla-50 transition"><i data-lucide="user-plus" class="w-4 h-4"></i> Add Personnel</button>
@@ -794,8 +1312,7 @@ function renderTraining() {
   const totalStaff = STATE.personnel.length;
   const expired = STATE.personnel.filter(p => daysUntil(p.gcpExpiry) < 0).length;
   const current = totalStaff - expired;
-  const pct = Math.round((current / totalStaff) * 100);
-
+  const pct = totalStaff > 0 ? Math.round((current / totalStaff) * 100) : 100;
   const sorted = [...STATE.personnel].sort((a, b) => daysUntil(a.gcpExpiry) - daysUntil(b.gcpExpiry));
 
   return `<div class="fade-in space-y-6">
@@ -892,20 +1409,56 @@ function renderAudit() {
 // ---------- SETTINGS ----------
 function renderSettings() {
   const s = STATE.settings;
+  const session = getSession();
+  const invites = getAuthInvites().filter(i => {
+    if (!session) return false;
+    return i.siteId === session.siteId;
+  });
+
+  let inviteSection = '';
+  inviteSection = `
+  <div class="bg-white rounded-2xl border border-sla-100 p-6">
+    <h2 class="text-base font-bold text-navy mb-4 pb-2" style="border-bottom: 2px solid rgba(13,148,136,0.15);">Invite Team Members</h2>
+    <p class="text-sm text-sla-500 mb-4">Invite colleagues to join your site on e-Delegate. They will be able to register with their own credentials and select their role.</p>
+    <button data-action="generate-invite" class="px-5 py-2.5 btn-primary text-sm font-semibold rounded-xl inline-flex items-center gap-2"><i data-lucide="link" class="w-4 h-4"></i> Generate Invite Link</button>
+    <div id="invite-link-card"></div>
+    ${invites.length > 0 ? `
+    <div class="mt-6">
+      <h3 class="text-sm font-semibold text-sla-700 mb-3">Active Invites</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead><tr class="text-xs uppercase tracking-wider border-b border-sla-100">
+            <th class="px-4 py-2 text-sla-500">Created By</th><th class="px-4 py-2 text-sla-500">Expires</th><th class="px-4 py-2 text-sla-500">Status</th><th class="px-4 py-2 text-right text-sla-500">Action</th>
+          </tr></thead>
+          <tbody>${invites.map(inv => {
+            const expired = new Date(inv.expiresAt) < new Date();
+            const status = inv.used ? 'Used' : expired ? 'Expired' : 'Active';
+            const statusCls = inv.used ? 'badge-gray' : expired ? 'badge-red' : 'badge-green';
+            return `<tr class="border-b border-sla-50">
+              <td class="px-4 py-2.5 text-sm text-sla-700">${inv.createdByName}</td>
+              <td class="px-4 py-2.5 text-sm text-sla-500 tabular-nums">${fmtDate(inv.expiresAt)}</td>
+              <td class="px-4 py-2.5"><span class="badge ${statusCls}">${status}</span></td>
+              <td class="px-4 py-2.5 text-right">${!inv.used && !expired ? `<button data-action="revoke-invite" data-token="${inv.token}" class="text-xs text-err hover:underline font-medium">Revoke</button>` : ''}</td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table>
+      </div>
+    </div>` : ''}
+  </div>`;
+
   return `<div class="fade-in space-y-6 max-w-3xl">
   <h1 class="text-2xl font-bold section-title">Settings</h1>
 
   <div class="bg-white rounded-2xl border border-sla-100 p-6">
     <h2 class="text-base font-bold text-navy mb-4 pb-2" style="border-bottom: 2px solid rgba(13,148,136,0.15);">Profile</h2>
     <div class="flex items-center gap-4 mb-6">
-      <div class="w-[72px] h-[72px] rounded-full flex items-center justify-center text-white text-2xl font-bold" style="background: linear-gradient(135deg, #0D9488, #7C3AED); box-shadow: 0 0 20px rgba(13,148,136,0.3);">KQ</div>
+      <div class="w-[72px] h-[72px] rounded-full flex items-center justify-center text-white text-2xl font-bold" style="background: linear-gradient(135deg, #0D9488, #7C3AED); box-shadow: 0 0 20px rgba(13,148,136,0.3);">${STATE.currentUser.initials}</div>
       <div>
         <p class="text-base font-semibold text-sla-800">${STATE.currentUser.name}</p>
-        <p class="text-sm text-sla-500">${STATE.currentUser.role}</p>
-        <p class="text-xs text-sla-400">${STATE.currentUser.email}</p>
+        <div class="flex items-center gap-2 mt-0.5">${roleBadgeHtml(STATE.currentUser.role)}</div>
+        <p class="text-xs text-sla-400 mt-0.5">${STATE.currentUser.email}</p>
       </div>
     </div>
-    <button data-action="save-profile" class="px-5 py-2 btn-primary text-sm font-medium rounded-xl">Edit Profile</button>
   </div>
 
   <div class="bg-white rounded-2xl border border-sla-100 p-6">
@@ -918,13 +1471,15 @@ function renderSettings() {
     <button data-action="save-settings" class="mt-4 px-5 py-2 btn-primary text-sm font-medium rounded-xl">Save Settings</button>
   </div>
 
+  ${inviteSection}
+
   <div class="bg-white rounded-2xl border border-sla-100 p-6">
     <h2 class="text-base font-bold text-navy mb-4 pb-2" style="border-bottom: 2px solid rgba(13,148,136,0.15);">Notification Preferences</h2>
     <div class="space-y-4">
       ${[{k:'notifPendingSig', l:'Email on pending signature'},{k:'notifExpiringTraining', l:'Email on expiring training'},{k:'notifDailyDigest', l:'Daily compliance digest'}].map(n => `
         <label class="flex items-center justify-between cursor-pointer">
           <span class="text-sm text-sla-700">${n.l}</span>
-          <div class="relative"><input type="checkbox" data-setting="${n.k}" ${s[n.k]?'checked':''} class="sr-only peer" /><div class="w-10 h-6 bg-sla-200 rounded-full peer-checked:bg-teal-600 transition" style="peer-checked:background: linear-gradient(135deg, #0D9488, #06B6D4);"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transition peer-checked:translate-x-4"></div></div>
+          <div class="relative"><input type="checkbox" data-setting="${n.k}" ${s[n.k]?'checked':''} class="sr-only peer" /><div class="w-10 h-6 bg-sla-200 rounded-full peer-checked:bg-teal-600 transition"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transition peer-checked:translate-x-4"></div></div>
         </label>`).join('')}
     </div>
   </div>
@@ -986,12 +1541,10 @@ function saveDelegation(requestSigs) {
   const start = document.getElementById('nd-start')?.value;
   const tasks = [...document.querySelectorAll('.nd-task:checked')].map(c => c.value);
   const errEl = document.getElementById('nd-error');
-
   if (!proto || !pers || !start || tasks.length === 0) {
     if (errEl) { errEl.textContent = 'Please fill in all required fields (Protocol, Personnel, Start Date, and at least one Task).'; errEl.classList.remove('hidden'); }
     return;
   }
-
   const entry = {
     id: generateId(), protocolId: proto, personnelId: pers, tasks, startDate: start,
     endDate: document.getElementById('nd-end')?.value || '',
@@ -1015,9 +1568,28 @@ function openDelegationDetail(id) {
   const pe = getPersonnel(d.personnelId);
   const statusCls = d.status === 'Active' ? 'badge-green' : d.status === 'Pending' ? 'badge-amber' : 'badge-gray';
   const peGcp = pe ? daysUntil(pe.gcpExpiry) : 999;
+  const userRole = getCurrentRole();
 
   const signedBoxStyle = 'background: linear-gradient(135deg, #f0fdf9, #ffffff); border: 1px solid rgba(13,148,136,0.2); border-left: 4px solid #0D9488; border-radius: 12px;';
   const unsignedBoxStyle = 'background: linear-gradient(135deg, #fff7ed, #ffffff); border: 1px solid rgba(245,158,11,0.2); border-left: 4px solid #F59E0B; border-radius: 12px;';
+
+  let piSignBtn = '';
+  if (!d.piSigned) {
+    if (canSignAsPI()) {
+      piSignBtn = `<button data-action="open-sig-modal" data-id="${d.id}" data-type="pi" class="px-4 py-2 btn-primary text-sm font-medium rounded-xl no-print">Sign Now</button>`;
+    } else {
+      piSignBtn = `<p class="text-xs text-sla-400 italic">PI signature required from Principal Investigator</p>`;
+    }
+  }
+
+  let delegateSignBtn = '';
+  if (!d.delegateSigned) {
+    if (canSignAsDelegate(d.tasks)) {
+      delegateSignBtn = `<button data-action="open-sig-modal" data-id="${d.id}" data-type="delegate" class="px-4 py-2 btn-primary text-sm font-medium rounded-xl no-print">Sign Now</button>`;
+    } else {
+      delegateSignBtn = `<p class="text-xs text-sla-400 italic">You cannot sign as delegate for these clinical tasks</p>`;
+    }
+  }
 
   const html = `<div class="print-only">
     <div class="flex items-center justify-between mb-6 modal-header-gradient px-6 py-4 rounded-t-2xl">
@@ -1028,7 +1600,6 @@ function openDelegationDetail(id) {
       </div>
       <button data-action="close-modal" class="p-1.5 rounded-lg hover:bg-white/10 no-print"><i data-lucide="x" class="w-5 h-5 text-white/80"></i></button>
     </div>
-
     <div class="p-6">
     <div class="mb-6">
       <h3 class="text-sm font-semibold text-sla-700 mb-2">Delegated Tasks</h3>
@@ -1036,20 +1607,18 @@ function openDelegationDetail(id) {
         ${d.tasks.map(t => `<div class="flex items-center gap-2 text-sm text-sla-600"><i data-lucide="check" class="w-4 h-4 text-teal-600"></i>${t}</div>`).join('')}
       </div>
     </div>
-
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
       <div class="p-4" style="${d.piSigned ? signedBoxStyle : unsignedBoxStyle}">
         <h4 class="text-sm font-semibold ${d.piSigned ? 'text-ok' : 'text-amber-600'} mb-2 flex items-center gap-2"><i data-lucide="${d.piSigned?'check-circle':'clock'}" class="w-4 h-4"></i>PI Signature</h4>
         ${d.piSigned ? `<p class="text-sm text-sla-700">Signed by <strong>${d.piSignedBy}</strong></p><p class="text-xs text-sla-500 mt-1">${fmtDateTime(d.piSignedDate)}</p><p class="text-xs text-sla-400 mt-2 italic">This signature confirms delegation of authority per ICH GCP E6(R2) Section 4.1.5.</p>` :
-        `<p class="text-sm text-sla-600 mb-3">Signature Required</p><button data-action="open-sig-modal" data-id="${d.id}" data-type="pi" class="px-4 py-2 btn-primary text-sm font-medium rounded-xl no-print">Sign Now</button>`}
+        `<p class="text-sm text-sla-600 mb-3">Signature Required</p>${piSignBtn}`}
       </div>
       <div class="p-4" style="${d.delegateSigned ? signedBoxStyle : unsignedBoxStyle}">
         <h4 class="text-sm font-semibold ${d.delegateSigned ? 'text-ok' : 'text-amber-600'} mb-2 flex items-center gap-2"><i data-lucide="${d.delegateSigned?'check-circle':'clock'}" class="w-4 h-4"></i>Delegate Signature</h4>
         ${d.delegateSigned ? `<p class="text-sm text-sla-700">Signed by <strong>${pe?.name}</strong></p><p class="text-xs text-sla-500 mt-1">${fmtDateTime(d.delegateSignedDate)}</p><p class="text-xs text-sla-400 mt-2 italic">This signature confirms delegation of authority per ICH GCP E6(R2) Section 4.1.5.</p>` :
-        `<p class="text-sm text-sla-600 mb-3">Signature Required</p><button data-action="open-sig-modal" data-id="${d.id}" data-type="delegate" class="px-4 py-2 btn-primary text-sm font-medium rounded-xl no-print">Sign Now</button>`}
+        `<p class="text-sm text-sla-600 mb-3">Signature Required</p>${delegateSignBtn}`}
       </div>
     </div>
-
     <div class="p-4 rounded-xl border border-sla-200 bg-sla-50 mb-6">
       <h4 class="text-sm font-semibold text-sla-700 mb-2">Training Verification</h4>
       <div class="flex items-center justify-between">
@@ -1060,7 +1629,6 @@ function openDelegationDetail(id) {
         ${!d.trainingVerified ? `<button data-action="verify-training" data-id="${d.id}" class="px-4 py-2 border border-teal-200 text-teal-600 text-sm font-medium rounded-xl hover:bg-teal-50 transition no-print">Mark as Verified</button>` : '<span class="badge badge-green">Verified</span>'}
       </div>
     </div>
-
     <div class="flex items-center justify-between">
       <p class="text-xs text-sla-400">Protocol Version: <span class="font-medium">${pr?.amendment||'—'}</span></p>
       <button data-action="print-delegation" class="inline-flex items-center gap-2 px-4 py-2 border border-sla-200 text-sla-600 text-sm font-medium rounded-xl hover:bg-sla-50 transition no-print"><i data-lucide="printer" class="w-4 h-4"></i>Print / Export PDF</button>
@@ -1075,7 +1643,8 @@ function openSignatureModal(delegationId, sigType) {
   if (!d) return;
   const pe = getPersonnel(d.personnelId);
   const pr = getProtocol(d.protocolId);
-  const signerName = sigType === 'pi' ? (pr?.pi || 'Principal Investigator') : (pe?.name || 'Delegate');
+  const session = getSession();
+  const signerName = sigType === 'pi' ? (session ? session.firstName + ' ' + session.lastName : (pr?.pi || 'Principal Investigator')) : (pe?.name || 'Delegate');
   const signerRole = sigType === 'pi' ? 'Principal Investigator' : (pe?.role || 'Delegate');
   const now = new Date();
 
@@ -1085,26 +1654,21 @@ function openSignatureModal(delegationId, sigType) {
       <button data-action="close-modal" class="p-1.5 rounded-lg hover:bg-white/10"><i data-lucide="x" class="w-5 h-5 text-white/80"></i></button>
     </div>
     <p class="text-xs text-sla-400 mb-6 mt-4 flex items-center gap-1.5"><i data-lucide="shield-check" class="w-3.5 h-3.5 text-teal-600"></i>21 CFR Part 11 Compliant</p>
-
     <div class="space-y-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div><label class="block text-xs font-medium text-sla-500 mb-1">Full Name</label><input type="text" value="${signerName}" readonly class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm bg-sla-50 text-sla-600" /></div>
         <div><label class="block text-xs font-medium text-sla-500 mb-1">Role</label><input type="text" value="${signerRole}" readonly class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm bg-sla-50 text-sla-600" /></div>
         <div><label class="block text-xs font-medium text-sla-500 mb-1">Date / Time</label><input type="text" value="${fmtDateTime(now.toISOString())}" readonly class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm bg-sla-50 text-sla-600" /></div>
       </div>
-
       <div class="p-4 rounded-xl" style="background: linear-gradient(135deg, #fffbeb, #fef9f0); border: 1px solid rgba(245,158,11,0.25);">
         <h4 class="text-sm font-semibold text-gold mb-1">Meaning of Signature</h4>
         <p class="text-xs text-sla-600 leading-relaxed">By signing this delegation log, I confirm that I am qualified by training and experience to perform the delegated tasks, and that this electronic signature is the legally binding equivalent of my handwritten signature, in accordance with 21 CFR Part 11 and ICH GCP E6(R2).</p>
       </div>
-
       <div>
         <label class="block text-sm font-medium text-sla-600 mb-1">Password *</label>
         <input id="sig-password" type="password" placeholder="Enter your account password to authenticate" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" />
       </div>
-
       <div id="sig-error" class="hidden text-sm text-err bg-red-50 rounded-xl px-4 py-2"></div>
-
       <div class="flex justify-end gap-3 pt-2">
         <button data-action="close-modal" class="px-5 py-2.5 text-sm font-medium text-sla-600 border border-sla-200 rounded-xl hover:bg-sla-50 transition">Cancel</button>
         <button data-action="submit-signature" data-id="${delegationId}" data-type="${sigType}" data-name="${signerName}" class="px-5 py-2.5 text-sm font-semibold btn-primary rounded-xl">Sign Document</button>
@@ -1424,6 +1988,66 @@ document.addEventListener('click', function(e) {
       break;
     }
     case 'go-delegations': renderView('delegations'); break;
+    case 'generate-invite': {
+      const session = getSession();
+      if (!session) break;
+      const token = generateToken();
+      const sites = getAuthSites();
+      const site = sites.find(s => s.id === session.siteId);
+      const invites = getAuthInvites();
+      invites.push({
+        token,
+        siteId: session.siteId,
+        siteName: site?.name || STATE.settings.siteName,
+        createdBy: session.userId,
+        createdByName: session.firstName + ' ' + session.lastName,
+        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+        used: false
+      });
+      saveAuthInvites(invites);
+      const inviteUrl = window.location.origin + window.location.pathname + '?invite=' + token;
+      const cardEl = document.getElementById('invite-link-card');
+      if (cardEl) {
+        cardEl.innerHTML = `<div class="bg-teal-50 border border-teal-200 rounded-xl p-4 mt-4 fade-in">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-semibold text-teal-800">Invite Link (expires in 7 days)</span>
+            <span class="badge badge-green">Active</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="text" readonly value="${inviteUrl}" id="invite-url-input" class="flex-1 text-xs font-mono bg-white border border-teal-200 rounded-lg px-3 py-2 text-sla-600" />
+            <button data-action="copy-invite" class="btn-primary text-sm px-4 py-2 rounded-lg">Copy</button>
+          </div>
+          <p class="text-xs text-teal-600 mt-2">Share this link with your colleague. They'll be prompted to register and select their role.</p>
+        </div>`;
+        refreshIcons();
+      }
+      addAuditEntry('Generated invite link', 'Team invite');
+      saveState(STATE);
+      showToast('Invite link generated!', 'success');
+      break;
+    }
+    case 'copy-invite': {
+      const inp = document.getElementById('invite-url-input');
+      if (inp) {
+        navigator.clipboard.writeText(inp.value).then(() => {
+          showToast('Invite link copied to clipboard!', 'success');
+        }).catch(() => {
+          inp.select();
+          document.execCommand('copy');
+          showToast('Invite link copied to clipboard!', 'success');
+        });
+      }
+      break;
+    }
+    case 'revoke-invite': {
+      const token = btn.dataset.token;
+      const invites = getAuthInvites();
+      const inv = invites.find(i => i.token === token);
+      if (inv) { inv.used = true; saveAuthInvites(invites); }
+      showToast('Invite revoked', 'info');
+      renderView('settings');
+      break;
+    }
   }
 });
 
@@ -1458,63 +2082,11 @@ document.getElementById('sidebar-overlay').addEventListener('click', function() 
   this.classList.add('hidden');
 });
 
-// Login
-document.getElementById('login-btn').addEventListener('click', function() {
-  const email = document.getElementById('login-email').value;
-  const pw = document.getElementById('login-password').value;
-  if (!email || !pw) { showToast('Please enter email and password', 'error'); return; }
-  document.getElementById('login-screen').classList.add('hidden');
-  document.getElementById('app-container').classList.remove('hidden');
-  renderView('dashboard');
-  addAuditEntry('User login', STATE.currentUser.name);
-  saveState(STATE);
-});
-document.getElementById('demo-login-btn').addEventListener('click', function() {
-  document.getElementById('login-email').value = 'demo@nokware-research.org';
-  document.getElementById('login-password').value = 'Demo1234!';
-  setTimeout(() => {
-    document.getElementById('login-screen').classList.add('hidden');
-    document.getElementById('app-container').classList.remove('hidden');
-    renderView('dashboard');
-    addAuditEntry('Demo login', STATE.currentUser.name);
-    saveState(STATE);
-  }, 300);
-});
-
-// Demo login hover effect
-document.getElementById('demo-login-btn').addEventListener('mouseenter', function() {
-  this.style.background = 'rgba(13,148,136,0.05)';
-});
-document.getElementById('demo-login-btn').addEventListener('mouseleave', function() {
-  this.style.background = 'transparent';
-});
-
-// Sign out
-document.getElementById('sign-out-btn').addEventListener('click', function() {
-  addAuditEntry('User logout', STATE.currentUser.name);
-  saveState(STATE);
-  document.getElementById('app-container').classList.add('hidden');
-  document.getElementById('login-screen').classList.remove('hidden');
-  document.getElementById('login-email').value = '';
-  document.getElementById('login-password').value = '';
-});
-
 // Notification bell
 document.getElementById('notif-bell').addEventListener('click', function() {
   const pending = STATE.delegations.filter(d => !d.piSigned || !d.delegateSigned).length;
   const expired = STATE.personnel.filter(p => daysUntil(p.gcpExpiry) < 0).length;
   showToast(`${pending} pending signature${pending!==1?'s':''}, ${expired} expired training record${expired!==1?'s':''}`, 'info');
-});
-
-// Save settings
-document.addEventListener('click', function(e) {
-  if (e.target.closest('[data-action="save-settings"]')) {
-    STATE.settings.siteName = document.getElementById('set-site-name')?.value || STATE.settings.siteName;
-    STATE.settings.siteNumber = document.getElementById('set-site-number')?.value || STATE.settings.siteNumber;
-    STATE.settings.irbNumber = document.getElementById('set-irb')?.value || STATE.settings.irbNumber;
-    saveState(STATE);
-    showToast('Settings saved', 'success');
-  }
 });
 
 // Responsive sidebar
@@ -1531,12 +2103,13 @@ function handleResize() {
   }
 }
 window.addEventListener('resize', handleResize);
-handleResize();
 
-// Initialize icons
+// ==================== BOOT ====================
 if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
   lucide.createIcons();
 }
+
+initApp();
 </script>
 </body>
 </html>
