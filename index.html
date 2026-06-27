@@ -6,7 +6,7 @@
 <title>e-Delegate — Electronic Delegation Log Platform</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/lucide@latest" defer></script>
 <script>
@@ -15,9 +15,12 @@ tailwind.config = {
     extend: {
       fontFamily: { sans: ['Inter', 'sans-serif'] },
       colors: {
-        navy: '#0A1628',
+        navy: { DEFAULT: '#0A1628', mid: '#0d1f3a', dark: '#060f1d' },
         teal: { DEFAULT: '#0D9488', 50: '#F0FDF9', 100: '#CCFBF1', 200: '#99F6E4', 300: '#5EEAD4', 400: '#2DD4BF', 500: '#14B8A6', 600: '#0D9488', 700: '#0F766E', 800: '#115E59', 900: '#134E4A' },
+        cyan: { DEFAULT: '#06B6D4', 50: '#ecfeff', 100: '#cffafe', 200: '#a5f3fc', 300: '#67e8f9', 400: '#22d3ee', 500: '#06B6D4', 600: '#0891B2' },
         gold: '#D97706',
+        amber: { DEFAULT: '#F59E0B', 50: '#FFFBEB', 100: '#FEF3C7', 200: '#FDE68A', 300: '#FCD34D', 400: '#FBBF24', 500: '#F59E0B', 600: '#D97706' },
+        purple: { DEFAULT: '#7C3AED', 50: '#F5F3FF', 100: '#EDE9FE', 200: '#DDD6FE' },
         sla: { DEFAULT: '#1E293B', 50: '#F8FAFC', 100: '#F1F5F9', 200: '#E2E8F0', 300: '#CBD5E1', 400: '#94A3B8', 500: '#64748B', 600: '#475569', 700: '#334155', 800: '#1E293B', 900: '#0F172A' },
         ok: '#059669',
         err: '#DC2626',
@@ -28,81 +31,119 @@ tailwind.config = {
 </script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #f0fdf9 0%, #f8fafc 50%, #f0fdf9 100%); color: #1E293B; }
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-thumb { background: #94A3B8; border-radius: 3px; }
+body { font-family: 'Inter', sans-serif; background: #F8FAFC; color: #1E293B; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #0D9488, #06B6D4); border-radius: 3px; }
+
+/* Animations */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
-@keyframes slideOut { from { transform: translateX(0); } to { transform: translateX(-100%); } }
 @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+@keyframes barShimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+/* Login mesh gradient */
+@keyframes meshMove {
+  0%, 100% { background-position: 0% 0%, 100% 100%, 50% 50%, 0% 0%; }
+  33% { background-position: 100% 0%, 0% 100%, 30% 70%, 0% 0%; }
+  66% { background-position: 50% 100%, 50% 0%, 80% 20%, 0% 0%; }
+}
+.login-bg {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 40%, rgba(13,148,136,0.3) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 20%, rgba(6,182,212,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 50% 80%, rgba(124,58,237,0.12) 0%, transparent 60%),
+    linear-gradient(135deg, #0A1628 0%, #0d1f3a 50%, #0A1628 100%);
+  background-size: 200% 200%, 200% 200%, 200% 200%, 100% 100%;
+  animation: meshMove 15s ease infinite;
+}
+
+/* Floating shapes on login */
+@keyframes floatA { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(-20px, 15px) rotate(8deg); } }
+@keyframes floatB { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(15px, -20px) rotate(-6deg); } }
+
 .fade-in { animation: fadeIn 0.3s ease-out; }
 .pulse-dot { animation: pulse-dot 1.5s infinite; }
 .shimmer { background: linear-gradient(90deg, #E2E8F0 25%, #F1F5F9 50%, #E2E8F0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
-.sidebar-item { transition: all 0.15s ease; }
-.sidebar-item:hover { background: rgba(255,255,255,0.1); }
-.sidebar-item.active { background: linear-gradient(90deg, #0D9488 0%, #0f766e 100%); box-shadow: 0 2px 10px rgba(13,148,136,0.35); }
+
+/* Sidebar */
+.sidebar-gradient {
+  background: linear-gradient(180deg, #0A1628 0%, #0d1f3a 60%, #0A1628 100%);
+  border-right: 1px solid rgba(13,148,136,0.15);
+}
+.sidebar-item { transition: all 0.15s ease; border-left: 3px solid transparent; }
+.sidebar-item:hover { background: rgba(255,255,255,0.06); color: white; }
+.sidebar-item.active {
+  background: linear-gradient(90deg, rgba(13,148,136,0.25), rgba(6,182,212,0.1));
+  border-left: 3px solid #0D9488;
+  color: white;
+  box-shadow: inset 0 0 20px rgba(13,148,136,0.1);
+}
+
+/* Table rows */
 .table-row { transition: background 0.1s ease; }
 .table-row:hover { background: linear-gradient(90deg, #f0fdf9 0%, #f8fffe 100%); }
+
+/* Modal backdrop */
 .modal-backdrop { background: rgba(10,22,40,0.6); backdrop-filter: blur(4px); }
+
 .toast-enter { animation: fadeIn 0.3s ease-out; }
+
+/* Badge system */
 .badge { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.02em; }
 .badge-green { background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #047857; border: 1px solid rgba(5,150,105,0.2); }
 .badge-amber { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #b45309; border: 1px solid rgba(217,119,6,0.2); }
 .badge-red { background: linear-gradient(135deg, #fee2e2, #fecaca); color: #b91c1c; border: 1px solid rgba(239,68,68,0.2); }
-.badge-gray { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); color: #475569; border: 1px solid rgba(100,116,139,0.2); }
+.badge-gray { background: linear-gradient(135deg, #f1f5f9, #e2e8f0); color: #475569; border: 1px solid rgba(100,116,139,0.15); }
 .badge-teal { background: linear-gradient(135deg, #ccfbf1, #99f6e4); color: #0f766e; border: 1px solid rgba(13,148,136,0.2); }
-.badge-blue { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1d4ed8; border: 1px solid rgba(37,99,235,0.2); }
+.badge-blue { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1d4ed8; border: 1px solid rgba(59,130,246,0.2); }
+
 input, select, textarea { font-family: 'Inter', sans-serif; }
-input:focus, select:focus, textarea:focus { outline: none; ring: 2px; border-color: #0D9488; box-shadow: 0 0 0 3px rgba(13,148,136,0.15); }
+input:focus, select:focus, textarea:focus { outline: none; border-color: #0D9488; box-shadow: 0 0 0 3px rgba(13,148,136,0.15); }
+
+/* Progress bar with shimmer */
+.compliance-bar {
+  background: linear-gradient(90deg, #0D9488, #06B6D4);
+  border-radius: 999px;
+  position: relative;
+  overflow: hidden;
+}
+.compliance-bar::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: barShimmer 2.5s infinite;
+}
 .progress-bar { transition: width 0.6s ease; }
-@media print {
-  .no-print { display: none !important; }
-  .print-only { display: block !important; }
-  body { background: white; }
-}
 
-/* Animated sidebar gradient */
-@keyframes sidebarGlow {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-
-/* Gradient sidebar background */
-.sidebar-gradient {
-  background: linear-gradient(180deg, #0A1628 0%, #0d1f3c 40%, #0f2d4a 100%);
-  border-right: 1px solid rgba(13,148,136,0.2);
-}
-
-/* Gradient stat cards */
-.stat-card-teal   { background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 100%); border: 1px solid rgba(13,148,136,0.25); }
-.stat-card-blue   { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); border: 1px solid rgba(59,130,246,0.25); }
-.stat-card-amber  { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border: 1px solid rgba(245,158,11,0.25); }
-.stat-card-red    { background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%); border: 1px solid rgba(239,68,68,0.25); }
-
-/* Glowing teal button */
+/* Primary button */
 .btn-primary {
-  background: linear-gradient(135deg, #0D9488 0%, #0f9e92 100%);
-  box-shadow: 0 4px 15px rgba(13,148,136,0.3);
+  background: linear-gradient(135deg, #0D9488, #06B6D4);
+  box-shadow: 0 4px 15px rgba(13,148,136,0.35);
   transition: all 0.2s ease;
   color: white;
+  border-radius: 10px;
 }
 .btn-primary:hover {
-  box-shadow: 0 8px 25px rgba(13,148,136,0.45);
+  box-shadow: 0 8px 25px rgba(13,148,136,0.5);
   transform: translateY(-1px);
 }
 
 /* Logo badge */
 .logo-badge {
-  background: linear-gradient(135deg, #0D9488, #0f766e);
-  box-shadow: 0 0 12px rgba(13,148,136,0.4);
+  background: linear-gradient(135deg, #0D9488, #06B6D4);
+  box-shadow: 0 0 20px rgba(13,148,136,0.4);
 }
 
-/* Header gradient */
+/* App header */
 .app-header {
-  background: linear-gradient(90deg, #ffffff 0%, #f8fffe 100%);
-  border-bottom: 2px solid transparent;
-  border-image: linear-gradient(90deg, #0D9488, #D97706, #0D9488) 1;
+  background: white;
+  border-bottom: 1px solid #E2E8F0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 /* Section title gradient text */
@@ -113,46 +154,78 @@ input:focus, select:focus, textarea:focus { outline: none; ring: 2px; border-col
   background-clip: text;
 }
 
-/* Card with colored left accent */
-.card-accent-teal { border-left: 3px solid #0D9488; }
-.card-accent-amber { border-left: 3px solid #D97706; }
-.card-accent-red   { border-left: 3px solid #EF4444; }
-
-/* Compliance bar gradient */
-.compliance-bar {
-  background: linear-gradient(90deg, #0D9488 0%, #2DD4BF 100%);
-  border-radius: 999px;
+/* Stat cards */
+.stat-card-teal {
+  background: linear-gradient(135deg, #f0fdf9 0%, #ccfbf1 100%);
+  border: 1px solid rgba(13,148,136,0.2);
+  border-top: 3px solid #0D9488;
+  box-shadow: 0 4px 16px rgba(13,148,136,0.08);
+}
+.stat-card-blue {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  border: 1px solid rgba(59,130,246,0.2);
+  border-top: 3px solid #3B82F6;
+  box-shadow: 0 4px 16px rgba(59,130,246,0.08);
+}
+.stat-card-amber {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1px solid rgba(245,158,11,0.2);
+  border-top: 3px solid #F59E0B;
+  box-shadow: 0 4px 16px rgba(245,158,11,0.08);
+}
+.stat-card-red {
+  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-top: 3px solid #EF4444;
+  box-shadow: 0 4px 16px rgba(239,68,68,0.08);
 }
 
-/* Login page enhancements */
-.login-gradient {
-  background: linear-gradient(-45deg, #0A1628, #0f2d4a, #0D9488, #134e4a);
-  background-size: 400% 400%;
-  animation: gradientShift 10s ease infinite;
-}
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+/* Card accents */
+.card-accent-teal { border-left: 4px solid #0D9488; }
+.card-accent-amber { border-left: 4px solid #F59E0B; }
+.card-accent-red { border-left: 4px solid #EF4444; }
 
 /* Login card */
 .login-card {
   background: rgba(255,255,255,0.97);
   border: 1px solid rgba(13,148,136,0.2);
-  box-shadow: 0 25px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(13,148,136,0.1);
+  border-radius: 24px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(13,148,136,0.1);
 }
 
 /* Modal header gradient */
 .modal-header-gradient {
-  background: linear-gradient(135deg, #0A1628 0%, #0f2d4a 100%);
-  border-bottom: 2px solid rgba(13,148,136,0.3);
+  background: linear-gradient(135deg, #0A1628 0%, #0d1f3a 100%);
+  border-bottom: 2px solid rgba(13,148,136,0.25);
 }
 
-/* Notification dot pulse */
+/* Notification dot */
 .notif-dot {
   background: linear-gradient(135deg, #EF4444, #DC2626);
   box-shadow: 0 0 8px rgba(239,68,68,0.5);
+}
+
+/* Login heading gradient */
+.login-heading {
+  background: linear-gradient(135deg, #0D9488, #06B6D4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Protocol card hover */
+.protocol-card {
+  transition: all 0.25s ease;
+}
+.protocol-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(13,148,136,0.12);
+}
+
+@media print {
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  body { background: white; }
 }
 </style>
 </head>
@@ -160,120 +233,134 @@ input:focus, select:focus, textarea:focus { outline: none; ring: 2px; border-col
 <app-icon data-id="1" hidden data-icon="clipboard-list" data-palette="Blue"></app-icon>
 
 <!-- LOGIN SCREEN -->
-<div data-id="2" id="login-screen" class="fixed inset-0 z-[100] flex items-center justify-center login-gradient">
-<div data-id="3" class="w-full max-w-md mx-4 fade-in">
-<div data-id="4" class="rounded-2xl p-8 login-card">
-<div data-id="5" class="text-center mb-8">
-<div data-id="6" class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4" style="background: linear-gradient(135deg, #0D9488, #0f766e); box-shadow: 0 0 12px rgba(13,148,136,0.4);">
-<svg data-id="7" width="32" height="32" viewBox="0 0 32 32" fill="none"><polygon data-id="8" points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="#fff" stroke-width="2" fill="none"/><polygon data-id="9" points="16,8 22,12 22,20 16,24 10,20 10,12" fill="#fff" fill-opacity="0.3"/></svg>
+<div data-id="2" id="login-screen" class="fixed inset-0 z-[100] flex items-center justify-center login-bg">
+<!-- Floating geometric shapes -->
+<svg data-id="3" class="absolute top-10 right-10 pointer-events-none" width="280" height="280" viewBox="0 0 280 280" fill="none" style="opacity:0.12; animation: floatA 8s ease-in-out infinite;">
+  <polygon data-id="4" points="140,10 260,75 260,205 140,270 20,205 20,75" stroke="#0D9488" stroke-width="2" fill="none"/>
+</svg>
+<svg data-id="5" class="absolute bottom-16 left-16 pointer-events-none" width="140" height="140" viewBox="0 0 140 140" fill="none" style="opacity:0.08; animation: floatB 6s ease-in-out infinite;">
+  <circle data-id="6" cx="70" cy="70" r="65" stroke="#06B6D4" stroke-width="2" fill="none"/>
+</svg>
+
+<div data-id="7" class="w-full max-w-md mx-4 fade-in">
+<div data-id="8" class="p-12 login-card">
+<div data-id="9" class="text-center mb-8">
+<div data-id="10" class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 logo-badge">
+<svg data-id="11" width="28" height="28" viewBox="0 0 32 32" fill="none"><polygon data-id="12" points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="#fff" stroke-width="2" fill="none"/><polygon data-id="13" points="16,8 22,12 22,20 16,24 10,20 10,12" fill="#fff" fill-opacity="0.3"/></svg>
 </div>
-<h1 data-id="10" class="text-2xl font-bold text-sla-800">e-Delegate</h1>
-<p data-id="11" class="text-sm text-sla-500 mt-1">ICH GCP · 21 CFR Part 11 · Electronic Delegation Log</p>
+<h1 data-id="14" class="text-[28px] font-extrabold login-heading">e-Delegate</h1>
+<p data-id="15" class="text-sm text-sla-500 mt-1.5">ICH GCP · 21 CFR Part 11 · Electronic Delegation Log</p>
 </div>
-<div data-id="12" class="space-y-4">
-<div data-id="13">
-<label data-id="14" class="block text-sm font-medium text-sla-700 mb-1">Email Address</label>
-<input data-id="15" id="login-email" type="email" class="w-full px-4 py-3 rounded-xl border border-sla-200 text-sm focus:border-teal-600" placeholder="you@organization.org" />
+<div data-id="16" class="space-y-4">
+<div data-id="17">
+<label data-id="18" class="block text-sm font-medium text-sla-700 mb-1">Email Address</label>
+<input data-id="19" id="login-email" type="email" class="w-full px-4 py-3.5 rounded-xl border border-sla-200 text-sm focus:border-teal-600" placeholder="you@organization.org" />
 </div>
-<div data-id="16">
-<label data-id="17" class="block text-sm font-medium text-sla-700 mb-1">Password</label>
-<input data-id="18" id="login-password" type="password" class="w-full px-4 py-3 rounded-xl border border-sla-200 text-sm focus:border-teal-600" placeholder="Enter your password" />
+<div data-id="20">
+<label data-id="21" class="block text-sm font-medium text-sla-700 mb-1">Password</label>
+<input data-id="22" id="login-password" type="password" class="w-full px-4 py-3.5 rounded-xl border border-sla-200 text-sm focus:border-teal-600" placeholder="Enter your password" />
 </div>
-<button data-id="19" id="login-btn" class="w-full py-3 btn-primary font-semibold rounded-xl transition text-sm">Sign In</button>
-<button data-id="20" id="demo-login-btn" class="w-full py-3 border-2 border-teal-600 text-teal-600 font-semibold rounded-xl hover:bg-teal-50 transition text-sm">Demo Login</button>
+<button data-id="23" id="login-btn" class="w-full py-3.5 font-bold rounded-xl transition text-sm" style="background: linear-gradient(135deg, #0D9488, #06B6D4); box-shadow: 0 4px 20px rgba(13,148,136,0.4); color: white;">Sign In</button>
+<button data-id="24" id="demo-login-btn" class="w-full py-3 border-2 font-semibold rounded-xl transition text-sm" style="border-color: rgba(13,148,136,0.3); color: #0D9488; background: transparent;">Demo Login</button>
 </div>
 </div>
-<p data-id="21" class="text-center text-xs text-sla-400 mt-6" style="color: rgba(255,255,255,0.5);">Nokware Research Solutions · Open Source · MIT License</p>
+<p data-id="25" class="text-center text-xs mt-6" style="color: rgba(13,148,136,0.5);">Nokware Research Solutions · Open Source · MIT License</p>
 </div>
 </div>
 
 <!-- MAIN APP -->
-<div data-id="22" id="app-container" class="hidden min-h-screen">
+<div data-id="26" id="app-container" class="hidden min-h-screen">
 <!-- MOBILE OVERLAY -->
-<div data-id="23" id="sidebar-overlay" class="hidden fixed inset-0 bg-black/40 z-40 md:hidden"></div>
+<div data-id="27" id="sidebar-overlay" class="hidden fixed inset-0 bg-black/40 z-40 md:hidden"></div>
 
 <!-- SIDEBAR -->
-<aside data-id="24" id="sidebar" class="fixed top-0 left-0 h-full z-50 sidebar-gradient text-white flex flex-col transition-all duration-300" style="width:260px;">
-<div data-id="25" class="p-5 flex items-center gap-3 border-b border-white/10">
-<div data-id="26" class="w-9 h-9 rounded-xl logo-badge flex items-center justify-center flex-shrink-0">
-<svg data-id="27" width="20" height="20" viewBox="0 0 32 32" fill="none"><polygon data-id="28" points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="#fff" stroke-width="2" fill="none"/><polygon data-id="29" points="16,8 22,12 22,20 16,24 10,20 10,12" fill="#fff" fill-opacity="0.3"/></svg>
+<aside data-id="28" id="sidebar" class="fixed top-0 left-0 h-full z-50 sidebar-gradient text-white flex flex-col transition-all duration-300" style="width:260px;">
+<div data-id="29" class="p-5 flex items-center gap-3 border-b border-white/10">
+<div data-id="30" class="w-9 h-9 rounded-xl logo-badge flex items-center justify-center flex-shrink-0">
+<svg data-id="31" width="20" height="20" viewBox="0 0 32 32" fill="none">
+<defs data-id="32"><linearGradient data-id="33" id="tealGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop data-id="34" offset="0%" stop-color="#0D9488"/><stop data-id="35" offset="100%" stop-color="#06B6D4"/></linearGradient></defs>
+<polygon data-id="36" points="16,2 28,9 28,23 16,30 4,23 4,9" stroke="url(#tealGrad)" stroke-width="2" fill="none"/><polygon data-id="37" points="16,8 22,12 22,20 16,24 10,20 10,12" fill="#fff" fill-opacity="0.3"/>
+</svg>
 </div>
-<span data-id="30" id="sidebar-title" class="font-bold text-base tracking-tight">e-Delegate</span>
+<div data-id="38" class="flex flex-col">
+  <span data-id="39" id="sidebar-title" class="font-bold text-base tracking-tight">e-Delegate</span>
+  <span data-id="40" class="text-[11px]" style="color: rgba(13,148,136,0.6);">by Nokware</span>
 </div>
-<nav data-id="31" class="flex-1 py-4 px-3 space-y-1 overflow-y-auto" id="sidebar-nav">
-<a data-id="32" data-view="dashboard" class="sidebar-item active flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
-<i data-id="33" data-lucide="layout-dashboard" class="w-5 h-5 flex-shrink-0"></i><span data-id="34" class="nav-label">Dashboard</span>
+</div>
+<nav data-id="41" class="flex-1 py-4 px-3 space-y-1 overflow-y-auto" id="sidebar-nav">
+<a data-id="42" data-view="dashboard" class="sidebar-item active flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="43" data-lucide="layout-dashboard" class="w-5 h-5 flex-shrink-0"></i><span data-id="44" class="nav-label">Dashboard</span>
 </a>
-<a data-id="35" data-view="delegations" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
-<i data-id="36" data-lucide="clipboard-list" class="w-5 h-5 flex-shrink-0"></i><span data-id="37" class="nav-label">Delegation Log</span>
+<a data-id="45" data-view="delegations" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="46" data-lucide="clipboard-list" class="w-5 h-5 flex-shrink-0"></i><span data-id="47" class="nav-label">Delegation Log</span>
 </a>
-<a data-id="38" data-view="protocols" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
-<i data-id="39" data-lucide="flask-conical" class="w-5 h-5 flex-shrink-0"></i><span data-id="40" class="nav-label">Protocols</span>
+<a data-id="48" data-view="protocols" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="49" data-lucide="flask-conical" class="w-5 h-5 flex-shrink-0"></i><span data-id="50" class="nav-label">Protocols</span>
 </a>
-<a data-id="41" data-view="personnel" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
-<i data-id="42" data-lucide="users" class="w-5 h-5 flex-shrink-0"></i><span data-id="43" class="nav-label">Personnel</span>
+<a data-id="51" data-view="personnel" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="52" data-lucide="users" class="w-5 h-5 flex-shrink-0"></i><span data-id="53" class="nav-label">Personnel</span>
 </a>
-<a data-id="44" data-view="training" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
-<i data-id="45" data-lucide="graduation-cap" class="w-5 h-5 flex-shrink-0"></i><span data-id="46" class="nav-label">Training Records</span>
+<a data-id="54" data-view="training" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="55" data-lucide="graduation-cap" class="w-5 h-5 flex-shrink-0"></i><span data-id="56" class="nav-label">Training Records</span>
 </a>
-<a data-id="47" data-view="audit" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
-<i data-id="48" data-lucide="scroll-text" class="w-5 h-5 flex-shrink-0"></i><span data-id="49" class="nav-label">Audit Trail</span>
+<a data-id="57" data-view="audit" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="58" data-lucide="scroll-text" class="w-5 h-5 flex-shrink-0"></i><span data-id="59" class="nav-label">Audit Trail</span>
 </a>
-<a data-id="50" data-view="settings" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
-<i data-id="51" data-lucide="settings" class="w-5 h-5 flex-shrink-0"></i><span data-id="52" class="nav-label">Settings</span>
+<a data-id="60" data-view="settings" class="sidebar-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm font-medium">
+<i data-id="61" data-lucide="settings" class="w-5 h-5 flex-shrink-0"></i><span data-id="62" class="nav-label">Settings</span>
 </a>
 </nav>
-<div data-id="53" class="p-4 border-t border-white/10">
-<div data-id="54" class="flex items-center gap-3">
-<div data-id="55" class="w-9 h-9 rounded-full bg-teal-600 flex items-center justify-center text-sm font-bold flex-shrink-0">KQ</div>
-<div data-id="56" id="sidebar-user-info" class="min-w-0">
-<p data-id="57" class="text-sm font-medium truncate">Kojo A. Quansah Jr.</p>
-<a data-id="58" id="sign-out-btn" class="text-xs text-sla-400 hover:text-white cursor-pointer">Sign Out</a>
+<div data-id="63" class="p-4" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px;">
+<div data-id="64" class="flex items-center gap-3">
+<div data-id="65" class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 text-white" style="background: linear-gradient(135deg, #0D9488, #7C3AED);">KQ</div>
+<div data-id="66" id="sidebar-user-info" class="min-w-0">
+<p data-id="67" class="text-sm font-medium truncate">Kojo A. Quansah Jr.</p>
+<a data-id="68" id="sign-out-btn" class="text-xs text-sla-400 hover:text-white cursor-pointer">Sign Out</a>
 </div>
 </div>
 </div>
 </aside>
 
 <!-- MAIN -->
-<div data-id="59" id="main-wrapper" class="transition-all duration-300" style="margin-left:260px;">
+<div data-id="69" id="main-wrapper" class="transition-all duration-300" style="margin-left:260px;">
 <!-- TOP HEADER -->
-<header data-id="60" class="sticky top-0 z-30 app-header h-16 flex items-center px-4 md:px-6 no-print">
-<button data-id="61" id="sidebar-toggle" class="md:hidden mr-3 p-2 rounded-lg hover:bg-sla-100">
-<i data-id="62" data-lucide="menu" class="w-5 h-5 text-sla-600"></i>
+<header data-id="70" class="sticky top-0 z-30 app-header h-16 flex items-center px-4 md:px-6 no-print">
+<button data-id="71" id="sidebar-toggle" class="md:hidden mr-3 p-2 rounded-lg hover:bg-sla-100">
+<i data-id="72" data-lucide="menu" class="w-5 h-5 text-sla-600"></i>
 </button>
-<div data-id="63" id="breadcrumb" class="text-sm text-sla-500 flex items-center gap-2">
-<span data-id="64" class="text-sla-400">e-Delegate</span>
-<i data-id="65" data-lucide="chevron-right" class="w-3.5 h-3.5 text-sla-300"></i>
-<span data-id="66" class="font-medium text-sla-800" id="breadcrumb-current">Dashboard</span>
+<div data-id="73" id="breadcrumb" class="text-sm text-sla-500 flex items-center gap-2">
+<span data-id="74" class="text-sla-400">e-Delegate</span>
+<i data-id="75" data-lucide="chevron-right" class="w-3.5 h-3.5 text-sla-300"></i>
+<span data-id="76" class="font-bold text-navy" id="breadcrumb-current">Dashboard</span>
 </div>
-<div data-id="67" class="ml-auto flex items-center gap-3">
-<button data-id="68" id="notif-bell" class="relative p-2 rounded-lg hover:bg-sla-100">
-<i data-id="69" data-lucide="bell" class="w-5 h-5 text-sla-600"></i>
-<span data-id="70" class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full pulse-dot notif-dot"></span>
+<div data-id="77" class="ml-auto flex items-center gap-3">
+<button data-id="78" id="notif-bell" class="relative p-2 rounded-lg hover:bg-sla-100">
+<i data-id="79" data-lucide="bell" class="w-5 h-5 text-sla-600"></i>
+<span data-id="80" class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full pulse-dot notif-dot"></span>
 </button>
-<div data-id="71" class="flex items-center gap-2">
-<div data-id="72" class="w-8 h-8 rounded-full bg-teal-600 flex items-center justify-center text-white text-xs font-bold">KQ</div>
-<span data-id="73" class="text-sm font-medium text-sla-700 hidden md:inline">Kojo A. Quansah Jr., PharmD</span>
+<div data-id="81" class="flex items-center gap-2">
+<div data-id="82" class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold" style="background: linear-gradient(135deg, #0D9488, #7C3AED);">KQ</div>
+<span data-id="83" class="text-sm font-medium text-sla-700 hidden md:inline">Kojo A. Quansah Jr., PharmD</span>
 </div>
 </div>
 </header>
 
 <!-- CONTENT -->
-<main data-id="74" id="main-content" class="p-4 md:p-6 min-h-[calc(100vh-4rem)]">
+<main data-id="84" id="main-content" class="p-4 md:p-6 min-h-[calc(100vh-4rem)]">
 </main>
 
 <!-- FOOTER -->
-<footer data-id="75" class="py-6 text-center border-t border-sla-100 no-print">
-<p data-id="76" class="text-xs text-sla-400">Made by Copilot</p>
+<footer data-id="85" class="py-6 text-center border-t border-sla-100 no-print">
+<p data-id="86" class="text-xs text-sla-400">Made by Copilot</p>
 </footer>
 </div>
 </div>
 
 <!-- TOAST CONTAINER -->
-<div data-id="77" id="toast-container" class="fixed top-4 right-4 z-[200] space-y-2 max-w-sm w-full pointer-events-none"></div>
+<div data-id="87" id="toast-container" class="fixed top-4 right-4 z-[200] space-y-2 max-w-sm w-full pointer-events-none"></div>
 
 <!-- MODAL CONTAINER -->
-<div data-id="78" id="modal-container"></div>
+<div data-id="88" id="modal-container"></div>
 
 <script>
 // ==================== STATE & DATA ====================
@@ -471,23 +558,23 @@ function renderDashboard() {
   <!-- Stat Cards -->
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
     <div class="stat-card-teal rounded-2xl p-5">
-      <div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-xl bg-teal-100 flex items-center justify-center"><i data-lucide="flask-conical" class="w-5 h-5 text-teal-600"></i></div></div>
-      <p class="text-2xl font-extrabold text-teal-700 tabular-nums">${activeProtos}</p>
+      <div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, rgba(13,148,136,0.15), rgba(6,182,212,0.08));"><i data-lucide="flask-conical" class="w-5 h-5 text-teal-600"></i></div></div>
+      <p class="text-2xl font-extrabold tabular-nums" style="color:#0f766e;">${activeProtos}</p>
       <p class="text-xs text-sla-500 mt-1">Active Protocols</p>
     </div>
     <div class="stat-card-blue rounded-2xl p-5">
-      <div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center"><i data-lucide="users" class="w-5 h-5 text-blue-600"></i></div></div>
-      <p class="text-2xl font-extrabold text-blue-700 tabular-nums">${delegatedStaff}</p>
+      <div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, rgba(59,130,246,0.15), rgba(59,130,246,0.08));"><i data-lucide="users" class="w-5 h-5 text-blue-600"></i></div></div>
+      <p class="text-2xl font-extrabold tabular-nums" style="color:#1d4ed8;">${delegatedStaff}</p>
       <p class="text-xs text-sla-500 mt-1">Delegated Staff</p>
     </div>
     <div class="stat-card-amber rounded-2xl p-5">
-      <div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center"><i data-lucide="graduation-cap" class="w-5 h-5 text-gold"></i></div></div>
-      <p class="text-2xl font-extrabold text-amber-600 tabular-nums">${compliance}%</p>
+      <div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.08));"><i data-lucide="graduation-cap" class="w-5 h-5 text-amber-500"></i></div></div>
+      <p class="text-2xl font-extrabold tabular-nums" style="color:#b45309;">${compliance}%</p>
       <p class="text-xs text-sla-500 mt-1">Training Compliance</p>
     </div>
     <div class="stat-card-red rounded-2xl p-5">
-      <div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center relative"><i data-lucide="file-signature" class="w-5 h-5 text-err"></i><span class="absolute -top-1 -right-1 w-3 h-3 rounded-full pulse-dot notif-dot"></span></div></div>
-      <p class="text-2xl font-extrabold text-red-600 tabular-nums">${pendingSigs}</p>
+      <div class="flex items-center gap-3 mb-3"><div class="w-10 h-10 rounded-xl flex items-center justify-center relative" style="background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(239,68,68,0.08));"><i data-lucide="file-signature" class="w-5 h-5 text-err"></i><span class="absolute -top-1 -right-1 w-3 h-3 rounded-full pulse-dot notif-dot"></span></div></div>
+      <p class="text-2xl font-extrabold tabular-nums" style="color:#b91c1c;">${pendingSigs}</p>
       <p class="text-xs text-sla-500 mt-1">Pending Signatures</p>
     </div>
   </div>
@@ -498,7 +585,7 @@ function renderDashboard() {
       <h3 class="text-sm font-semibold text-sla-700">Training Compliance</h3>
       <span class="text-sm font-bold ${compliance >= 90 ? 'text-ok' : compliance >= 70 ? 'text-gold' : 'text-err'}">${compliance}%</span>
     </div>
-    <div class="w-full h-3 bg-sla-100 rounded-full overflow-hidden">
+    <div class="w-full bg-sla-200 rounded-full overflow-hidden" style="height:8px;">
       <div class="h-full compliance-bar progress-bar" style="width:${compliance}%"></div>
     </div>
     <p class="text-xs text-sla-400 mt-2">${totalStaff - expiredTraining} of ${totalStaff} staff members have current GCP certification</p>
@@ -513,7 +600,7 @@ function renderDashboard() {
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-left">
-          <thead><tr class="text-xs text-sla-400 uppercase tracking-wider border-b border-sla-100">
+          <thead><tr class="text-xs uppercase tracking-wider border-b" style="background: linear-gradient(90deg, #f8fafc, #f0fdf9); border-bottom: 2px solid rgba(13,148,136,0.1); color: #0A1628; font-weight: 600; letter-spacing: 0.05em;">
             <th class="px-5 py-3">Protocol</th><th class="px-5 py-3">Personnel</th><th class="px-5 py-3">Status</th><th class="px-5 py-3">Date</th>
           </tr></thead>
           <tbody>${recentDelegations.map(d => {
@@ -531,7 +618,7 @@ function renderDashboard() {
     </div>
 
     <!-- Training Alerts -->
-    <div class="bg-white rounded-2xl border border-sla-100 card-accent-amber" style="background: linear-gradient(90deg, #f0fdf9, #ffffff);">
+    <div class="bg-white rounded-xl border border-sla-100" style="background: linear-gradient(135deg, #f0fdf9, #ffffff); border-left: 4px solid #0D9488;">
       <div class="p-5 border-b border-sla-100"><h3 class="text-sm font-semibold text-sla-700">Training Expiry Alerts</h3></div>
       <div class="p-5 space-y-4">
         ${expiringPersonnel.length === 0 ? '<p class="text-sm text-sla-400 text-center py-4">All training current</p>' :
@@ -604,7 +691,7 @@ function renderDelegations() {
   <div class="bg-white rounded-2xl border border-sla-100 overflow-hidden">
     <div class="overflow-x-auto">
       <table class="w-full text-left">
-        <thead><tr class="text-xs text-sla-400 uppercase tracking-wider border-b border-sla-100 bg-sla-50">
+        <thead><tr class="text-xs uppercase tracking-wider border-b" style="background: linear-gradient(90deg, #f8fafc, #f0fdf9); border-bottom: 2px solid rgba(13,148,136,0.1); color: #0A1628; font-weight: 600; letter-spacing: 0.05em;">
           <th class="px-4 py-3">Protocol</th><th class="px-4 py-3">Personnel</th><th class="px-4 py-3 hidden lg:table-cell">Delegated Tasks</th><th class="px-4 py-3">Start</th><th class="px-4 py-3 hidden md:table-cell">PI Sig.</th><th class="px-4 py-3 hidden md:table-cell">Delegate Sig.</th><th class="px-4 py-3">Training</th><th class="px-4 py-3">Status</th><th class="px-4 py-3 text-right">Actions</th>
         </tr></thead>
         <tbody>${filtered.map(d => {
@@ -648,7 +735,8 @@ function renderProtocols() {
       const pending = dels.filter(d => !d.piSigned || !d.delegateSigned).length;
       const staff = [...new Set(dels.map(d => d.personnelId))].length;
       const statusCls = p.status === 'Active' ? 'badge-green' : 'badge-gray';
-      return `<div class="bg-white rounded-2xl border border-sla-100 p-6 hover:shadow-md transition card-accent-teal">
+      const borderTopColor = p.status === 'Active' ? '#0D9488' : '#94A3B8';
+      return `<div class="protocol-card bg-white rounded-2xl border border-sla-100 p-6 cursor-pointer" style="border-top: 4px solid ${borderTopColor};">
         <div class="flex items-start justify-between mb-4">
           <span class="badge ${protocolBadgeColor(p.number)}">${p.number}</span>
           <span class="badge ${statusCls}">${p.status}</span>
@@ -663,7 +751,7 @@ function renderProtocols() {
           <span class="flex items-center gap-1"><i data-lucide="users" class="w-3.5 h-3.5"></i>${staff} staff</span>
           ${pending > 0 ? `<span class="flex items-center gap-1 text-err"><i data-lucide="clock" class="w-3.5 h-3.5"></i>${pending} pending</span>` : '<span class="flex items-center gap-1 text-ok"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i>All signed</span>'}
         </div>
-        <button data-action="filter-protocol" data-proto="${p.id}" class="w-full mt-4 py-2 text-sm font-medium text-teal-600 border border-teal-200 rounded-xl hover:bg-teal-50 transition">View Delegations</button>
+        <button data-action="filter-protocol" data-proto="${p.id}" class="w-full mt-4 py-2.5 text-sm font-semibold btn-primary rounded-xl">View Delegations</button>
       </div>`;
     }).join('')}
   </div>
@@ -680,14 +768,14 @@ function renderPersonnelView() {
   <div class="bg-white rounded-2xl border border-sla-100 overflow-hidden">
     <div class="overflow-x-auto">
       <table class="w-full text-left">
-        <thead><tr class="text-xs text-sla-400 uppercase tracking-wider border-b border-sla-100 bg-sla-50">
+        <thead><tr class="text-xs uppercase tracking-wider border-b" style="background: linear-gradient(90deg, #f8fafc, #f0fdf9); border-bottom: 2px solid rgba(13,148,136,0.1); color: #0A1628; font-weight: 600; letter-spacing: 0.05em;">
           <th class="px-5 py-3">Name</th><th class="px-5 py-3">Role</th><th class="px-5 py-3 hidden md:table-cell">Email</th><th class="px-5 py-3">GCP Expiry</th><th class="px-5 py-3 hidden lg:table-cell">Protocols</th><th class="px-5 py-3">Status</th><th class="px-5 py-3 text-right">Actions</th>
         </tr></thead>
         <tbody>${STATE.personnel.map(p => {
           const info = gcpStatusInfo(p.gcpExpiry);
           const protos = [...new Set(getPersonnelDelegations(p.id).map(d => { const pr = getProtocol(d.protocolId); return pr?.number; }).filter(Boolean))];
           return `<tr class="table-row border-b border-sla-50">
-            <td class="px-5 py-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-xs font-bold flex-shrink-0">${p.name.split(' ').map(w=>w[0]).join('').slice(0,2)}</div><p class="text-sm font-medium text-sla-800">${p.name}</p></div></td>
+            <td class="px-5 py-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 text-white" style="background: linear-gradient(135deg, #0D9488, #7C3AED);">${p.name.split(' ').map(w=>w[0]).join('').slice(0,2)}</div><p class="text-sm font-medium text-sla-800">${p.name}</p></div></td>
             <td class="px-5 py-3 text-sm text-sla-600">${p.role}</td>
             <td class="px-5 py-3 text-sm text-sla-500 hidden md:table-cell">${p.email}</td>
             <td class="px-5 py-3"><span class="badge ${info.cls}">${info.days < 0 ? 'EXPIRED' : fmtDate(p.gcpExpiry)}</span></td>
@@ -721,7 +809,7 @@ function renderTraining() {
       <h3 class="text-sm font-semibold text-sla-700">${current} of ${totalStaff} staff GCP-certified and current (${pct}%)</h3>
       <span class="text-sm font-bold ${pct >= 90 ? 'text-ok' : pct >= 70 ? 'text-gold' : 'text-err'}">${pct}%</span>
     </div>
-    <div class="w-full h-3 bg-sla-100 rounded-full overflow-hidden">
+    <div class="w-full bg-sla-200 rounded-full overflow-hidden" style="height:8px;">
       <div class="h-full compliance-bar progress-bar" style="width:${pct}%"></div>
     </div>
   </div>
@@ -729,13 +817,12 @@ function renderTraining() {
   <div class="bg-white rounded-2xl border border-sla-100 overflow-hidden">
     <div class="overflow-x-auto">
       <table class="w-full text-left">
-        <thead><tr class="text-xs text-sla-400 uppercase tracking-wider border-b border-sla-100 bg-sla-50">
+        <thead><tr class="text-xs uppercase tracking-wider border-b" style="background: linear-gradient(90deg, #f8fafc, #f0fdf9); border-bottom: 2px solid rgba(13,148,136,0.1); color: #0A1628; font-weight: 600; letter-spacing: 0.05em;">
           <th class="px-5 py-3">Personnel</th><th class="px-5 py-3">Role</th><th class="px-5 py-3">Cert Type</th><th class="px-5 py-3 hidden md:table-cell">Issued</th><th class="px-5 py-3">Expiry</th><th class="px-5 py-3">Days Left</th><th class="px-5 py-3">Status</th>
         </tr></thead>
         <tbody>${sorted.map(p => {
           const info = gcpStatusInfo(p.gcpExpiry);
           const d = daysUntil(p.gcpExpiry);
-          // Estimate issued as 3 years before expiry
           const expDt = new Date(p.gcpExpiry);
           const issuedDt = new Date(expDt); issuedDt.setFullYear(issuedDt.getFullYear()-3);
           return `<tr class="table-row border-b border-sla-50">
@@ -759,9 +846,12 @@ function renderAudit() {
   <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
     <div>
       <h1 class="text-2xl font-bold section-title">Audit Trail</h1>
-      <p class="text-sm text-sla-500 mt-1 flex items-center gap-2"><i data-lucide="shield-check" class="w-4 h-4 text-teal-600"></i>All actions are logged automatically and cannot be modified. This log meets 21 CFR Part 11 audit trail requirements.</p>
+      <div class="mt-2 p-3 rounded-xl flex items-center gap-2" style="background: linear-gradient(90deg, rgba(13,148,136,0.08), rgba(6,182,212,0.04)); border: 1px solid rgba(13,148,136,0.15); border-left: 4px solid #0D9488;">
+        <i data-lucide="shield-check" class="w-4 h-4 text-teal-600 flex-shrink-0"></i>
+        <p class="text-sm text-sla-500">All actions are logged automatically and cannot be modified. This log meets 21 CFR Part 11 audit trail requirements.</p>
+      </div>
     </div>
-    <button data-action="export-audit" class="inline-flex items-center gap-2 px-5 py-2.5 btn-primary text-sm font-semibold rounded-xl"><i data-lucide="download" class="w-4 h-4"></i> Export CSV</button>
+    <button data-action="export-audit" class="inline-flex items-center gap-2 px-5 py-2.5 btn-primary text-sm font-semibold rounded-xl flex-shrink-0"><i data-lucide="download" class="w-4 h-4"></i> Export CSV</button>
   </div>
 
   <div class="flex flex-col md:flex-row gap-3">
@@ -782,7 +872,7 @@ function renderAudit() {
   <div class="bg-white rounded-2xl border border-sla-100 overflow-hidden">
     <div class="overflow-x-auto">
       <table class="w-full text-left">
-        <thead><tr class="text-xs text-sla-400 uppercase tracking-wider border-b border-sla-100" style="background: linear-gradient(90deg, #f9fafb 0%, rgba(240,253,249,0.3) 100%);">
+        <thead><tr class="text-xs uppercase tracking-wider border-b" style="background: linear-gradient(90deg, #f8fafc, #f0fdf9); border-bottom: 2px solid rgba(13,148,136,0.1); color: #0A1628; font-weight: 600; letter-spacing: 0.05em;">
           <th class="px-5 py-3">Timestamp</th><th class="px-5 py-3">User</th><th class="px-5 py-3">Action</th><th class="px-5 py-3 hidden md:table-cell">Record Affected</th><th class="px-5 py-3 hidden lg:table-cell">IP Address</th>
         </tr></thead>
         <tbody id="audit-tbody">${STATE.auditTrail.map(a => `<tr class="table-row border-b border-sla-50" data-user="${a.user}" data-action-type="${a.action}">
@@ -806,9 +896,9 @@ function renderSettings() {
   <h1 class="text-2xl font-bold section-title">Settings</h1>
 
   <div class="bg-white rounded-2xl border border-sla-100 p-6">
-    <h2 class="text-base font-semibold text-sla-800 mb-4">Profile</h2>
+    <h2 class="text-base font-bold text-navy mb-4 pb-2" style="border-bottom: 2px solid rgba(13,148,136,0.15);">Profile</h2>
     <div class="flex items-center gap-4 mb-6">
-      <div class="w-16 h-16 rounded-full bg-teal-600 flex items-center justify-center text-white text-xl font-bold">KQ</div>
+      <div class="w-[72px] h-[72px] rounded-full flex items-center justify-center text-white text-2xl font-bold" style="background: linear-gradient(135deg, #0D9488, #7C3AED); box-shadow: 0 0 20px rgba(13,148,136,0.3);">KQ</div>
       <div>
         <p class="text-base font-semibold text-sla-800">${STATE.currentUser.name}</p>
         <p class="text-sm text-sla-500">${STATE.currentUser.role}</p>
@@ -819,7 +909,7 @@ function renderSettings() {
   </div>
 
   <div class="bg-white rounded-2xl border border-sla-100 p-6">
-    <h2 class="text-base font-semibold text-sla-800 mb-4">Site Information</h2>
+    <h2 class="text-base font-bold text-navy mb-4 pb-2" style="border-bottom: 2px solid rgba(13,148,136,0.15);">Site Information</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div><label class="block text-sm font-medium text-sla-600 mb-1">Site Name</label><input id="set-site-name" type="text" value="${s.siteName}" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
       <div><label class="block text-sm font-medium text-sla-600 mb-1">Site Number</label><input id="set-site-number" type="text" value="${s.siteNumber}" class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm" /></div>
@@ -829,18 +919,18 @@ function renderSettings() {
   </div>
 
   <div class="bg-white rounded-2xl border border-sla-100 p-6">
-    <h2 class="text-base font-semibold text-sla-800 mb-4">Notification Preferences</h2>
+    <h2 class="text-base font-bold text-navy mb-4 pb-2" style="border-bottom: 2px solid rgba(13,148,136,0.15);">Notification Preferences</h2>
     <div class="space-y-4">
       ${[{k:'notifPendingSig', l:'Email on pending signature'},{k:'notifExpiringTraining', l:'Email on expiring training'},{k:'notifDailyDigest', l:'Daily compliance digest'}].map(n => `
         <label class="flex items-center justify-between cursor-pointer">
           <span class="text-sm text-sla-700">${n.l}</span>
-          <div class="relative"><input type="checkbox" data-setting="${n.k}" ${s[n.k]?'checked':''} class="sr-only peer" /><div class="w-10 h-6 bg-sla-200 rounded-full peer-checked:bg-teal-600 transition"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transition peer-checked:translate-x-4"></div></div>
+          <div class="relative"><input type="checkbox" data-setting="${n.k}" ${s[n.k]?'checked':''} class="sr-only peer" /><div class="w-10 h-6 bg-sla-200 rounded-full peer-checked:bg-teal-600 transition" style="peer-checked:background: linear-gradient(135deg, #0D9488, #06B6D4);"></div><div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow transition peer-checked:translate-x-4"></div></div>
         </label>`).join('')}
     </div>
   </div>
 
   <div class="bg-white rounded-2xl border border-sla-100 p-6">
-    <h2 class="text-base font-semibold text-sla-800 mb-4">About</h2>
+    <h2 class="text-base font-bold text-navy mb-4 pb-2" style="border-bottom: 2px solid rgba(13,148,136,0.15);">About</h2>
     <div class="text-sm text-sla-500 space-y-1">
       <p><span class="font-medium text-sla-700">e-Delegate</span> v1.0.0</p>
       <p>Nokware Research Solutions — Open Source (MIT)</p>
@@ -926,6 +1016,9 @@ function openDelegationDetail(id) {
   const statusCls = d.status === 'Active' ? 'badge-green' : d.status === 'Pending' ? 'badge-amber' : 'badge-gray';
   const peGcp = pe ? daysUntil(pe.gcpExpiry) : 999;
 
+  const signedBoxStyle = 'background: linear-gradient(135deg, #f0fdf9, #ffffff); border: 1px solid rgba(13,148,136,0.2); border-left: 4px solid #0D9488; border-radius: 12px;';
+  const unsignedBoxStyle = 'background: linear-gradient(135deg, #fff7ed, #ffffff); border: 1px solid rgba(245,158,11,0.2); border-left: 4px solid #F59E0B; border-radius: 12px;';
+
   const html = `<div class="print-only">
     <div class="flex items-center justify-between mb-6 modal-header-gradient px-6 py-4 rounded-t-2xl">
       <div class="flex items-center gap-3">
@@ -945,13 +1038,13 @@ function openDelegationDetail(id) {
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-      <div class="p-4 rounded-xl border ${d.piSigned ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}">
-        <h4 class="text-sm font-semibold ${d.piSigned ? 'text-ok' : 'text-err'} mb-2 flex items-center gap-2"><i data-lucide="${d.piSigned?'check-circle':'clock'}" class="w-4 h-4"></i>PI Signature</h4>
+      <div class="p-4" style="${d.piSigned ? signedBoxStyle : unsignedBoxStyle}">
+        <h4 class="text-sm font-semibold ${d.piSigned ? 'text-ok' : 'text-amber-600'} mb-2 flex items-center gap-2"><i data-lucide="${d.piSigned?'check-circle':'clock'}" class="w-4 h-4"></i>PI Signature</h4>
         ${d.piSigned ? `<p class="text-sm text-sla-700">Signed by <strong>${d.piSignedBy}</strong></p><p class="text-xs text-sla-500 mt-1">${fmtDateTime(d.piSignedDate)}</p><p class="text-xs text-sla-400 mt-2 italic">This signature confirms delegation of authority per ICH GCP E6(R2) Section 4.1.5.</p>` :
         `<p class="text-sm text-sla-600 mb-3">Signature Required</p><button data-action="open-sig-modal" data-id="${d.id}" data-type="pi" class="px-4 py-2 btn-primary text-sm font-medium rounded-xl no-print">Sign Now</button>`}
       </div>
-      <div class="p-4 rounded-xl border ${d.delegateSigned ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}">
-        <h4 class="text-sm font-semibold ${d.delegateSigned ? 'text-ok' : 'text-err'} mb-2 flex items-center gap-2"><i data-lucide="${d.delegateSigned?'check-circle':'clock'}" class="w-4 h-4"></i>Delegate Signature</h4>
+      <div class="p-4" style="${d.delegateSigned ? signedBoxStyle : unsignedBoxStyle}">
+        <h4 class="text-sm font-semibold ${d.delegateSigned ? 'text-ok' : 'text-amber-600'} mb-2 flex items-center gap-2"><i data-lucide="${d.delegateSigned?'check-circle':'clock'}" class="w-4 h-4"></i>Delegate Signature</h4>
         ${d.delegateSigned ? `<p class="text-sm text-sla-700">Signed by <strong>${pe?.name}</strong></p><p class="text-xs text-sla-500 mt-1">${fmtDateTime(d.delegateSignedDate)}</p><p class="text-xs text-sla-400 mt-2 italic">This signature confirms delegation of authority per ICH GCP E6(R2) Section 4.1.5.</p>` :
         `<p class="text-sm text-sla-600 mb-3">Signature Required</p><button data-action="open-sig-modal" data-id="${d.id}" data-type="delegate" class="px-4 py-2 btn-primary text-sm font-medium rounded-xl no-print">Sign Now</button>`}
       </div>
@@ -1000,7 +1093,7 @@ function openSignatureModal(delegationId, sigType) {
         <div><label class="block text-xs font-medium text-sla-500 mb-1">Date / Time</label><input type="text" value="${fmtDateTime(now.toISOString())}" readonly class="w-full px-4 py-2.5 rounded-xl border border-sla-200 text-sm bg-sla-50 text-sla-600" /></div>
       </div>
 
-      <div class="p-4 rounded-xl bg-amber-50 border border-amber-200">
+      <div class="p-4 rounded-xl" style="background: linear-gradient(135deg, #fffbeb, #fef9f0); border: 1px solid rgba(245,158,11,0.25);">
         <h4 class="text-sm font-semibold text-gold mb-1">Meaning of Signature</h4>
         <p class="text-xs text-sla-600 leading-relaxed">By signing this delegation log, I confirm that I am qualified by training and experience to perform the delegated tasks, and that this electronic signature is the legally binding equivalent of my handwritten signature, in accordance with 21 CFR Part 11 and ICH GCP E6(R2).</p>
       </div>
@@ -1197,7 +1290,7 @@ function openPersonnelDetail(id) {
   const html = `<div>
     <div class="flex items-center justify-between modal-header-gradient px-6 py-4 rounded-t-2xl">
       <div class="flex items-center gap-3">
-        <div class="w-12 h-12 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center text-lg font-bold">${p.name.split(' ').map(w=>w[0]).join('').slice(0,2)}</div>
+        <div class="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold text-white" style="background: linear-gradient(135deg, #0D9488, #7C3AED);">${p.name.split(' ').map(w=>w[0]).join('').slice(0,2)}</div>
         <div><h2 class="text-lg font-semibold text-white">${p.name}</h2><p class="text-sm text-white/70">${p.role}</p></div>
       </div>
       <button data-action="close-modal" class="p-1.5 rounded-lg hover:bg-white/10"><i data-lucide="x" class="w-5 h-5 text-white/80"></i></button>
@@ -1349,7 +1442,6 @@ document.addEventListener('click', function(e) {
 document.querySelectorAll('#sidebar-nav .sidebar-item').forEach(item => {
   item.addEventListener('click', function() {
     renderView(this.dataset.view);
-    // close mobile sidebar
     document.getElementById('sidebar-overlay').classList.add('hidden');
     document.getElementById('sidebar').style.transform = '';
   });
@@ -1387,6 +1479,14 @@ document.getElementById('demo-login-btn').addEventListener('click', function() {
     addAuditEntry('Demo login', STATE.currentUser.name);
     saveState(STATE);
   }, 300);
+});
+
+// Demo login hover effect
+document.getElementById('demo-login-btn').addEventListener('mouseenter', function() {
+  this.style.background = 'rgba(13,148,136,0.05)';
+});
+document.getElementById('demo-login-btn').addEventListener('mouseleave', function() {
+  this.style.background = 'transparent';
 });
 
 // Sign out
